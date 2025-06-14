@@ -35,10 +35,10 @@ export default function AboutPage() {
                     Founded in 2016, Kawasan Digital began with a simple mission: to help businesses thrive in the digital age. What started as a small team of passionate developers has grown into a comprehensive digital solutions provider.
                   </p>
                   <p className="text-gray-600 dark:text-gray-400">
-                    Over the years, we've expanded our expertise from basic web development to comprehensive digital transformation services, helping hundreds of businesses evolve and adapt to changing technological landscapes.
+                    Over the years, we`&apos;`ve expanded our expertise from basic web development to comprehensive digital transformation services, helping hundreds of businesses evolve and adapt to changing technological landscapes.
                   </p>
                   <p className="text-gray-600 dark:text-gray-400">
-                    Today, we're proud to be recognized as an industry leader, with a team of over 50 specialists working across multiple disciplines to deliver cutting-edge solutions to clients worldwide.
+                    Today, we`&apos;`re proud to be recognized as an industry leader, with a team of over 50 specialists working across multiple disciplines to deliver cutting-edge solutions to clients worldwide.
                   </p>
                 </div>
               </div>
@@ -206,7 +206,7 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 md:px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Work With Us?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Join the hundreds of businesses we've helped transform through innovative digital solutions.
+            Join the hundreds of businesses we`&apos;`ve helped transform through innovative digital solutions.
           </p>
           <a 
             href="/contact" 

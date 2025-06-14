@@ -324,7 +324,7 @@ export default function ServicesPage() {
                                     <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
                                         <h3 className="text-xl font-bold mb-3 text-green-600 dark:text-green-400">Launch & Support</h3>
                                         <p className="text-gray-600 dark:text-gray-400">
-                                            We don't just deliver and disappear. We provide ongoing support, maintenance, and optimization to ensure long-term success.
+                                            We don`&apos;`t just deliver and disappear. We provide ongoing support, maintenance, and optimization to ensure long-term success.
                                         </p>
                                     </div>
                                 </div>
