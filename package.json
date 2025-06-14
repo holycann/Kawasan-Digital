@@ -12,6 +12,7 @@
     "@react-three/drei": "^10.2.0",
     "@react-three/fiber": "^9.1.2",
     "@studio-freight/lenis": "^1.0.42",
+    "@vercel/analytics": "^1.5.0",
     "aceternity-ui": "^0.2.2",
     "clsx": "^2.1.1",
     "framer-motion": "^12.18.1",

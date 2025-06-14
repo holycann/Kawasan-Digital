@@ -3,6 +3,7 @@ import "./globals.css";
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
 import SmoothScroll from "../components/ui/SmoothScroll";
+import { Analytics } from "@vercel/analytics/next"
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -35,6 +36,7 @@ export default function RootLayout({ children }) {
           {children}
         </main>
         <Footer />
+        <Analytics/>
       </body>
     </html>
   );
