@@ -1,8 +1,4 @@
-//
-// Services
-// Page
-
-import { IconDeviceLaptop, IconWorld, IconCloud, IconCode, IconPalette, IconDeviceAnalytics, IconTargetArrow, IconCloudComputing } from "@tabler/icons-react";
+import { FaCode, FaGlobe, FaCloudArrowUp, FaArrowRight, FaCloudscale } from "react-icons/fa6";
 
 export const metadata = {
     title: "Our Services - Kawasan Digital",
@@ -34,7 +30,7 @@ export default function ServicesPage() {
                         <div className="flex flex-col md:flex-row gap-12 items-center">
                             <div className="w-full md:w-1/2">
                                 <div className="mb-6 inline-block p-4 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-2xl">
-                                    <IconDeviceLaptop size={32} />
+                                    <FaGlobe size={32} />
                                 </div>
                                 <h2 className="text-3xl md:text-4xl font-bold mb-6">App Development</h2>
                                 <div className="space-y-4">
@@ -50,25 +46,25 @@ export default function ServicesPage() {
                                         <ul className="space-y-3">
                                             <li className="flex items-center gap-3">
                                                 <div className="bg-blue-100 dark:bg-blue-900/30 p-1.5 rounded-full text-blue-600 dark:text-blue-400">
-                                                    <IconCode size={20} />
+                                                    <FaCode size={20} />
                                                 </div>
                                                 <span className="text-gray-700 dark:text-gray-300">Native iOS & Android Development</span>
                                             </li>
                                             <li className="flex items-center gap-3">
                                                 <div className="bg-blue-100 dark:bg-blue-900/30 p-1.5 rounded-full text-blue-600 dark:text-blue-400">
-                                                    <IconCode size={20} />
+                                                    <FaCode size={20} />
                                                 </div>
                                                 <span className="text-gray-700 dark:text-gray-300">Cross-Platform Solutions (React Native, Flutter)</span>
                                             </li>
                                             <li className="flex items-center gap-3">
                                                 <div className="bg-blue-100 dark:bg-blue-900/30 p-1.5 rounded-full text-blue-600 dark:text-blue-400">
-                                                    <IconPalette size={20} />
+                                                    <FaGlobe size={20} />
                                                 </div>
                                                 <span className="text-gray-700 dark:text-gray-300">UI/UX Design for Mobile</span>
                                             </li>
                                             <li className="flex items-center gap-3">
                                                 <div className="bg-blue-100 dark:bg-blue-900/30 p-1.5 rounded-full text-blue-600 dark:text-blue-400">
-                                                    <IconDeviceAnalytics size={20} />
+                                                    <FaCloudArrowUp size={20} />
                                                 </div>
                                                 <span className="text-gray-700 dark:text-gray-300">App Analytics & Optimization</span>
                                             </li>
@@ -87,7 +83,7 @@ export default function ServicesPage() {
                                                 <div className="h-full w-full bg-white dark:bg-gray-800 rounded-lg flex items-center justify-center">
                                                     <div className="text-center">
                                                         <div className="w-12 h-12 mx-auto mb-3 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
-                                                            <IconDeviceLaptop className="text-blue-600 dark:text-blue-400" size={24} />
+                                                            <FaGlobe className="text-blue-600 dark:text-blue-400" size={24} />
                                                         </div>
                                                         <h4 className="font-medium">Kawasan App</h4>
                                                         <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Mobile Experience</p>
@@ -110,7 +106,7 @@ export default function ServicesPage() {
                         <div className="flex flex-col md:flex-row-reverse gap-12 items-center">
                             <div className="w-full md:w-1/2">
                                 <div className="mb-6 inline-block p-4 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-2xl">
-                                    <IconWorld size={32} />
+                                    <FaGlobe size={32} />
                                 </div>
                                 <h2 className="text-3xl md:text-4xl font-bold mb-6">Website Development</h2>
                                 <div className="space-y-4">
@@ -126,25 +122,25 @@ export default function ServicesPage() {
                                         <ul className="space-y-3">
                                             <li className="flex items-center gap-3">
                                                 <div className="bg-purple-100 dark:bg-purple-900/30 p-1.5 rounded-full text-purple-600 dark:text-purple-400">
-                                                    <IconCode size={20} />
+                                                    <FaCode size={20} />
                                                 </div>
                                                 <span className="text-gray-700 dark:text-gray-300">Responsive Website Design</span>
                                             </li>
                                             <li className="flex items-center gap-3">
                                                 <div className="bg-purple-100 dark:bg-purple-900/30 p-1.5 rounded-full text-purple-600 dark:text-purple-400">
-                                                    <IconCode size={20} />
+                                                    <FaCode size={20} />
                                                 </div>
                                                 <span className="text-gray-700 dark:text-gray-300">E-commerce Development</span>
                                             </li>
                                             <li className="flex items-center gap-3">
                                                 <div className="bg-purple-100 dark:bg-purple-900/30 p-1.5 rounded-full text-purple-600 dark:text-purple-400">
-                                                    <IconTargetArrow size={20} />
+                                                    <FaArrowRight size={20} />
                                                 </div>
                                                 <span className="text-gray-700 dark:text-gray-300">SEO Optimization</span>
                                             </li>
                                             <li className="flex items-center gap-3">
                                                 <div className="bg-purple-100 dark:bg-purple-900/30 p-1.5 rounded-full text-purple-600 dark:text-purple-400">
-                                                    <IconDeviceAnalytics size={20} />
+                                                    <FaCloudArrowUp size={20} />
                                                 </div>
                                                 <span className="text-gray-700 dark:text-gray-300">Web Analytics & Performance</span>
                                             </li>
@@ -185,7 +181,7 @@ export default function ServicesPage() {
                         <div className="flex flex-col md:flex-row gap-12 items-center">
                             <div className="w-full md:w-1/2">
                                 <div className="mb-6 inline-block p-4 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-2xl">
-                                    <IconCloud size={32} />
+                                    <FaCloudArrowUp size={32} />
                                 </div>
                                 <h2 className="text-3xl md:text-4xl font-bold mb-6">SaaS Solutions</h2>
                                 <div className="space-y-4">
@@ -201,25 +197,25 @@ export default function ServicesPage() {
                                         <ul className="space-y-3">
                                             <li className="flex items-center gap-3">
                                                 <div className="bg-indigo-100 dark:bg-indigo-900/30 p-1.5 rounded-full text-indigo-600 dark:text-indigo-400">
-                                                    <IconCloudComputing size={20} />
+                                                    <FaCloudscale size={20} />
                                                 </div>
                                                 <span className="text-gray-700 dark:text-gray-300">Custom SaaS Platform Development</span>
                                             </li>
                                             <li className="flex items-center gap-3">
                                                 <div className="bg-indigo-100 dark:bg-indigo-900/30 p-1.5 rounded-full text-indigo-600 dark:text-indigo-400">
-                                                    <IconCode size={20} />
+                                                    <FaCode size={20} />
                                                 </div>
                                                 <span className="text-gray-700 dark:text-gray-300">API Development & Integration</span>
                                             </li>
                                             <li className="flex items-center gap-3">
                                                 <div className="bg-indigo-100 dark:bg-indigo-900/30 p-1.5 rounded-full text-indigo-600 dark:text-indigo-400">
-                                                    <IconDeviceAnalytics size={20} />
+                                                    <FaCloudArrowUp size={20} />
                                                 </div>
                                                 <span className="text-gray-700 dark:text-gray-300">Data Analytics & Reporting</span>
                                             </li>
                                             <li className="flex items-center gap-3">
                                                 <div className="bg-indigo-100 dark:bg-indigo-900/30 p-1.5 rounded-full text-indigo-600 dark:text-indigo-400">
-                                                    <IconTargetArrow size={20} />
+                                                    <FaArrowRight size={20} />
                                                 </div>
                                                 <span className="text-gray-700 dark:text-gray-300">Subscription & Billing Management</span>
                                             </li>
@@ -233,25 +229,25 @@ export default function ServicesPage() {
                                         <div className="grid grid-cols-2 gap-4 w-full max-w-[500px]">
                                             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 flex flex-col items-center justify-center aspect-square">
                                                 <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center mb-3">
-                                                    <IconCloudComputing className="text-indigo-600 dark:text-indigo-400" size={24} />
+                                                    <FaCloudscale className="text-indigo-600 dark:text-indigo-400" size={24} />
                                                 </div>
                                                 <h4 className="text-sm font-medium">Cloud Storage</h4>
                                             </div>
                                             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 flex flex-col items-center justify-center aspect-square">
                                                 <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-3">
-                                                    <IconDeviceAnalytics className="text-blue-600 dark:text-blue-400" size={24} />
+                                                    <FaCloudArrowUp className="text-blue-600 dark:text-blue-400" size={24} />
                                                 </div>
                                                 <h4 className="text-sm font-medium">Analytics</h4>
                                             </div>
                                             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 flex flex-col items-center justify-center aspect-square">
                                                 <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mb-3">
-                                                    <IconCode className="text-purple-600 dark:text-purple-400" size={24} />
+                                                    <FaCode className="text-purple-600 dark:text-purple-400" size={24} />
                                                 </div>
                                                 <h4 className="text-sm font-medium">API Access</h4>
                                             </div>
                                             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 flex flex-col items-center justify-center aspect-square">
                                                 <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-3">
-                                                    <IconTargetArrow className="text-green-600 dark:text-green-400" size={24} />
+                                                    <FaArrowRight className="text-green-600 dark:text-green-400" size={24} />
                                                 </div>
                                                 <h4 className="text-sm font-medium">Subscription</h4>
                                             </div>

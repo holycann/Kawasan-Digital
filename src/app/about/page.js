@@ -1,4 +1,4 @@
-import { IconRocket, IconUsers, IconBulb, IconTrophy } from "@tabler/icons-react";
+import { FaRocket, FaUsers, FaLightbulb, FaTrophy } from "react-icons/fa6";
 
 export const metadata = {
   title: "About Us - Kawasan Digital",
@@ -77,7 +77,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
               <div className="inline-block p-3 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full mb-4">
-                <IconRocket size={24} />
+                <FaRocket size={24} />
               </div>
               <h3 className="text-xl font-bold mb-3">Innovation</h3>
               <p className="text-gray-600 dark:text-gray-400">
@@ -87,7 +87,7 @@ export default function AboutPage() {
             
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
               <div className="inline-block p-3 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-full mb-4">
-                <IconUsers size={24} />
+                <FaUsers size={24} />
               </div>
               <h3 className="text-xl font-bold mb-3">Collaboration</h3>
               <p className="text-gray-600 dark:text-gray-400">
@@ -97,7 +97,7 @@ export default function AboutPage() {
             
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
               <div className="inline-block p-3 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full mb-4">
-                <IconBulb size={24} />
+                <FaLightbulb size={24} />
               </div>
               <h3 className="text-xl font-bold mb-3">Excellence</h3>
               <p className="text-gray-600 dark:text-gray-400">
@@ -107,7 +107,7 @@ export default function AboutPage() {
             
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
               <div className="inline-block p-3 bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-full mb-4">
-                <IconTrophy size={24} />
+                <FaTrophy size={24} />
               </div>
               <h3 className="text-xl font-bold mb-3">Integrity</h3>
               <p className="text-gray-600 dark:text-gray-400">
@@ -131,7 +131,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="mb-4 relative w-40 h-40 mx-auto rounded-full overflow-hidden">
-                <img src="https://i.pravatar.cc/300?img=11" alt="CEO" className="w-full h-full object-cover" />
+                <img src="https://placehold.co/400x400?text=CEO" alt="CEO" className="w-full h-full object-cover" />
               </div>
               <h3 className="text-xl font-bold mb-1">Andi Wijaya</h3>
               <p className="text-blue-600 dark:text-blue-400 mb-3">CEO & Founder</p>
@@ -154,7 +154,7 @@ export default function AboutPage() {
             
             <div className="text-center">
               <div className="mb-4 relative w-40 h-40 mx-auto rounded-full overflow-hidden">
-                <img src="https://i.pravatar.cc/300?img=32" alt="CTO" className="w-full h-full object-cover" />
+                <img src="https://placehold.co/400x400?text=CTO" alt="CTO" className="w-full h-full object-cover" />
               </div>
               <h3 className="text-xl font-bold mb-1">Siti Amalia</h3>
               <p className="text-blue-600 dark:text-blue-400 mb-3">CTO</p>
@@ -177,7 +177,7 @@ export default function AboutPage() {
             
             <div className="text-center">
               <div className="mb-4 relative w-40 h-40 mx-auto rounded-full overflow-hidden">
-                <img src="https://i.pravatar.cc/300?img=68" alt="Creative Director" className="w-full h-full object-cover" />
+                <img src="https://placehold.co/400x400?text=Creative Director" alt="Creative Director" className="w-full h-full object-cover" />
               </div>
               <h3 className="text-xl font-bold mb-1">Budi Santoso</h3>
               <p className="text-blue-600 dark:text-blue-400 mb-3">Creative Director</p>
