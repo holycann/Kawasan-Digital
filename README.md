@@ -1,36 +1,119 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🌐 Kawasan Digital | Modern Portfolio Website
 
-## Getting Started
+## 🚀 Project Showcase
 
-First, run the development server:
+Kawasan Digital is a cutting-edge, interactive portfolio website that pushes the boundaries of web design and user experience. Built with the latest web technologies, this project demonstrates a perfect blend of stunning visuals, smooth interactions, and responsive design.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## ✨ Key Highlights
+
+### 🎨 Stunning Visual Experience
+- 3D Interactive Components
+- Animated UI Elements
+- Bento Grid Layout
+- Smooth Scroll Interactions
+- Responsive Design Across All Devices
+
+### 🛠 Advanced Tech Stack
+- **Framework**: Next.js 15 (App Router)
+- **Frontend**: React 19
+- **Styling**: Tailwind CSS v4
+- **Animation**: Framer Motion
+- **3D Graphics**: React Three Fiber & Three.js
+- **Performance**: Vercel Analytics
+
+## 🌟 Unique Features
+
+- 🧊 3D Card Interactions
+- 🎭 Animated Sections
+- 📱 Fully Responsive Layout
+- 🌈 Dynamic UI Components
+- 🚀 Optimized Performance
+
+## 📂 Project Structure
+
+```
+kawasan-digital/
+│
+├── src/
+│   ├── app/               # Next.js page routes
+│   │   ├── about/
+│   │   ├── contact/
+│   │   ├── portfolio/
+│   │   └── services/
+│   │
+│   ├── components/        # Reusable React components
+│   │   ├── ui/            # Custom UI components
+│   │   │   ├── 3d-card.js
+│   │   │   ├── animated-tabs.js
+│   │   │   └── bento-grid.js
+│   │   │
+│   │   ├── hero/
+│   │   ├── navigation/
+│   │   └── sections/
+│   │
+│   ├── data/              # Static data files
+│   └── utils/             # Utility functions
+│
+├── public/                # Static assets
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Quick Start
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Prerequisites
+- Node.js v18+
+- npm or yarn
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Installation
+```bash
+# Clone the repository
+git clone https://github.com/your-username/kawasan-digital.git
 
-## Learn More
+# Navigate to project directory
+cd kawasan-digital
 
-To learn more about Next.js, take a look at the following resources:
+# Install dependencies
+npm install
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Start development server
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔧 Available Scripts
 
-## Deploy on Vercel
+| Script     | Description                     |
+|------------|----------------------------------|
+| `dev`      | Start development server        |
+| `build`    | Create production build         |
+| `start`    | Run production server           |
+| `lint`     | Run ESLint code checks          |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🌐 Deployment Options
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. 🏆 Vercel (Recommended)
+2. Netlify
+3. Cloudflare Pages
+
+## 🤝 Contributing
+
+Contributions are welcome! 
+
+### How to Contribute
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📜 License
+
+Currently unlicensed. Please add appropriate licensing information.
+
+## 📞 Contact
+
+[Your Name]
+[Your Email or Professional Links]
+
+---
+
+**Built with ❤️ using Next.js, React, and a passion for great web experiences**
