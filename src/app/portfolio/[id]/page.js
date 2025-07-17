@@ -3,23 +3,16 @@
 import { useState } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from 'next/image';
 import { portfolioItems } from "../../../data/portfolioData";
 import { motion } from "framer-motion";
 import { FaArrowLeft, FaCalendar, FaCode, FaLink } from "react-icons/fa6";
-import { Spotlight } from "../../../components/ui/spotlight";
+import dynamic from 'next/dynamic';
 
-// export function generateStaticParams() {
-//   return portfolioItems.map((item) => ({ id: item.id }));
-// }
-
-// export function generateMetadata({ params }) {
-//   const item = portfolioItems.find((p) => p.id === params.id);
-//   if (!item) return {};
-//   return {
-//     title: `${item.title} - Portfolio | Kawasan Digital`,
-//     description: item.shortDescription,
-//   };
-// }
+const Spotlight = dynamic(() => import('../../../components/ui/spotlight').then((mod) => mod.Spotlight), {
+  loading: () => <div className="w-full h-full bg-transparent"></div>,
+  ssr: false,
+});
 
 export default function PortfolioDetail({ params }) {
   const project = portfolioItems.find((p) => p.id === params.id);
@@ -57,10 +50,15 @@ export default function PortfolioDetail({ params }) {
             transition={{ duration: 0.5 }}
           >
             <div className="relative aspect-video rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 mb-4">
-              <img 
+              <Image 
                 src={activeImage} 
                 alt={project.title} 
-                className="w-full h-full object-cover object-center"
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover object-center"
+                placeholder="blur"
+                blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
               />
             </div>
             
@@ -75,10 +73,14 @@ export default function PortfolioDetail({ params }) {
                   }`}
                   onClick={() => setActiveImage(image)}
                 >
-                  <img 
+                  <Image 
                     src={image} 
                     alt={`${project.title} thumbnail ${idx + 1}`} 
+                    width={300}
+                    height={200}
                     className="w-full h-full object-cover object-center"
+                    placeholder="blur"
+                    blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(300, 200))}`}
                   />
                 </div>
               ))}
@@ -90,6 +92,7 @@ export default function PortfolioDetail({ params }) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
+            {/* Project details content */}
             <div className="mb-2 flex items-center gap-2">
               <span className="px-3 py-1 text-xs font-medium rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">
                 {project.category}
@@ -190,10 +193,14 @@ export default function PortfolioDetail({ params }) {
                 >
                   <Link href={`/portfolio/${item.id}`}>
                     <div className="h-48 relative overflow-hidden">
-                      <img 
+                      <Image 
                         src={item.coverImage} 
                         alt={item.title} 
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-300"
+                        placeholder="blur"
+                        blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(400, 300))}`}
                       />
                     </div>
                     <div className="p-6">
@@ -209,4 +216,24 @@ export default function PortfolioDetail({ params }) {
       </Spotlight>
     </article>
   );
-} 
+}
+
+// Shimmer effect for placeholder
+const shimmer = (w, h) => `
+<svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="g">
+      <stop stop-color="#f0f0f0" offset="20%" />
+      <stop stop-color="#e0e0e0" offset="50%" />
+      <stop stop-color="#f0f0f0" offset="70%" />
+    </linearGradient>
+  </defs>
+  <rect width="${w}" height="${h}" fill="#f0f0f0" />
+  <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
+  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+</svg>`;
+
+const toBase64 = (str) =>
+  typeof window === 'undefined'
+    ? Buffer.from(str).toString('base64')
+    : window.btoa(str); 

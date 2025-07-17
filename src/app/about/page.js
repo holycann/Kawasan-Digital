@@ -1,4 +1,5 @@
 import { FaRocket, FaUsers, FaLightbulb, FaTrophy } from "react-icons/fa6";
+import Image from 'next/image';
 
 export const metadata = {
   title: "About Us - Kawasan Digital",
@@ -7,7 +8,7 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="pt-24">
+    <div className="pt-24 pb-16 bg-white dark:bg-black">
       {/* Hero Section */}
       <section className="py-16 md:py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-black z-0"></div>
@@ -53,7 +54,7 @@ export default function AboutPage() {
                       <h3 className="text-3xl font-bold mb-2">2016</h3>
                       <p className="text-xl">Year Founded</p>
                       <div className="w-16 h-1 bg-white mx-auto my-4 rounded-full"></div>
-                      <p className="text-4xl font-bold">100+</p>
+                      <p className="text-4xl font-bold">10+</p>
                       <p className="text-xl">Successful Projects</p>
                     </div>
                   </div>
@@ -118,7 +119,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Our Team */}
+      {/* Leadership section */}
       <section className="py-16 bg-white dark:bg-black">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-4xl mx-auto text-center mb-12">
@@ -131,7 +132,14 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="mb-4 relative w-40 h-40 mx-auto rounded-full overflow-hidden">
-                <img src="https://placehold.co/400x400?text=CEO" alt="CEO" className="w-full h-full object-cover" />
+                <Image 
+                  src="https://placehold.co/400x400?text=CEO" 
+                  alt="CEO" 
+                  fill
+                  className="w-full h-full object-cover"
+                  placeholder="blur"
+                  blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(400, 400))}`}
+                />
               </div>
               <h3 className="text-xl font-bold mb-1">Andi Wijaya</h3>
               <p className="text-blue-600 dark:text-blue-400 mb-3">CEO & Founder</p>
@@ -154,7 +162,14 @@ export default function AboutPage() {
             
             <div className="text-center">
               <div className="mb-4 relative w-40 h-40 mx-auto rounded-full overflow-hidden">
-                <img src="https://placehold.co/400x400?text=CTO" alt="CTO" className="w-full h-full object-cover" />
+                <Image 
+                  src="https://placehold.co/400x400?text=CTO" 
+                  alt="CTO" 
+                  fill
+                  className="w-full h-full object-cover"
+                  placeholder="blur"
+                  blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(400, 400))}`}
+                />
               </div>
               <h3 className="text-xl font-bold mb-1">Siti Amalia</h3>
               <p className="text-blue-600 dark:text-blue-400 mb-3">CTO</p>
@@ -177,7 +192,14 @@ export default function AboutPage() {
             
             <div className="text-center">
               <div className="mb-4 relative w-40 h-40 mx-auto rounded-full overflow-hidden">
-                <img src="https://placehold.co/400x400?text=Creative Director" alt="Creative Director" className="w-full h-full object-cover" />
+                <Image 
+                  src="https://placehold.co/400x400?text=Creative Director" 
+                  alt="Creative Director" 
+                  fill
+                  className="w-full h-full object-cover"
+                  placeholder="blur"
+                  blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(400, 400))}`}
+                />
               </div>
               <h3 className="text-xl font-bold mb-1">Budi Santoso</h3>
               <p className="text-blue-600 dark:text-blue-400 mb-3">Creative Director</p>
@@ -218,4 +240,24 @@ export default function AboutPage() {
       </section>
     </div>
   );
-} 
+}
+
+// Shimmer effect for placeholder
+const shimmer = (w, h) => `
+<svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="g">
+      <stop stop-color="#f0f0f0" offset="20%" />
+      <stop stop-color="#e0e0e0" offset="50%" />
+      <stop stop-color="#f0f0f0" offset="70%" />
+    </linearGradient>
+  </defs>
+  <rect width="${w}" height="${h}" fill="#f0f0f0" />
+  <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
+  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+</svg>`;
+
+const toBase64 = (str) =>
+  typeof window === 'undefined'
+    ? Buffer.from(str).toString('base64')
+    : window.btoa(str); 

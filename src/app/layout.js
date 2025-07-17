@@ -1,9 +1,12 @@
+"use client";
+
 import { Montserrat, Poppins } from "next/font/google";
 import "./globals.css";
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
-import SmoothScroll from "../components/ui/SmoothScroll";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { useLenis } from "../hooks/lenis";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -18,25 +21,21 @@ const poppins = Poppins({
   display: "swap",
 });
 
-export const metadata = {
-  title: "Kawasan Digital - Innovative Digital Solutions",
-  description: "We provide app development, website development, and SaaS services",
-  keywords: "digital services, app development, web development, SaaS",
-};
-
 export default function RootLayout({ children }) {
+  useLenis();
+
   return (
     <html lang="en">
       <body
         className={`${montserrat.variable} ${poppins.variable} antialiased min-h-screen flex flex-col`}
       >
-        <SmoothScroll />
         <Navigation />
         <main className="flex-1">
           {children}
         </main>
         <Footer />
-        <Analytics/>
+        <Analytics mode="production" />
+        <SpeedInsights />
       </body>
     </html>
   );

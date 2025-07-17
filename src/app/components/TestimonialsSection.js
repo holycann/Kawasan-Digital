@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { AnimatedTitle } from "../ui/animated-text";
+import { AnimatedTitle } from "../../components/ui/animated-text";
 import { cn } from "../../utils/cn";
-import { TestimonialsSection as AnimatedTestimonials } from "../ui/animated-testimonials";
+import { TestimonialsSection as AnimatedTestimonials } from "../../components/ui/animated-testimonials";
 
 const testimonials = [
   {

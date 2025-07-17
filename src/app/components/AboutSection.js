@@ -2,11 +2,25 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";  
 import Link from "next/link";
-import { StickyScrollReveal } from "../ui/sticky-scroll-reveal";
+import { ScrollRevealSection } from "../../components/ui/scroll-reveal";
 import { FaRocket, FaUsers, FaLightbulb, FaTrophy, FaCode, FaMobile, FaServer, FaGlobe } from "react-icons/fa6";
-import { MeteorEffect } from "../ui/meteor-effect";
-import { Spotlight } from "../ui/spotlight";
-import { Sparkles } from "../ui/sparkles";
+import dynamic from 'next/dynamic';
+
+const MeteorEffect = dynamic(() => import('../../components/ui/meteor-effect').then((mod) => mod.MeteorEffect), {
+  loading: () => <div className="absolute inset-0 bg-gray-100 dark:bg-gray-900 animate-pulse"></div>,
+  ssr: false,
+});
+
+const Spotlight = dynamic(() => import('../../components/ui/spotlight').then((mod) => mod.Spotlight), {
+  loading: () => <div className="w-full h-full bg-transparent"></div>,
+  ssr: false,
+});
+
+const Sparkles = dynamic(() => import('../../components/ui/sparkles').then((mod) => mod.Sparkles), {
+  loading: () => <div className="w-full h-full bg-gray-100 dark:bg-gray-900 animate-pulse"></div>,
+  ssr: false,
+});
+
 import { useRef } from "react";
 
 export default function AboutSection() {
@@ -241,7 +255,7 @@ export default function AboutSection() {
             whileHover={{ scale: 1.05, y: -5 }}
           >
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">50+</div>
+              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">5+</div>
               <div className="text-sm text-gray-600 dark:text-gray-400">Team Members</div>
             </div>
           </motion.div>
@@ -250,7 +264,7 @@ export default function AboutSection() {
             whileHover={{ scale: 1.05, y: -5 }}
           >
             <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">100+</div>
+              <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">10+</div>
               <div className="text-sm text-gray-600 dark:text-gray-400">Projects</div>
             </div>
           </motion.div>
@@ -286,19 +300,19 @@ export default function AboutSection() {
       </div>
     </div>,
     
-    // Item 4: Our Services
-    <div key="services" className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    // Item 4: Our Expertise
+    <div key="expertise" className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
       <div className="md:order-2">
         <motion.span
           className="inline-block px-4 py-1.5 text-xs md:text-sm font-medium uppercase tracking-wider text-pink-700 dark:text-pink-400 bg-pink-100 dark:bg-pink-900/30 rounded-full mb-4"
         >
-          Our Services
+          Our Expertise
         </motion.span>
         <h2 className="text-3xl md:text-4xl font-bold mb-6 font-heading">
-          Comprehensive Digital Solutions
+          Building Digital Solutions That Matter
         </h2>
         <p className="text-gray-600 dark:text-gray-400 mb-6">
-          We offer a wide range of services to help businesses navigate the digital landscape and achieve their goals.
+          We specialize in delivering impactful digital products and platforms, tailored to your business needs.
         </p>
         <div className="grid grid-cols-2 gap-4">
           <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/10 transition-colors">
@@ -392,7 +406,7 @@ export default function AboutSection() {
       </div>
       
       <Spotlight
-        className="max-w-7xl mx-auto px-4 md:px-6 relative z-10"
+        className="max-w-7xl mx-auto px-4 md:px-6 py-4 relative z-10"
         fill="rgba(59, 130, 246, 0.15)"
       >
         <div className="max-w-3xl mx-auto text-center mb-16">
@@ -427,7 +441,7 @@ export default function AboutSection() {
         </div>
       </Spotlight>
       
-      <StickyScrollReveal items={scrollItems} />
+      <ScrollRevealSection items={scrollItems} />
       
       <div className="container mx-auto px-4 md:px-6 mt-16 text-center relative z-10">
         <motion.div

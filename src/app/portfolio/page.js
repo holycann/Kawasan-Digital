@@ -1,13 +1,27 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import PortfolioCard from "../../components/portfolio/PortfolioCard";
+import PortfolioCard from "../components/PortfolioCard";
 import { portfolioItems } from "../../data/portfolioData";
-import { AnimatedTabs } from "../../components/ui/animated-tabs";
+import dynamic from 'next/dynamic';
+
+const SparklesCore = dynamic(() => import('../../components/ui/sparkles').then((mod) => mod.SparklesCore), {
+  loading: () => <div className="w-full h-full bg-gray-100 dark:bg-gray-900 animate-pulse"></div>,
+  ssr: false,
+});
+
+const Spotlight = dynamic(() => import('../../components/ui/spotlight').then((mod) => mod.Spotlight), {
+  loading: () => <div className="w-full h-full bg-transparent"></div>,
+  ssr: false,
+});
+
+const AnimatedTabs = dynamic(() => import('../../components/ui/animated-tabs').then((mod) => mod.AnimatedTabs), {
+  loading: () => <div className="w-full h-12 bg-gray-200 dark:bg-gray-800 animate-pulse rounded-full"></div>,
+  ssr: false,
+});
+
 import { motion, useScroll, useTransform } from "framer-motion";
 import { FaFilter } from "react-icons/fa6";
-import { Spotlight } from "../../components/ui/spotlight";
-import { SparklesCore } from "../../components/ui/sparkles";
 
 // export const metadata = {
 //   title: "Portfolio - Kawasan Digital",
@@ -172,18 +186,14 @@ export default function PortfolioPage() {
         viewport={{ once: true }}
         transition={{ duration: 0.7 }}
       >
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-center">
           <div>
-            <h3 className="text-3xl md:text-4xl font-bold text-blue-600 dark:text-blue-400">100+</h3>
+            <h3 className="text-3xl md:text-4xl font-bold text-blue-600 dark:text-blue-400">10+</h3>
             <p className="text-gray-600 dark:text-gray-400 mt-2">Projects Completed</p>
           </div>
           <div>
-            <h3 className="text-3xl md:text-4xl font-bold text-purple-600 dark:text-purple-400">50+</h3>
+            <h3 className="text-3xl md:text-4xl font-bold text-purple-600 dark:text-purple-400">5+</h3>
             <p className="text-gray-600 dark:text-gray-400 mt-2">Happy Clients</p>
-          </div>
-          <div>
-            <h3 className="text-3xl md:text-4xl font-bold text-indigo-600 dark:text-indigo-400">8+</h3>
-            <p className="text-gray-600 dark:text-gray-400 mt-2">Years Experience</p>
           </div>
           <div>
             <h3 className="text-3xl md:text-4xl font-bold text-pink-600 dark:text-pink-400">15+</h3>

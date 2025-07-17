@@ -1,4 +1,4 @@
-import ContactSection from "../../components/contact/ContactSection";
+import ContactSection from "../components/ContactSection";
 
 export const metadata = {
   title: "Contact Us - Kawasan Digital",

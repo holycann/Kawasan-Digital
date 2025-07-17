@@ -8,7 +8,6 @@ const navLinks = [
   { name: "About Us", href: "/about" },
   { name: "Services", href: "/services" },
   { name: "Portfolio", href: "/portfolio" },
-  { name: "Contact", href: "/contact" },
 ];
 
 export default function Navigation() {
@@ -25,7 +24,7 @@ export default function Navigation() {
       href="/contact"
       className="px-4 py-2 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium hover:shadow-lg transform hover:scale-105 transition-all"
     >
-      Get Started
+      Contact Us
     </Link>
   );
 
