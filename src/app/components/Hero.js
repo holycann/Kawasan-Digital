@@ -1,0 +1,200 @@
+"use client";
+
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { AnimatedWords } from "../../components/ui/animated-text";
+import { useState, useEffect } from "react";
+import { Scene3D } from "../../components/ui/3d-scene";
+import dynamic from 'next/dynamic';
+
+const MeteorEffect = dynamic(() => import('../../components/ui/meteor-effect').then((mod) => mod.MeteorEffect), {
+  loading: () => (
+    <div className="absolute inset-0 overflow-hidden opacity-30">
+      <div className="absolute h-1 w-1 rounded-full bg-blue-500/30 animate-pulse"></div>
+    </div>
+  ),
+  ssr: false,
+});
+
+import { FaArrowRight } from "react-icons/fa6";
+
+export default function Hero() {
+  const [dots, setDots] = useState([]);
+
+  useEffect(() => {
+    // Generate dots only on client-side
+    const newDots = Array.from({ length: 40 }).map((_, i) => ({
+      id: i,
+      opacity: Math.random() * 0.6 + 0.2,
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      scale: Math.random() * 1.5 + 0.5,
+      duration: Math.random() * 5 + 5,
+    }));
+    setDots(newDots);
+  }, []);
+
+  return (
+    <div className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Background with animated gradient */}
+      <div className="absolute inset-0">
+        <div
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-700/20 via-transparent to-transparent"
+          style={{
+            maskImage: "radial-gradient(ellipse at top right, rgba(0, 0, 0, 1), transparent 70%)",
+            WebkitMaskImage: "radial-gradient(ellipse at top right, rgba(0, 0, 0, 1), transparent 70%)",
+          }}
+        />
+        <div 
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-purple-700/20 via-transparent to-transparent"
+          style={{
+            maskImage: "radial-gradient(ellipse at bottom left, rgba(0, 0, 0, 1), transparent 70%)",
+            WebkitMaskImage: "radial-gradient(ellipse at bottom left, rgba(0, 0, 0, 1), transparent 70%)",
+          }}
+        />
+        
+        {/* Meteor effect */}
+        <MeteorEffect number={15} />
+        
+        {/* Animated dots */}
+        <div className="absolute inset-0 overflow-hidden opacity-30">
+          {dots.map((dot) => (
+            <motion.div
+              key={dot.id}
+              className="absolute h-1 w-1 rounded-full bg-blue-500"
+              initial={{ 
+                opacity: dot.opacity, 
+                x: dot.x, 
+                y: dot.y 
+              }}
+              animate={{
+                opacity: [dot.opacity, dot.opacity],
+                scale: [1, dot.scale, 1],
+              }}
+              transition={{
+                duration: dot.duration,
+                repeat: Infinity,
+                repeatType: "reverse",
+              }}
+            />
+          ))}
+        </div>
+      </div>
+      
+      <div className="container mx-auto px-4 md:px-6 py-24 md:py-32 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <span className="inline-block px-4 py-1.5 mb-6 text-xs md:text-sm font-medium uppercase tracking-wider text-blue-700 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/30 rounded-full">
+                Digital Innovation Partner
+              </span>
+            </motion.div>
+            
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 font-heading">
+              <AnimatedWords
+                text="Transform Your Ideas into Digital Reality"
+                className="leading-tight bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent"
+              />
+            </h1>
+            
+            <motion.p
+              className="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-8 md:mb-10"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              We build cutting-edge apps, websites, and SaaS solutions that power digital innovation. 
+              Let&apos;s create something exceptional together.
+            </motion.p>
+            
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+            >
+              <Link 
+                href="/services" 
+                className="px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium hover:shadow-lg transform hover:scale-105 transition-all flex items-center justify-center gap-2"
+              >
+                Explore Services
+                <FaArrowRight size={14} />
+              </Link>
+              <Link 
+                href="/contact" 
+                className="px-6 py-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transform hover:scale-105 transition-all"
+              >
+                Get in Touch
+              </Link>
+            </motion.div>
+            
+            <motion.div
+              className="mt-16 flex gap-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 1 }}
+            >
+              <div className="text-center">
+                <p className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-300 text-transparent bg-clip-text">35+</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Projects</p>
+              </div>
+              <div className="text-center">
+                <p className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-300 text-transparent bg-clip-text">25+</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Clients</p>
+              </div>
+              <div className="text-center">
+                <p className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-300 text-transparent bg-clip-text">15+</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Expert Team</p>
+              </div>
+              <div className="text-center">
+                <p className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-300 text-transparent bg-clip-text">6+</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Years of <br /> Experience</p>
+              </div>
+            </motion.div>
+          </div>
+          
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.5 }}
+            className="relative h-0 md:h-[500px] w-full"
+          >
+            <Scene3D className="w-full h-full" />
+          </motion.div>
+        </div>
+      </div>
+      
+      {/* Scroll indicator */}
+      <motion.div 
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        animate={{ 
+          y: [0, 10, 0],
+        }}
+        transition={{
+          duration: 1.5,
+          repeat: Infinity,
+          repeatType: "loop",
+        }}
+      >
+        <div className="w-6 h-10 rounded-full border-2 border-gray-400 dark:border-gray-600 flex justify-center">
+          <motion.div 
+            className="w-1 h-2 bg-blue-600 rounded-full mt-2"
+            animate={{
+              y: [0, 12, 0]
+            }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              repeatType: "loop",
+              ease: "easeInOut"
+            }}
+          />
+        </div>
+      </motion.div>
+    </div>
+  );
+} 
