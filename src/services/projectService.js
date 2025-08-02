@@ -1,9 +1,9 @@
 import { supabase, supabaseHelpers } from '@/configs/supabase';
 
-// Portfolio service with comprehensive data management for portfolio-related operations
-export const portfolioService = {
-    // Fetch all portfolio entries with optional filtering and pagination
-    fetchPortfolios: async (options = {}) => {
+// Project service with comprehensive data management for project-related operations
+export const projectService = {
+    // Fetch all project entries with optional filtering and pagination
+    fetchProjects: async (options = {}) => {
         const {
             filters = {},
             page = 1,
@@ -14,7 +14,7 @@ export const portfolioService = {
 
         try {
             let query = supabase
-                .from('portfolios')
+                .from('projects')
                 .select('*')
                 .range((page - 1) * pageSize, page * pageSize - 1)
                 .order(orderBy, { ascending });
@@ -25,93 +25,93 @@ export const portfolioService = {
             });
 
             return await supabaseHelpers.fetchData(query, {
-                operation: 'fetch portfolios',
+                operation: 'fetch projects',
                 filters,
                 page
             });
         } catch (error) {
             return supabaseHelpers.handleError(error, {
-                operation: 'fetch portfolios'
+                operation: 'fetch projects'
             });
         }
     },
 
-    // Create a new portfolio entry
-    createPortfolio: async (portfolioData) => {
+    // Create a new project entry
+    createProject: async (projectData) => {
         try {
             const query = supabase
-                .from('portfolios')
-                .insert(portfolioData)
+                .from('projects')
+                .insert(projectData)
                 .select();
 
             return await supabaseHelpers.insertData(query, {
-                operation: 'create portfolio'
+                operation: 'create project'
             });
         } catch (error) {
             return supabaseHelpers.handleError(error, {
-                operation: 'create portfolio'
+                operation: 'create project'
             });
         }
     },
 
-    // Update an existing portfolio entry
-    updatePortfolio: async (portfolioId, updateData) => {
+    // Update an existing project entry
+    updateProject: async (projectId, updateData) => {
         try {
             const query = supabase
-                .from('portfolios')
+                .from('projects')
                 .update(updateData)
-                .eq('id', portfolioId)
+                .eq('id', projectId)
                 .select();
 
             return await supabaseHelpers.updateData(query, {
-                operation: 'update portfolio',
-                portfolioId
+                operation: 'update project',
+                projectId
             });
         } catch (error) {
             return supabaseHelpers.handleError(error, {
-                operation: 'update portfolio',
-                portfolioId
+                operation: 'update project',
+                projectId
             });
         }
     },
 
-    // Delete a portfolio entry
-    deletePortfolio: async (portfolioId) => {
+    // Delete a project entry
+    deleteProject: async (projectId) => {
         try {
             const query = supabase
-                .from('portfolios')
+                .from('projects')
                 .delete()
-                .eq('id', portfolioId);
+                .eq('id', projectId);
 
             return await supabaseHelpers.deleteData(query, {
-                operation: 'delete portfolio',
-                portfolioId
+                operation: 'delete project',
+                projectId
             });
         } catch (error) {
             return supabaseHelpers.handleError(error, {
-                operation: 'delete portfolio',
-                portfolioId
+                operation: 'delete project',
+                projectId
             });
         }
     },
 
-    // Get a single portfolio entry by ID
-    getPortfolioById: async (portfolioId) => {
+    // Get a single project entry by ID
+    getProjectById: async (projectId) => {
         try {
             const query = supabase
-                .from('portfolios')
+                .from('projects')
                 .select('*')
-                .eq('id', portfolioId)
+                .eq('id', projectId)
                 .single();
 
             return await supabaseHelpers.fetchData(query, {
-                operation: 'fetch portfolio by ID',
-                portfolioId
+                operation: 'fetch project by ID',
+                projectId
             });
         } catch (error) {
             return supabaseHelpers.handleError(error, {
-                operation: 'fetch portfolio by ID',
-                portfolioId
+                operation: 'fetch project by ID',
+                projectId
             });
         }
     }

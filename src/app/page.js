@@ -14,7 +14,7 @@ export default function Home() {
   useEffect(() => {
     // Check if all metrics have been collected
     const allMetricsCollected = Object.values(performanceMetrics).every(metric => metric !== null);
-    
+
     if (allMetricsCollected) {
       logPerformanceMetrics(performanceMetrics);
     }
