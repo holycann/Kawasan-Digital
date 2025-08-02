@@ -2,6 +2,7 @@
 
 import React from "react";
 import { DashboardSidebar } from "./components/sidebar";
+import { Toast } from "@/components/ui/toast";
 
 export default function DashboardLayout({ children }) {
     return (
@@ -10,6 +11,7 @@ export default function DashboardLayout({ children }) {
             <main className="flex-1 overflow-y-auto bg-neutral-50 dark:bg-neutral-900 p-6">
                 {children}
             </main>
+            <Toast />
         </div>
     );
 }

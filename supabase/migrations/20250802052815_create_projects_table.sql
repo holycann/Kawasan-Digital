@@ -1,15 +1,14 @@
 -- Create company profile projects table
 CREATE TABLE company_profile.projects (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4 (),
     title TEXT NOT NULL,
     short_description TEXT,
     description TEXT,
     cover_image TEXT,
     year INTEGER,
-    category UUID REFERENCES company_profile.project_categories(id),
+    category_id UUID REFERENCES company_profile.project_categories (id),
+    client_id UUID REFERENCES company_profile.clients (id),
     website_url TEXT,
-    client_name TEXT,
-    client_industry TEXT,
     project_location TEXT,
     project_status TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -20,9 +19,8 @@ CREATE TABLE company_profile.projects (
 ALTER TABLE company_profile.projects ENABLE ROW LEVEL SECURITY;
 
 -- Policy for select operations
-CREATE POLICY "Company profile projects can be viewed by anyone" 
-    ON company_profile.projects FOR SELECT 
-    USING (true);
+CREATE POLICY "Company profile projects can be viewed by anyone" ON company_profile.projects FOR
+SELECT USING (true);
 
 -- Optional: Add trigger to update 'updated_at' timestamp
 CREATE OR REPLACE FUNCTION update_modified_column()
