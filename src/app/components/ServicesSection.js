@@ -2,10 +2,20 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
-import { BentoGrid, BentoGridItem } from "../ui/bento-grid";
-import { FaCode, FaGlobe, FaCloudArrowUp, FaArrowRight, FaCloudscale, FaMobileScreen, FaDatabase, FaRobot } from "react-icons/fa6";
-import { Spotlight } from "../ui/spotlight";
-import { SparklesCore } from "../ui/sparkles";
+import { BentoGrid, BentoGridItem } from "../../components/ui/bento-grid";
+import { FaCode, FaGlobe, FaCloudArrowUp, FaArrowRight, FaMobileScreen, FaDatabase, FaRobot } from "react-icons/fa6";
+import dynamic from 'next/dynamic';
+
+const Spotlight = dynamic(() => import('../../components/ui/spotlight').then((mod) => mod.Spotlight), {
+  loading: () => <div className="w-full h-full bg-transparent"></div>,
+  ssr: false,
+});
+
+const SparklesCore = dynamic(() => import('../../components/ui/sparkles').then((mod) => mod.SparklesCore), {
+  loading: () => <div className="w-full h-full bg-gray-100 dark:bg-gray-900 animate-pulse"></div>,
+  ssr: false,
+});
+
 import { useRef } from "react";
 
 export default function ServicesSection() {

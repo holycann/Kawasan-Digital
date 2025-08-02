@@ -2,9 +2,8 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FaTwitter, FaLinkedin, FaInstagram, FaGithub, FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
-
-const currentYear = new Date().getFullYear();
+import { FaLinkedin, FaInstagram, FaGithub, FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
+import { useState, useEffect } from "react";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -13,6 +12,12 @@ const fadeInUp = {
 };
 
 export default function Footer() {
+  const [currentYear, setCurrentYear] = useState("");
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear().toString());
+  }, []);
+
   return (
     <footer className="relative bg-white dark:bg-black border-t border-gray-200 dark:border-gray-800 overflow-hidden">
       {/* Background decorative elements */}
@@ -83,10 +88,6 @@ export default function Footer() {
                 and SaaS solutions. Let&apos;s transform your ideas into reality.
               </p>
               <div className="flex gap-4">
-                <a href="https://twitter.com" className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-blue-500 hover:text-white transition-all">
-                  <FaTwitter size={18} />
-                  <span className="sr-only">Twitter</span>
-                </a>
                 <a href="https://linkedin.com" className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-blue-700 hover:text-white transition-all">
                   <FaLinkedin size={18} />
                   <span className="sr-only">LinkedIn</span>

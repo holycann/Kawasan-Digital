@@ -8,7 +8,7 @@ Kawasan Digital is a cutting-edge, interactive portfolio website that pushes the
 
 ### 🎨 Stunning Visual Experience
 - 3D Interactive Components
-- Animated UI Elements
+- Animated UI Elements  
 - Bento Grid Layout
 - Smooth Scroll Interactions
 - Responsive Design Across All Devices
@@ -28,6 +28,8 @@ Kawasan Digital is a cutting-edge, interactive portfolio website that pushes the
 - 📱 Fully Responsive Layout
 - 🌈 Dynamic UI Components
 - 🚀 Optimized Performance
+- ⚡ Hydration Error Free
+- 🎯 SEO Optimized
 
 ## 📂 Project Structure
 
@@ -65,12 +67,13 @@ kawasan-digital/
 - npm or yarn
 
 ### Installation
+
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/kawasan-digital.git
+git clone https://github.com/holycann/Kawasan-Digital.git
 
 # Navigate to project directory
-cd kawasan-digital
+cd Kawasan-Digital
 
 # Install dependencies
 npm install
@@ -81,12 +84,12 @@ npm run dev
 
 ## 🔧 Available Scripts
 
-| Script     | Description                     |
-|------------|----------------------------------|
-| `dev`      | Start development server        |
-| `build`    | Create production build         |
-| `start`    | Run production server           |
-| `lint`     | Run ESLint code checks          |
+| Script | Description              |
+| ------ | ------------------------ |
+| dev    | Start development server |
+| build  | Create production build  |
+| start  | Run production server    |
+| lint   | Run ESLint code checks   |
 
 ## 🌐 Deployment Options
 
@@ -94,11 +97,21 @@ npm run dev
 2. Netlify
 3. Cloudflare Pages
 
+## 🎯 Performance Optimizations
+
+- ✅ Hydration Error Fixed
+- ✅ Lazy Loading Images
+- ✅ Optimized Animations
+- ✅ Reduced Bundle Size
+- ✅ Mobile Performance
+- ✅ SEO Optimized
+
 ## 🤝 Contributing
 
-Contributions are welcome! 
+Contributions are welcome!
 
 ### How to Contribute
+
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
@@ -111,8 +124,7 @@ Currently unlicensed. Please add appropriate licensing information.
 
 ## 📞 Contact
 
-[Your Name]
-[Your Email or Professional Links]
+**Kawasan Digital** - Digital Innovation Partner
 
 ---
 

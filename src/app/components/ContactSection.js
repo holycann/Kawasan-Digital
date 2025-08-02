@@ -3,9 +3,18 @@
 import { motion, useAnimation } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
-import { FaEnvelope, FaPhone, FaLocationDot, FaPaperPlane, FaWhatsapp, FaInstagram } from "react-icons/fa6";
-import { Spotlight } from "../ui/spotlight";
-import { SparklesCore } from "../ui/sparkles";
+import { FaEnvelope, FaLocationDot, FaPaperPlane, FaWhatsapp, FaInstagram } from "react-icons/fa6";
+import dynamic from 'next/dynamic';
+
+const Spotlight = dynamic(() => import('../../components/ui/spotlight').then((mod) => mod.Spotlight), {
+  loading: () => <div className="w-full h-full bg-transparent"></div>,
+  ssr: false,
+});
+
+const SparklesCore = dynamic(() => import('../../components/ui/sparkles').then((mod) => mod.SparklesCore), {
+  loading: () => <div className="w-full h-full bg-gray-100 dark:bg-gray-900 animate-pulse"></div>,
+  ssr: false,
+});
 
 export default function ContactSection() {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();

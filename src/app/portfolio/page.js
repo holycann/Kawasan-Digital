@@ -1,13 +1,27 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import PortfolioCard from "../../components/portfolio/PortfolioCard";
+import PortfolioCard from "../components/PortfolioCard";
 import { portfolioItems } from "../../data/portfolioData";
-import { AnimatedTabs } from "../../components/ui/animated-tabs";
+import dynamic from 'next/dynamic';
+
+const SparklesCore = dynamic(() => import('../../components/ui/sparkles').then((mod) => mod.SparklesCore), {
+  loading: () => <div className="w-full h-full bg-gray-100 dark:bg-gray-900 animate-pulse"></div>,
+  ssr: false,
+});
+
+const Spotlight = dynamic(() => import('../../components/ui/spotlight').then((mod) => mod.Spotlight), {
+  loading: () => <div className="w-full h-full bg-transparent"></div>,
+  ssr: false,
+});
+
+const AnimatedTabs = dynamic(() => import('../../components/ui/animated-tabs').then((mod) => mod.AnimatedTabs), {
+  loading: () => <div className="w-full h-12 bg-gray-200 dark:bg-gray-800 animate-pulse rounded-full"></div>,
+  ssr: false,
+});
+
 import { motion, useScroll, useTransform } from "framer-motion";
-import { FaFilter } from "react-icons/fa6";
-import { Spotlight } from "../../components/ui/spotlight";
-import { SparklesCore } from "../../components/ui/sparkles";
+import { FaFilter, FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
 // export const metadata = {
 //   title: "Portfolio - Kawasan Digital",
@@ -19,31 +33,91 @@ const categories = ["All", ...new Set(portfolioItems.map(item => item.category))
 
 export default function PortfolioPage() {
   const [activeTab, setActiveTab] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], [0, 300]);
+  
+  const itemsPerPage = 3;
   
   // Filter items based on active tab
   const filteredItems = activeTab === "All" 
     ? portfolioItems 
     : portfolioItems.filter(item => item.category === activeTab);
   
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentItems = filteredItems.slice(startIndex, endIndex);
+  
+  // Reset to page 1 when changing tabs
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab]);
+  
   // Create tabs for AnimatedTabs component
   const tabs = categories.map(category => ({
     id: category,
     label: category,
     content: (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filteredItems.map((item) => (
-          <motion.div
-            key={item.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <PortfolioCard item={item} />
-          </motion.div>
-        ))}
+      <div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+          {currentItems.map((item) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <PortfolioCard item={item} />
+            </motion.div>
+          ))}
+        </div>
+        
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-4 mt-8">
+            <button
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <FaChevronLeft size={14} />
+              Previous
+            </button>
+            
+            <div className="flex items-center gap-2">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={`w-10 h-10 rounded-lg font-medium transition-colors ${
+                    currentPage === page
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+            </div>
+            
+            <button
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Next
+              <FaChevronRight size={14} />
+            </button>
+          </div>
+        )}
+        
+        {/* Page info */}
+        <div className="text-center text-gray-600 dark:text-gray-400 mt-4">
+          Showing {startIndex + 1}-{Math.min(endIndex, filteredItems.length)} of {filteredItems.length} projects
+        </div>
       </div>
     ),
   }));
@@ -174,20 +248,20 @@ export default function PortfolioPage() {
       >
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div>
-            <h3 className="text-3xl md:text-4xl font-bold text-blue-600 dark:text-blue-400">100+</h3>
+            <h3 className="text-3xl md:text-4xl font-bold text-blue-600 dark:text-blue-400">35+</h3>
             <p className="text-gray-600 dark:text-gray-400 mt-2">Projects Completed</p>
           </div>
           <div>
-            <h3 className="text-3xl md:text-4xl font-bold text-purple-600 dark:text-purple-400">50+</h3>
+            <h3 className="text-3xl md:text-4xl font-bold text-purple-600 dark:text-purple-400">25+</h3>
             <p className="text-gray-600 dark:text-gray-400 mt-2">Happy Clients</p>
-          </div>
-          <div>
-            <h3 className="text-3xl md:text-4xl font-bold text-indigo-600 dark:text-indigo-400">8+</h3>
-            <p className="text-gray-600 dark:text-gray-400 mt-2">Years Experience</p>
           </div>
           <div>
             <h3 className="text-3xl md:text-4xl font-bold text-pink-600 dark:text-pink-400">15+</h3>
             <p className="text-gray-600 dark:text-gray-400 mt-2">Expert Team</p>
+          </div>
+          <div>
+            <h3 className="text-3xl md:text-4xl font-bold text-pink-600 dark:text-pink-400">6+</h3>
+            <p className="text-gray-600 dark:text-gray-400 mt-2">Years of Experience</p>
           </div>
         </div>
       </motion.div>

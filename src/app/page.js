@@ -1,23 +1,32 @@
 "use client";
 
-import Hero from "../components/hero/Hero";
-import ServicesSection from "../components/services/ServicesSection";
-import AboutSection from "../components/about/AboutSection";
-import TestimonialsSection from "../components/testimonials/TestimonialsSection";
-import ContactSection from "../components/contact/ContactSection";
+import Hero from "./components/Hero";
+import ServicesSection from "./components/ServicesSection";
+import AboutSection from "./components/AboutSection";
+import TestimonialsSection from "./components/TestimonialsSection";
+import ContactSection from "./components/ContactSection";
+import { usePerformanceMetrics, logPerformanceMetrics } from "../hooks/performance";
 import { useEffect } from "react";
-import SmoothScroll from "@/components/ui/SmoothScroll";
 
 export default function Home() {
+  const performanceMetrics = usePerformanceMetrics();
+
+  useEffect(() => {
+    // Check if all metrics have been collected
+    const allMetricsCollected = Object.values(performanceMetrics).every(metric => metric !== null);
+    
+    if (allMetricsCollected) {
+      logPerformanceMetrics(performanceMetrics);
+    }
+  }, [performanceMetrics]);
+
   return (
-    <SmoothScroll>
-      <main className="min-h-screen">
-        <Hero />
-        <ServicesSection />
-        <AboutSection />
-        <TestimonialsSection />
-        <ContactSection />
-      </main>
-    </SmoothScroll>
+    <main className="min-h-screen">
+      <Hero />
+      <ServicesSection />
+      <AboutSection />
+      <TestimonialsSection />
+      <ContactSection />
+    </main>
   );
 }

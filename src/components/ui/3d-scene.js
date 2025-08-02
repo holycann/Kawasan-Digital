@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useGLTF, Environment, Float, ContactShadows, PresentationControls, useTexture, Text } from "@react-three/drei";
+import { useGLTF, Environment, Float, PresentationControls, Text } from "@react-three/drei";
 import * as THREE from "three";
 
 function Model(props) {
@@ -37,7 +37,6 @@ function FloatingCube({ position, color, speed, rotationFactor, scale = [1, 1, 1
     <mesh 
       ref={meshRef} 
       position={position} 
-      castShadow
       onClick={(e) => {
         e.stopPropagation();
         setActive(!active);
@@ -85,7 +84,6 @@ function FloatingGem({ position, color, speed, rotationFactor, scale = [1, 1, 1]
     <mesh 
       ref={meshRef} 
       position={position} 
-      castShadow
       onClick={(e) => {
         e.stopPropagation();
         setActive(!active);
@@ -132,7 +130,6 @@ function FloatingSphere({ position, color, speed, rotationFactor, radius, scale 
     <mesh 
       ref={meshRef} 
       position={position} 
-      castShadow
       onClick={(e) => {
         e.stopPropagation();
         setActive(!active);
@@ -141,7 +138,7 @@ function FloatingSphere({ position, color, speed, rotationFactor, radius, scale 
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
     >
-      <sphereGeometry args={[radius, 32, 32]} />
+      <sphereGeometry args={[radius, 16, 16]} />
       <meshStandardMaterial 
         color={hovered ? "#ffffff" : color} 
         roughness={0.2} 
@@ -264,31 +261,31 @@ function DigitalElements() {
 
 export function Scene3D({ className }) {
   return (
-    <div className={className}>
+    <div className={`${className} hidden md:block`}>
       <Canvas 
-        shadows 
+        shadows={false}
+        dpr={[1, 1.5]}
         camera={{ position: [0, 0, 20], fov: 35 }}
         gl={{ alpha: true, antialias: true }}
         style={{ background: 'transparent' }}
       >
         <ambientLight intensity={0.5} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
+        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
         
         <PresentationControls
           global
-          config={{ mass: 2, tension: 500 }}
-          snap={{ mass: 4, tension: 300 }}
-          rotation={[0, 0.3, 0]}
+          config={{ mass: 1, tension: 200 }}
+          snap={false}
+          rotation={[0, 0.2, 0]}
           polar={[-Math.PI / 3, Math.PI / 3]}
           azimuth={[-Math.PI / 1.4, Math.PI / 2]}
         >
-          <Float rotationIntensity={0.4}>
+          <Float rotationIntensity={0.1}>
             <DigitalElements />
           </Float>
         </PresentationControls>
         
-        <ContactShadows position={[0, -4, 0]} opacity={0.2} scale={20} blur={1.75} far={4.5} />
-        <Environment preset="city" />
+        <Environment preset="sunset" />
       </Canvas>
     </div>
   );
@@ -298,13 +295,14 @@ export function MacbookScene({ className }) {
   return (
     <div className={className}>
       <Canvas 
-        shadows 
+        shadows={false}
+        dpr={[1, 1.5]}
         camera={{ position: [0, 0, 20], fov: 35 }}
         gl={{ alpha: true, antialias: true }}
         style={{ background: 'transparent' }}
       >
         <ambientLight intensity={0.5} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
+        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
         
         <PresentationControls
           global
@@ -318,9 +316,7 @@ export function MacbookScene({ className }) {
             <Model scale={1.6} position={[0, -1.5, 0]} />
           </Float>
         </PresentationControls>
-        
-        <ContactShadows position={[0, -4, 0]} opacity={0.4} scale={20} blur={1.75} far={4.5} />
       </Canvas>
     </div>
   );
-} 
+}

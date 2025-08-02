@@ -2,10 +2,20 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { AnimatedWords } from "../ui/animated-text";
+import { AnimatedWords } from "../../components/ui/animated-text";
 import { useState, useEffect } from "react";
-import { Scene3D } from "../ui/3d-scene";
-import { MeteorEffect } from "../ui/meteor-effect";
+import { Scene3D } from "../../components/ui/3d-scene";
+import dynamic from 'next/dynamic';
+
+const MeteorEffect = dynamic(() => import('../../components/ui/meteor-effect').then((mod) => mod.MeteorEffect), {
+  loading: () => (
+    <div className="absolute inset-0 overflow-hidden opacity-30">
+      <div className="absolute h-1 w-1 rounded-full bg-blue-500/30 animate-pulse"></div>
+    </div>
+  ),
+  ssr: false,
+});
+
 import { FaArrowRight } from "react-icons/fa6";
 
 export default function Hero() {
@@ -129,16 +139,20 @@ export default function Hero() {
               transition={{ duration: 0.5, delay: 1 }}
             >
               <div className="text-center">
-                <p className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 text-transparent bg-clip-text">100+</p>
+                <p className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-300 text-transparent bg-clip-text">35+</p>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Projects</p>
               </div>
               <div className="text-center">
-                <p className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-purple-400 text-transparent bg-clip-text">50+</p>
+                <p className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-300 text-transparent bg-clip-text">25+</p>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Clients</p>
               </div>
               <div className="text-center">
-                <p className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-indigo-400 text-transparent bg-clip-text">8+</p>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Years</p>
+                <p className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-300 text-transparent bg-clip-text">15+</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Expert Team</p>
+              </div>
+              <div className="text-center">
+                <p className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-300 text-transparent bg-clip-text">6+</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Years of <br /> Experience</p>
               </div>
             </motion.div>
           </div>
@@ -147,7 +161,7 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="relative h-[500px] w-full"
+            className="relative h-0 md:h-[500px] w-full"
           >
             <Scene3D className="w-full h-full" />
           </motion.div>

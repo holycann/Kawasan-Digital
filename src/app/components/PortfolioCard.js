@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Card3D, CardImage, CardContent } from "../ui/3d-card";
+import { Card3D, CardImage, CardContent } from "../../components/ui/3d-card";
 import { FaArrowRight } from "react-icons/fa6";
 import { cn } from "../../utils/cn";
 

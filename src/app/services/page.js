@@ -275,7 +275,7 @@ export default function ServicesPage() {
 
                         <div className="space-y-16">
                             <div className="relative">
-                                <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-8 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
                                     <span className="text-white font-bold">1</span>
                                 </div>
                                 <div className="ml-12 relative">
@@ -289,7 +289,7 @@ export default function ServicesPage() {
                             </div>
 
                             <div className="relative">
-                                <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
+                                <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-8 w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
                                     <span className="text-white font-bold">2</span>
                                 </div>
                                 <div className="mr-12 ml-auto text-right relative">
@@ -303,7 +303,7 @@ export default function ServicesPage() {
                             </div>
 
                             <div className="relative">
-                                <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center">
+                                <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-8 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center">
                                     <span className="text-white font-bold">3</span>
                                 </div>
                                 <div className="ml-12 relative">
@@ -317,7 +317,7 @@ export default function ServicesPage() {
                             </div>
 
                             <div className="relative">
-                                <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                                <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-8 w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
                                     <span className="text-white font-bold">4</span>
                                 </div>
                                 <div className="mr-12 ml-auto text-right relative">

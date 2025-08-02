@@ -2,11 +2,25 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";  
 import Link from "next/link";
-import { StickyScrollReveal } from "../ui/sticky-scroll-reveal";
+import { ScrollRevealSection } from "../../components/ui/scroll-reveal";
 import { FaRocket, FaUsers, FaLightbulb, FaTrophy, FaCode, FaMobile, FaServer, FaGlobe } from "react-icons/fa6";
-import { MeteorEffect } from "../ui/meteor-effect";
-import { Spotlight } from "../ui/spotlight";
-import { Sparkles } from "../ui/sparkles";
+import dynamic from 'next/dynamic';
+
+const MeteorEffect = dynamic(() => import('../../components/ui/meteor-effect').then((mod) => mod.MeteorEffect), {
+  loading: () => <div className="absolute inset-0 bg-gray-100 dark:bg-gray-900"></div>,
+  ssr: false,
+});
+
+const Spotlight = dynamic(() => import('../../components/ui/spotlight').then((mod) => mod.Spotlight), {
+  loading: () => <div className="w-full h-full bg-transparent"></div>,
+  ssr: false,
+});
+
+const Sparkles = dynamic(() => import('../../components/ui/sparkles').then((mod) => mod.Sparkles), {
+  loading: () => <div className="w-full h-full bg-gray-100 dark:bg-gray-900"></div>,
+  ssr: false,
+});
+
 import { useRef } from "react";
 
 export default function AboutSection() {
@@ -35,7 +49,7 @@ export default function AboutSection() {
           Digital Innovators Shaping the Future
         </h2>
         <p className="text-gray-600 dark:text-gray-400 mb-4">
-          Kawasan Digital was founded in 2016 with a vision to empower businesses through innovative digital solutions. Our journey began with a small team of passionate developers and has grown into a comprehensive digital solutions provider.
+          Kawasan Digital was founded in 2019 with a vision to empower businesses through innovative digital solutions. Our journey began with a small team of passionate developers and has grown into a comprehensive digital solutions provider.
         </p>
                   <p className="text-gray-600 dark:text-gray-400">
             Today, we&apos;re proud to be recognized as an industry leader, with a team of specialists working across multiple disciplines to deliver cutting-edge solutions to clients worldwide.
@@ -52,15 +66,15 @@ export default function AboutSection() {
             <Sparkles
               className="w-full h-full absolute inset-0"
               background="transparent"
-              minSize={0.8}
-              maxSize={1.5}
+              minSize={0.5}
+              maxSize={1.2}
               particleColor="#fff"
-              particleDensity={40}
-              speed={0.5}
+              particleDensity={20}
+              speed={0.3}
             >
               <div className="relative z-10 text-center p-8">
                 <h3 className="text-white text-4xl font-bold mb-4">
-                  8+ Years
+                  6+ Years
                 </h3>
                 <p className="text-white text-lg">
                   Delivering Digital Excellence
@@ -70,13 +84,13 @@ export default function AboutSection() {
           </div>
         </div>
         
-        {/* Floating 3D elements */}
+        {/* Floating 3D elements - Reduced for performance */}
         <motion.div 
-          className="absolute -top-10 -right-10 w-20 h-20 rounded-lg bg-gradient-to-br from-blue-400 to-purple-500 opacity-70"
+          className="absolute -top-10 -right-10 w-16 h-16 rounded-lg bg-gradient-to-br from-blue-400 to-purple-500 opacity-50"
           style={{ y: y1, rotate: rotate1 }}
         />
         <motion.div 
-          className="absolute -bottom-10 -left-10 w-16 h-16 rounded-full bg-gradient-to-tr from-purple-400 to-pink-500 opacity-70"
+          className="absolute -bottom-10 -left-10 w-12 h-12 rounded-full bg-gradient-to-tr from-purple-400 to-pink-500 opacity-50"
           style={{ y: y2, rotate: rotate2 }}
         />
       </div>
@@ -196,7 +210,7 @@ export default function AboutSection() {
             <div className="w-16 h-16 rounded-full overflow-hidden mx-auto mb-2 border-2 border-blue-500">
               <img src="https://placehold.co/200x200?text=CEO" alt="CEO" className="w-full h-full object-cover" />
             </div>
-            <p className="text-sm font-medium">Andi</p>
+            <p className="text-sm font-medium">Siro</p>
             <p className="text-xs text-gray-500">CEO</p>
           </motion.div>
           <motion.div 
@@ -207,7 +221,7 @@ export default function AboutSection() {
             <div className="w-16 h-16 rounded-full overflow-hidden mx-auto mb-2 border-2 border-purple-500">
               <img src="https://placehold.co/200x200?text=CTO" alt="CTO" className="w-full h-full object-cover" />
             </div>
-            <p className="text-sm font-medium">Siti</p>
+            <p className="text-sm font-medium">Rama</p>
             <p className="text-xs text-gray-500">CTO</p>
           </motion.div>
           <motion.div 
@@ -218,14 +232,14 @@ export default function AboutSection() {
             <div className="w-16 h-16 rounded-full overflow-hidden mx-auto mb-2 border-2 border-indigo-500">
               <img src="https://placehold.co/200x200?text=CD" alt="Creative Director" className="w-full h-full object-cover" />
             </div>
-            <p className="text-sm font-medium">Budi</p>
+            <p className="text-sm font-medium">Lutfi</p>
             <p className="text-xs text-gray-500">Creative</p>
           </motion.div>
         </div>
-        <div className="mt-6">
+        <div className="mt-6 relative z-10">
           <Link 
-            href="/about" 
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 font-medium hover:bg-indigo-100 dark:hover:bg-indigo-900/30 transition-colors"
+            href="/about#leadership" 
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 font-medium hover:bg-indigo-100 dark:hover:bg-indigo-900/30 transition-colors cursor-pointer"
           >
             Meet our full team
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
@@ -241,7 +255,7 @@ export default function AboutSection() {
             whileHover={{ scale: 1.05, y: -5 }}
           >
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">50+</div>
+              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">15+</div>
               <div className="text-sm text-gray-600 dark:text-gray-400">Team Members</div>
             </div>
           </motion.div>
@@ -250,7 +264,7 @@ export default function AboutSection() {
             whileHover={{ scale: 1.05, y: -5 }}
           >
             <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">100+</div>
+              <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">35+</div>
               <div className="text-sm text-gray-600 dark:text-gray-400">Projects</div>
             </div>
           </motion.div>
@@ -259,7 +273,7 @@ export default function AboutSection() {
             whileHover={{ scale: 1.05, y: -5 }}
           >
             <div className="text-center">
-              <div className="text-3xl font-bold text-green-600 dark:text-green-400">8+</div>
+              <div className="text-3xl font-bold text-green-600 dark:text-green-400">6+</div>
               <div className="text-sm text-gray-600 dark:text-gray-400">Years</div>
             </div>
           </motion.div>
@@ -276,29 +290,29 @@ export default function AboutSection() {
         
         {/* Floating 3D elements */}
         <motion.div 
-          className="absolute -top-10 -right-10 w-20 h-20 rounded-lg bg-gradient-to-br from-indigo-400 to-blue-500 opacity-70"
+          className="absolute -top-10 -right-10 w-20 h-20 rounded-lg bg-gradient-to-br from-indigo-400 to-blue-500 opacity-70 pointer-events-none"
           style={{ y: y1, rotate: rotate1 }}
         />
         <motion.div 
-          className="absolute -bottom-10 -left-10 w-16 h-16 rounded-full bg-gradient-to-tr from-pink-400 to-red-500 opacity-70"
+          className="absolute -bottom-10 -left-10 w-16 h-16 rounded-full bg-gradient-to-tr from-pink-400 to-red-500 opacity-70 pointer-events-none"
           style={{ y: y2, rotate: rotate2 }}
         />
       </div>
     </div>,
     
-    // Item 4: Our Services
-    <div key="services" className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    // Item 4: Our Expertise
+    <div key="expertise" className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
       <div className="md:order-2">
         <motion.span
           className="inline-block px-4 py-1.5 text-xs md:text-sm font-medium uppercase tracking-wider text-pink-700 dark:text-pink-400 bg-pink-100 dark:bg-pink-900/30 rounded-full mb-4"
         >
-          Our Services
+          Our Expertise
         </motion.span>
         <h2 className="text-3xl md:text-4xl font-bold mb-6 font-heading">
-          Comprehensive Digital Solutions
+          Building Digital Solutions That Matter
         </h2>
         <p className="text-gray-600 dark:text-gray-400 mb-6">
-          We offer a wide range of services to help businesses navigate the digital landscape and achieve their goals.
+          We specialize in delivering impactful digital products and platforms, tailored to your business needs.
         </p>
         <div className="grid grid-cols-2 gap-4">
           <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/10 transition-colors">
@@ -392,7 +406,7 @@ export default function AboutSection() {
       </div>
       
       <Spotlight
-        className="max-w-7xl mx-auto px-4 md:px-6 relative z-10"
+        className="max-w-7xl mx-auto px-4 md:px-6 py-4 relative z-10"
         fill="rgba(59, 130, 246, 0.15)"
       >
         <div className="max-w-3xl mx-auto text-center mb-16">
@@ -427,7 +441,7 @@ export default function AboutSection() {
         </div>
       </Spotlight>
       
-      <StickyScrollReveal items={scrollItems} />
+      <ScrollRevealSection items={scrollItems} />
       
       <div className="container mx-auto px-4 md:px-6 mt-16 text-center relative z-10">
         <motion.div
