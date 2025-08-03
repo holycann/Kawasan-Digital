@@ -8,6 +8,9 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { usePathname } from "next/navigation";
 import AppProvider from "../providers/AppProvider";
+import SITE_CONFIG, {
+  generateStructuredData
+} from "@/utils/metadata";
 import { Toast } from "@/components/ui/toast";
 
 const montserrat = Montserrat({
@@ -23,27 +26,26 @@ const poppins = Poppins({
   display: "swap",
 });
 
-// export const metadata = {
-//   title: "Kawasan Digital - Digital Innovation Partner",
-//   description: "Kawasan Digital specializes in digital innovation through app development, website creation, and SaaS solutions.",
-//   icons: {
-//     icon: [
-//       { url: "/Logo.png", type: "image/png" },
-//       { url: "/Logo.png", sizes: "32x32", type: "image/png" },
-//       { url: "/Logo.png", sizes: "16x16", type: "image/png" },
-//     ],
-//     shortcut: "/Logo.png",
-//     apple: "/Logo.png",
-//   },
-// };
 
 export default function RootLayout({ children }) {
-
   const pathname = usePathname();
   const isDashboard = pathname.startsWith("/dashboard");
   const isLogin = pathname.startsWith("/login");
+
+  const structuredData = generateStructuredData('WebSite', {
+    name: SITE_CONFIG.name,
+    url: SITE_CONFIG.openGraph.url,
+    description: SITE_CONFIG.description
+  });
+
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: structuredData }}
+        />
+      </head>
       <body
         className={`${montserrat.variable} ${poppins.variable} antialiased min-h-screen flex flex-col`}
       >
