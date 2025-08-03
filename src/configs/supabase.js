@@ -4,7 +4,7 @@ import { z } from 'zod';
 // Environment variable validation schema
 const SupabaseConfigSchema = z.object({
     NEXT_PUBLIC_SUPABASE_URL: z.string().url('Invalid Supabase URL'),
-    NEXT_PUBLIC_SUPABASE_SECRET_KEY: z.string().min(1, 'Supabase Anon Key is required')
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1, 'Supabase Anon Key is required')
 });
 
 // Validate Supabase configuration
@@ -12,7 +12,7 @@ const validateSupabaseConfig = () => {
     try {
         const config = SupabaseConfigSchema.parse({
             NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-            NEXT_PUBLIC_SUPABASE_SECRET_KEY: process.env.NEXT_PUBLIC_SUPABASE_SECRET_KEY
+            NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
         });
         return config;
     } catch (error) {
@@ -22,10 +22,10 @@ const validateSupabaseConfig = () => {
 };
 
 // Validate and extract configuration
-const { NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_SECRET_KEY } = validateSupabaseConfig();
+const { NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY } = validateSupabaseConfig();
 
 // Create a single Supabase client for interacting with your database
-export const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_SECRET_KEY, {
+export const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, {
     db: {
         schema: 'company_profile',
     },
@@ -34,6 +34,16 @@ export const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPAB
     },
     global: {
         headers: { 'x-app-name': 'kawasan-digital' },
+    },
+});
+
+// Create a Supabase client specifically for authentication
+export const supabaseAuth = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, {
+    auth: {
+        persistSession: true,
+    },
+    global: {
+        headers: { 'x-app-name': 'kawasan-digital-auth' },
     },
 });
 
@@ -137,5 +147,18 @@ export const supabaseHelpers = {
                 ...options
             });
         }
+    },
+
+    // Authentication-specific error handling
+    handleAuthError: (error, context = {}) => {
+        const authErrorLog = {
+            message: error.message,
+            name: error.name,
+            ...context
+        };
+
+        console.error('Supabase Auth Error:', JSON.stringify(authErrorLog, null, 2));
+
+        return null;
     },
 };

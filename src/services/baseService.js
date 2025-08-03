@@ -102,13 +102,18 @@ export const baseService = {
      */
     delete: async (table, id) => {
         try {
+            console.log(`Attempting to delete record from ${table} with ID: ${id}`);
             const { error } = await supabase
                 .from(table)
                 .delete()
                 .eq('id', id);
 
-            if (error) throw error;
+            if (error) {
+                console.error(`Error deleting from ${table}:`, error);
+                throw error;
+            }
 
+            console.log(`Successfully deleted record from ${table} with ID: ${id}`);
             return { success: true, id };
         } catch (error) {
             console.error(`Error deleting from ${table}:`, error);

@@ -27,7 +27,7 @@ export default function Footer() {
       </div>
       
       {/* Newsletter section */}
-      <div className="relative border-b border-gray-200 dark:border-gray-800">
+      {/* <div className="relative border-b border-gray-200 dark:border-gray-800">
         <div className="container mx-auto px-4 md:px-6 py-16">
           <div className="max-w-4xl mx-auto text-center">
             <motion.h2 
@@ -66,7 +66,7 @@ export default function Footer() {
             </motion.div>
           </div>
         </div>
-      </div>
+      </div> */}
       
       {/* Main footer content */}
       <div className="relative container mx-auto px-4 md:px-6 py-12">
@@ -88,15 +88,15 @@ export default function Footer() {
                 and SaaS solutions. Let&apos;s transform your ideas into reality.
               </p>
               <div className="flex gap-4">
-                <a href="https://linkedin.com" className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-blue-700 hover:text-white transition-all">
+                <a href="https://www.linkedin.com/in/kawasan-digital-10583336a/" className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-blue-700 hover:text-white transition-all">
                   <FaLinkedin size={18} />
                   <span className="sr-only">LinkedIn</span>
                 </a>
-                <a href="https://instagram.com" className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-pink-600 hover:text-white transition-all">
+                <a href="https://www.instagram.com/kawasandigitalid/" className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-pink-600 hover:text-white transition-all">
                   <FaInstagram size={18} />
                   <span className="sr-only">Instagram</span>
                 </a>
-                <a href="https://github.com" className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-900 hover:text-white transition-all">
+                <a href="https://github.com/Kawasan-Digital" className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-900 hover:text-white transition-all">
                   <FaGithub size={18} />
                   <span className="sr-only">GitHub</span>
                 </a>
@@ -123,16 +123,16 @@ export default function Footer() {
                     Portfolio
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link href="/careers" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                     Careers
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </motion.div>
           </div>
           
-          <div className="md:col-span-2">
+          {/* <div className="md:col-span-2">
             <motion.div {...fadeInUp}>
               <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-4 font-heading">Resources</h3>
               <ul className="space-y-3">
@@ -158,7 +158,7 @@ export default function Footer() {
                 </li>
               </ul>
             </motion.div>
-          </div>
+          </div> */}
           
           <div className="md:col-span-3">
             <motion.div {...fadeInUp}>
@@ -167,20 +167,20 @@ export default function Footer() {
                 <li className="flex items-start gap-3">
                   <FaMapMarkerAlt className="mt-1 text-blue-600 dark:text-blue-400 flex-shrink-0" />
                   <span className="text-gray-600 dark:text-gray-400">
-                    123 Digital Street<br />
-                    Tech City, TC 12345
+                    Jl. Kawasan Teknologi No.88<br />
+                    Bekasi, Indonesia
                   </span>
                 </li>
                 <li className="flex items-center gap-3">
                   <FaEnvelope className="text-blue-600 dark:text-blue-400 flex-shrink-0" />
-                  <a href="mailto:info@kawasandigital.com" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                    info@kawasandigital.com
+                  <a href="mailto:support@kawasan.digital" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                    support@kawasan.digital
                   </a>
                 </li>
                 <li className="flex items-center gap-3">
                   <FaPhone className="text-blue-600 dark:text-blue-400 flex-shrink-0" />
-                  <a href="tel:+6281234567890" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                    +62 812 3456 7890
+                  <a href="https://wa.me/6289678449941" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                    +62 896 7844 9999
                   </a>
                 </li>
               </ul>

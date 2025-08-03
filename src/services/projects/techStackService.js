@@ -52,12 +52,12 @@ export const techStackService = {
     fetchProjectTechStack: async (projectId) => {
         try {
             const result = await baseService.fetchWithOptions(
-                PROJECT_TECH_STACK_TABLE, 
+                PROJECT_TECH_STACK_TABLE,
                 {
                     filters: { project_id: projectId },
                     select: `
-                        project_id,
-                        tech_id (
+                        *,
+                        tech_stack (
                             id,
                             tech_name,
                             tech_category,
@@ -111,30 +111,30 @@ export const techStackService = {
         try {
             // If specific tech IDs are provided, filter by those
             const options = {
-                filters: { 
+                filters: {
                     project_id: projectId,
-                    ...(techIds && { 
-                        tech_id: Array.isArray(techIds) ? techIds : [techIds] 
+                    ...(techIds && {
+                        tech_id: Array.isArray(techIds) ? techIds : [techIds]
                     })
                 }
             };
 
             const { data } = await baseService.fetchWithOptions(
-                PROJECT_TECH_STACK_TABLE, 
+                PROJECT_TECH_STACK_TABLE,
                 options
             );
 
             // Delete the fetched records
-            const deletePromises = data.map(record => 
+            const deletePromises = data.map(record =>
                 baseService.delete(PROJECT_TECH_STACK_TABLE, record.id)
             );
 
             await Promise.all(deletePromises);
 
-            return { 
-                success: true, 
-                projectId, 
-                removedTechIds: techIds 
+            return {
+                success: true,
+                projectId,
+                removedTechIds: techIds
             };
         } catch (error) {
             console.error('Error removing project tech stack:', error);

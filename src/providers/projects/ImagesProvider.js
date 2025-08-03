@@ -10,6 +10,22 @@ export const ProjectImagesProvider = ({ children, projectId }) => {
 
     // Fetch project images
     const fetchProjectImages = useCallback(async (options = {}) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await imagesService.fetchProjectImages(options);
+            setImages(response);
+            return response;
+        } catch (err) {
+            setError(err);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    // Fetch project images by project ID
+    const fetchProjectImagesByProjectId = useCallback(async (options = {}) => {
         if (!projectId) {
             throw new Error('Project ID is required to fetch images');
         }
@@ -17,7 +33,7 @@ export const ProjectImagesProvider = ({ children, projectId }) => {
         setLoading(true);
         setError(null);
         try {
-            const response = await imagesService.fetchProjectImages(projectId, options);
+            const response = await imagesService.fetchProjectImagesByProjectId(projectId, options);
             setImages(response);
             return response;
         } catch (err) {
@@ -114,6 +130,7 @@ export const ProjectImagesProvider = ({ children, projectId }) => {
         loading,
         error,
         fetchProjectImages,
+        fetchProjectImagesByProjectId,
         uploadProjectImage,
         updateProjectImage,
         deleteProjectImage,

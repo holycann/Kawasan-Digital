@@ -5,6 +5,9 @@ import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { FaEnvelope, FaLocationDot, FaPaperPlane, FaWhatsapp, FaInstagram } from "react-icons/fa6";
 import dynamic from 'next/dynamic';
+import emailjs from '@emailjs/browser';
+import { toast } from 'sonner';
+import ReCAPTCHA from "react-google-recaptcha";
 
 const Spotlight = dynamic(() => import('../../components/ui/spotlight').then((mod) => mod.Spotlight), {
   loading: () => <div className="w-full h-full bg-transparent"></div>,
@@ -17,12 +20,22 @@ const SparklesCore = dynamic(() => import('../../components/ui/sparkles').then((
 });
 
 export default function ContactSection() {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const { 
+    register, 
+    handleSubmit, 
+    formState: { errors }, 
+    reset 
+  } = useForm();
+  
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [recaptchaValue, setRecaptchaValue] = useState(null);
   const controls = useAnimation();
-  
+
   useEffect(() => {
+    // Initialize EmailJS with your user ID
+    emailjs.init({ publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY });
+
     controls.start({
       y: [0, -10, 0],
       transition: {
@@ -33,23 +46,88 @@ export default function ContactSection() {
       }
     });
   }, [controls]);
-  
+
   const onSubmit = async (data) => {
+    // Verify reCAPTCHA first
+    if (!recaptchaValue) {
+      toast.error('Please complete the reCAPTCHA verification');
+      return;
+    }
+
     setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    console.log(data);
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    reset();
-    
-    setTimeout(() => {
-      setIsSubmitted(false);
-    }, 5000);
+
+    try {
+      // Prepare email template data
+      const templateParams = {
+        time: new Date().toLocaleString(),
+        name: data.name,
+        email: data.email,
+        phone: data.phone || 'Not provided',
+        title: data.subject,
+        message: data.message,
+        'g-recaptcha-response': recaptchaValue
+      };
+
+      // Send email using EmailJS
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID, 
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID, 
+        templateParams
+      );
+
+      // Show success toast
+      toast.success('Message sent successfully!', {
+        description: 'We will get back to you soon.'
+      });
+
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+      reset();
+      setRecaptchaValue(null);
+
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 5000);
+    } catch (error) {
+      // Show error toast
+      toast.error('Failed to send message', {
+        description: 'Please try again later.'
+      });
+      console.error('Email send error:', error);
+      setIsSubmitting(false);
+    }
   };
-  
+
+  // Custom validation functions
+  const validateEmail = (value) => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return emailRegex.test(value) || "Invalid email address";
+  };
+
+  const validatePhone = (value) => {
+    // Optional phone validation: must be a number and at least 5 digits if provided
+    if (!value) return true;
+    const phoneRegex = /^\d{5,}$/;
+    return phoneRegex.test(value.replace(/\s+/g, '')) || "Phone must be at least 5 digits";
+  };
+
+  const validateSubject = (value) => {
+    // Must have at least one word (trim to remove extra spaces)
+    return (value.trim().split(/\s+/).length >= 1) || "Subject must be at least one word";
+  };
+
+  const validateMessage = (value) => {
+    // Must have at least two words (trim to remove extra spaces)
+    return (value.trim().split(/\s+/).length >= 2) || "Message must be at least two words";
+  };
+
+  // New validation for name
+  const validateName = (value) => {
+    // Remove spaces and check if at least 2 letters remain
+    const cleanName = value.replace(/\s+/g, '');
+    return (cleanName.length >= 2) || "Name must be at least 2 letters long";
+  };
+
   return (
     <section id="contact" className="py-20 relative overflow-hidden">
       {/* Background with gradient and sparkles */}
@@ -65,14 +143,14 @@ export default function ContactSection() {
           particleColor="#4f46e5"
         />
       </div>
-      
+
       {/* 3D decorative elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <motion.div 
+        <motion.div
           className="absolute top-20 right-20 w-40 h-40 rounded-full bg-gradient-to-br from-blue-400/20 to-purple-500/20 blur-3xl"
           animate={controls}
         />
-        <motion.div 
+        <motion.div
           className="absolute bottom-20 left-20 w-40 h-40 rounded-full bg-gradient-to-tr from-purple-400/20 to-pink-500/20 blur-3xl"
           animate={{
             y: [0, 10, 0],
@@ -86,7 +164,7 @@ export default function ContactSection() {
           }}
         />
       </div>
-      
+
       <Spotlight
         className="max-w-7xl mx-auto px-4 md:px-6 relative z-10"
         fill="rgba(59, 130, 246, 0.15)"
@@ -125,7 +203,7 @@ export default function ContactSection() {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-16">
           <div className="lg:col-span-2">
             <div className="space-y-8">
-              <motion.div 
+              <motion.div
                 className="bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all border border-gray-100 dark:border-gray-700"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -139,8 +217,8 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <h3 className="font-medium mb-1">Email Us</h3>
-                    <p className="text-gray-600 dark:text-gray-400">support@kawasandigital.id</p>
-                    <a href="mailto:support@kawasandigital.id" className="text-blue-600 dark:text-blue-400 text-sm mt-2 inline-flex items-center gap-1 hover:gap-2 transition-all">
+                    <p className="text-gray-600 dark:text-gray-400">support@kawasan.digital</p>
+                    <a href="mailto:support@kawasan.digital" className="text-blue-600 dark:text-blue-400 text-sm mt-2 inline-flex items-center gap-1 hover:gap-2 transition-all">
                       Send an email
                       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -149,8 +227,8 @@ export default function ContactSection() {
                   </div>
                 </div>
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 className="bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all border border-gray-100 dark:border-gray-700"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -164,8 +242,8 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <h3 className="font-medium mb-1">WhatsApp</h3>
-                    <p className="text-gray-600 dark:text-gray-400">+62 812 3456 7890</p>
-                    <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" className="text-green-600 dark:text-green-400 text-sm mt-2 inline-flex items-center gap-1 hover:gap-2 transition-all">
+                    <p className="text-gray-600 dark:text-gray-400">+62 896 7844 9999</p>
+                    <a href="https://wa.me/6289678449941" target="_blank" rel="noopener noreferrer" className="text-green-600 dark:text-green-400 text-sm mt-2 inline-flex items-center gap-1 hover:gap-2 transition-all">
                       Chat with us
                       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -174,8 +252,8 @@ export default function ContactSection() {
                   </div>
                 </div>
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 className="bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all border border-gray-100 dark:border-gray-700"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -189,8 +267,8 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <h3 className="font-medium mb-1">Social Media</h3>
-                    <p className="text-gray-600 dark:text-gray-400">@kawasandigital</p>
-                    <a href="https://instagram.com/kawasandigital" target="_blank" rel="noopener noreferrer" className="text-purple-600 dark:text-purple-400 text-sm mt-2 inline-flex items-center gap-1 hover:gap-2 transition-all">
+                    <p className="text-gray-600 dark:text-gray-400">@kawasandigitalid</p>
+                    <a href="https://www.instagram.com/kawasandigitalid" target="_blank" rel="noopener noreferrer" className="text-purple-600 dark:text-purple-400 text-sm mt-2 inline-flex items-center gap-1 hover:gap-2 transition-all">
                       Follow us
                       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -199,8 +277,8 @@ export default function ContactSection() {
                   </div>
                 </div>
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 className="bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all border border-gray-100 dark:border-gray-700"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -229,7 +307,7 @@ export default function ContactSection() {
               </motion.div>
             </div>
           </div>
-          
+
           <div className="lg:col-span-3">
             <motion.div
               className="bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 md:p-8 border border-gray-200 dark:border-gray-700"
@@ -239,15 +317,15 @@ export default function ContactSection() {
               transition={{ duration: 0.6 }}
             >
               <h3 className="text-xl font-bold mb-6 font-heading">Send us a message</h3>
-              
+
               {isSubmitted ? (
-                <motion.div 
+                <motion.div
                   className="text-center py-16"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <motion.div 
+                  <motion.div
                     className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6 text-green-600 dark:text-green-400"
                     initial={{ scale: 0 }}
                     animate={{ scale: [0, 1.2, 1] }}
@@ -275,10 +353,10 @@ export default function ContactSection() {
                           type="text"
                           className={`w-full px-4 py-3 rounded-lg border ${errors.name ? 'border-red-500 dark:border-red-500' : 'border-gray-300 dark:border-gray-600'} focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 backdrop-blur-sm transition-all`}
                           placeholder="Your name"
-                          {...register("name", { required: "Name is required" })}
+                          {...register("name", { required: "Name is required", validate: validateName })}
                         />
                         {errors.name && (
-                          <motion.p 
+                          <motion.p
                             className="mt-1 text-sm text-red-500"
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -298,16 +376,13 @@ export default function ContactSection() {
                           type="email"
                           className={`w-full px-4 py-3 rounded-lg border ${errors.email ? 'border-red-500 dark:border-red-500' : 'border-gray-300 dark:border-gray-600'} focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 backdrop-blur-sm transition-all`}
                           placeholder="Your email"
-                          {...register("email", { 
+                          {...register("email", {
                             required: "Email is required",
-                            pattern: {
-                              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                              message: "Invalid email address"
-                            }
+                            validate: validateEmail
                           })}
                         />
                         {errors.email && (
-                          <motion.p 
+                          <motion.p
                             className="mt-1 text-sm text-red-500"
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -318,7 +393,33 @@ export default function ContactSection() {
                       </div>
                     </div>
                   </div>
-                  
+
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Phone (Optional)
+                    </label>
+                    <div className="relative">
+                      <input
+                        id="phone"
+                        type="tel"
+                        className={`w-full px-4 py-3 rounded-lg border ${errors.phone ? 'border-red-500 dark:border-red-500' : 'border-gray-300 dark:border-gray-600'} focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 backdrop-blur-sm transition-all`}
+                        placeholder="Your phone number"
+                        {...register("phone", {
+                          validate: validatePhone
+                        })}
+                      />
+                      {errors.phone && (
+                        <motion.p
+                          className="mt-1 text-sm text-red-500"
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                        >
+                          {errors.phone.message}
+                        </motion.p>
+                      )}
+                    </div>
+                  </div>
+
                   <div>
                     <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Subject
@@ -329,10 +430,13 @@ export default function ContactSection() {
                         type="text"
                         className={`w-full px-4 py-3 rounded-lg border ${errors.subject ? 'border-red-500 dark:border-red-500' : 'border-gray-300 dark:border-gray-600'} focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 backdrop-blur-sm transition-all`}
                         placeholder="Subject of your message"
-                        {...register("subject", { required: "Subject is required" })}
+                        {...register("subject", { 
+                          required: "Subject is required",
+                          validate: validateSubject
+                        })}
                       />
                       {errors.subject && (
-                        <motion.p 
+                        <motion.p
                           className="mt-1 text-sm text-red-500"
                           initial={{ opacity: 0, y: -10 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -342,7 +446,7 @@ export default function ContactSection() {
                       )}
                     </div>
                   </div>
-                  
+
                   <div>
                     <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Message
@@ -353,10 +457,13 @@ export default function ContactSection() {
                         className={`w-full px-4 py-3 rounded-lg border ${errors.message ? 'border-red-500 dark:border-red-500' : 'border-gray-300 dark:border-gray-600'} focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 backdrop-blur-sm transition-all`}
                         rows="5"
                         placeholder="Your message"
-                        {...register("message", { required: "Message is required" })}
+                        {...register("message", { 
+                          required: "Message is required",
+                          validate: validateMessage
+                        })}
                       ></textarea>
                       {errors.message && (
-                        <motion.p 
+                        <motion.p
                           className="mt-1 text-sm text-red-500"
                           initial={{ opacity: 0, y: -10 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -366,7 +473,14 @@ export default function ContactSection() {
                       )}
                     </div>
                   </div>
-                  
+
+                  <div className="mb-4">
+                    <ReCAPTCHA
+                      sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                      onChange={setRecaptchaValue}
+                    />
+                  </div>
+
                   <motion.button
                     type="submit"
                     className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg flex items-center justify-center space-x-2 disabled:opacity-70"
@@ -394,7 +508,7 @@ export default function ContactSection() {
             </motion.div>
           </div>
         </div>
-        
+
         {/* Map section */}
         <motion.div
           className="mt-20 bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700"

@@ -6,18 +6,28 @@ const PROJECT_IMAGES_TABLE = 'project_images';
  * Images service for managing project image-related operations
  */
 export const imagesService = {
+
     /**
-     * Fetch images for a specific project
-     * @param {string} projectId - ID of the project
-     * @param {Object} options - Optional fetch options
-     * @returns {Promise} Fetched project images
+     * Fetch all project images
+     * @returns {Promise} All project images
      */
-    fetchProjectImages: async (projectId, options = {}) => {
+    fetchProjectImages: async () => {
+        return baseService.fetchWithOptions(PROJECT_IMAGES_TABLE, {
+            orderBy: 'image_order',
+            ascending: true
+        });
+    },
+
+    /**
+     * Fetch project images by project ID
+     * @param {string} projectId - ID of the project
+     * @returns {Promise} Project images for specific project
+     */
+    fetchProjectImagesByProjectId: async (projectId) => {
         return baseService.fetchWithOptions(PROJECT_IMAGES_TABLE, {
             filters: { project_id: projectId },
             orderBy: 'image_order',
-            ascending: true,
-            ...options
+            ascending: true
         });
     },
 

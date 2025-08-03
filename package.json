@@ -16,6 +16,9 @@
     "seed:drop": "node scripts/seeder.js --drop"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "@radix-ui/react-alert-dialog": "^1.1.14",
+    "@radix-ui/react-select": "^2.2.5",
     "@react-three/drei": "^10.2.0",
     "@react-three/fiber": "^9.1.2",
     "@supabase/supabase-js": "^2.53.0",
@@ -31,6 +34,7 @@
     "next": "15.3.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-google-recaptcha": "^3.1.0",
     "react-hook-form": "^7.57.0",
     "react-icons": "^5.5.0",
     "sharp": "^0.34.3",

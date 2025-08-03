@@ -32,6 +32,53 @@ WITH project_data AS (
                     }'::JSONB
                 ),
                 jsonb_build_object(
+                    'story_section', 'developmentProcess',
+                    'story_content', '{
+                        "planning": [
+                            "Analysis of car rental service requirements",
+                            "Mapping user journey for customers booking vehicles", 
+                            "Planning website structure for fleet showcase and booking"
+                        ],
+                        "design": [
+                            "Responsive design for fleet showcase and booking system",
+                            "Implementation of service categories and testimonials",
+                            "Performance optimization for loading vehicle images"
+                        ]
+                    }'::JSONB,
+                    'story_type', 'Development Strategy',
+                    'story_impact', '{
+                        "processApproach": ["User-Centric Design", "Iterative Development"],
+                        "keyMethodologies": ["Agile Methodology", "Continuous Optimization"]
+                    }'::JSONB
+                ),
+                jsonb_build_object(
+                    'story_section', 'keyFeatures',
+                    'story_content', '{
+                        "features": [
+                            {
+                                "title": "Fleet Showcase",
+                                "description": "Displaying various car rental options with complete details and specifications.",
+                                "icon": "fleet"
+                            },
+                            {
+                                "title": "Easy Booking System", 
+                                "description": "Simple and fast booking process for customers to rent vehicles.",
+                                "icon": "booking"
+                            },
+                            {
+                                "title": "Service Categories",
+                                "description": "Organized service categories including daily/weekly rental, airport pickup, and special events.",
+                                "icon": "services"
+                            }
+                        ]
+                    }'::JSONB,
+                    'story_type', 'Product Features',
+                    'story_impact', '{
+                        "featureInnovation": ["Comprehensive Service Offering", "User-Friendly Interface"],
+                        "competitiveAdvantage": ["Streamlined Booking", "Detailed Service Information"]
+                    }'::JSONB
+                ),
+                jsonb_build_object(
                     'story_section', 'performanceResults',
                     'story_content', '{
                         "performanceScore": 98,
@@ -91,6 +138,53 @@ WITH project_data AS (
                     'story_impact', '{
                         "challengeComplexity": "High",
                         "solutionInnovation": ["Responsive Design", "SEO Optimization"]
+                    }'::JSONB
+                ),
+                jsonb_build_object(
+                    'story_section', 'developmentProcess',
+                    'story_content', '{
+                        "planning": [
+                            "Competitor analysis and market research",
+                            "User persona development and user journey mapping",
+                            "Technical requirements and architecture planning"
+                        ],
+                        "design": [
+                            "Wireframing and prototyping with Figma",
+                            "Responsive design implementation",
+                            "Performance optimization and testing"
+                        ]
+                    }'::JSONB,
+                    'story_type', 'Development Strategy',
+                    'story_impact', '{
+                        "processApproach": ["Data-Driven Design", "User-Centric Development"],
+                        "keyMethodologies": ["Design Thinking", "Iterative Prototyping"]
+                    }'::JSONB
+                ),
+                jsonb_build_object(
+                    'story_section', 'keyFeatures',
+                    'story_content', '{
+                        "features": [
+                            {
+                                "title": "Responsive Design",
+                                "description": "Perfect experience across all devices - desktop, tablet, and mobile.",
+                                "icon": "responsive"
+                            },
+                            {
+                                "title": "Fast Performance", 
+                                "description": "Optimized for speed with lazy loading and efficient code structure.",
+                                "icon": "performance"
+                            },
+                            {
+                                "title": "SEO Optimized",
+                                "description": "Built with SEO best practices for better search engine visibility.",
+                                "icon": "seo"
+                            }
+                        ]
+                    }'::JSONB,
+                    'story_type', 'Product Features',
+                    'story_impact', '{
+                        "featureInnovation": ["Cross-Device Compatibility", "Performance Optimization"],
+                        "competitiveAdvantage": ["Technical Excellence", "Search Engine Visibility"]
                     }'::JSONB
                 ),
                 jsonb_build_object(
@@ -156,6 +250,53 @@ WITH project_data AS (
                     }'::JSONB
                 ),
                 jsonb_build_object(
+                    'story_section', 'developmentProcess',
+                    'story_content', '{
+                        "planning": [
+                            "Analysis of biometric security product showcase needs",
+                            "Mapping user journey for customers seeking security solutions",
+                            "Planning website structure to display various product categories"
+                        ],
+                        "design": [
+                            "Responsive design for SUPREMA, CMITECH, SECURE TOP product showcase",
+                            "Implementation of sliders and galleries for flagship products",
+                            "Performance optimization for loading multiple product images"
+                        ]
+                    }'::JSONB,
+                    'story_type', 'Development Strategy',
+                    'story_impact', '{
+                        "processApproach": ["Product-Centric Design", "Technical Optimization"],
+                        "keyMethodologies": ["User Experience Focus", "Performance Engineering"]
+                    }'::JSONB
+                ),
+                jsonb_build_object(
+                    'story_section', 'keyFeatures',
+                    'story_content', '{
+                        "features": [
+                            {
+                                "title": "Product Showcase",
+                                "description": "Displaying flagship products like Bioentry W3, BioStation 3, and FaceStation F2 with complete details.",
+                                "icon": "products"
+                            },
+                            {
+                                "title": "Responsive Design", 
+                                "description": "Responsive website for easy access on desktop, tablet, and mobile devices.",
+                                "icon": "responsive"
+                            },
+                            {
+                                "title": "Professional Layout",
+                                "description": "Professional layout that reflects the quality of biometric and security products.",
+                                "icon": "professional"
+                            }
+                        ]
+                    }'::JSONB,
+                    'story_type', 'Product Features',
+                    'story_impact', '{
+                        "featureInnovation": ["Comprehensive Product Display", "Cross-Device Accessibility"],
+                        "competitiveAdvantage": ["Technical Credibility", "Visual Professionalism"]
+                    }'::JSONB
+                ),
+                jsonb_build_object(
                     'story_section', 'performanceResults',
                     'story_content', '{
                         "performanceScore": 92,
@@ -206,18 +347,13 @@ WITH project_data AS (
     FROM company_profile.projects p
 )
 
-INSERT INTO company_profile.project_stories (
-    project_id,
-    story_section,
-    story_content,
-    story_type,
-    story_impact
-)
-SELECT
-    project_id,
-    h ->> 'story_section',
-    h -> 'story_content',
-    h ->> 'story_type',
-    h -> 'story_impact'
-FROM project_data,
-LATERAL unnest(stories) AS h;
+INSERT INTO
+    company_profile.project_stories (
+        project_id,
+        story_section,
+        story_content,
+        story_type,
+        story_impact
+    )
+SELECT project_id, h ->> 'story_section', h -> 'story_content', h ->> 'story_type', h -> 'story_impact'
+FROM project_data, LATERAL unnest (stories) AS h;

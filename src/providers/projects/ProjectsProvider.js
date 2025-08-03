@@ -6,6 +6,7 @@ import { projectsService } from '@/services/projects';
 export const ProjectsProvider = ({ children }) => {
     const [projects, setProjects] = useState([]);
     const [currentProject, setCurrentProjectState] = useState(null);
+    const [projectDetails, setProjectDetails] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -95,9 +96,8 @@ export const ProjectsProvider = ({ children }) => {
         try {
             const projectDetails = await projectsService.fetchFullProjectDetails(projectId);
 
-            console.log("PROJECT DETAILS:", projectDetails);
-            // Update current project
-            setCurrentProjectState(projectDetails.project);
+            // Update project details
+            setProjectDetails(projectDetails);
             return projectDetails;
         } catch (err) {
             setError(err);
@@ -116,6 +116,7 @@ export const ProjectsProvider = ({ children }) => {
     const contextValue = {
         projects,
         currentProject,
+        projectDetails,
         loading,
         error,
         fetchProjects,

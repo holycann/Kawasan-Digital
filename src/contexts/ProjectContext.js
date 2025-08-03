@@ -4,6 +4,7 @@ import React, { createContext } from 'react';
 export const ProjectsContext = createContext({
     projects: [],
     currentProject: null,
+    projectDetails: null,
     loading: false,
     error: null,
     fetchProjects: async () => { },
@@ -45,6 +46,7 @@ export const ProjectImagesContext = createContext({
     loading: false,
     error: null,
     fetchProjectImages: async () => { },
+    fetchProjectImagesByProjectId: async () => { },
     uploadProjectImage: async () => { },
     updateProjectImage: async () => { },
     deleteProjectImage: async () => { },

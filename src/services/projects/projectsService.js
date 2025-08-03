@@ -84,7 +84,7 @@ export const projectsService = {
                 highlights,
                 stories
             ] = await Promise.all([
-                imagesService.fetchProjectImages(projectId),
+                imagesService.fetchProjectImagesByProjectId(projectId),
                 techStackService.fetchProjectTechStack(projectId),
                 highlightsService.fetchProjectHighlights(projectId),
                 storiesService.fetchProjectStories(projectId)
@@ -93,10 +93,10 @@ export const projectsService = {
             // Combine all results
             return {
                 project,
-                images,
+                images: images.data,
                 techStack,
-                highlights,
-                stories
+                highlights: highlights.data,
+                stories: stories.data
             };
         } catch (error) {
             console.error('Error fetching full project details:', error);
