@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { ProjectForm } from '../../../components/ProjectForm';
+import { ProjectForm } from '../components/ProjectForm';
 import { ProjectHooks } from '@/providers/projects';
 
 export default function EditProjectPage() {
