@@ -43,15 +43,9 @@ const testimonials = [
 export default function TestimonialsSection() {
   // List of example company logos from /public
   const companyLogos = [
-    { src: "/next.svg", alt: "Next.js" },
-    { src: "/logo.png", alt: "Window" },
-    { src: "/Client1.png", alt: "File" },
-    { src: "/apple.svg", alt: "Apple" },
-    { src: "/Client2.png", alt: "Globe" },
-    { src: "/Client3.png", alt: "Vercel" },
-    { src: "/google.webp", alt: "Google" },
-    { src: "/Microsoft.png", alt: "Microsoft" },
-    
+    { src: "/Client1.png", alt: "File", width: 120, height: 60 },
+    { src: "/Client2.png", alt: "Globe", width: 60, height: 60 },
+    { src: "/Client3.png", alt: "Vercel", width: 200, height: 60 },
   ];
 
   const [showButton, setShowButton] = useState(false);
@@ -102,7 +96,7 @@ export default function TestimonialsSection() {
           onClick={() => setShowButton(true)}
         >
           <motion.div
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 py-10"
+            className="grid grid-cols-2 md:grid-cols-3 gap-8 py-10"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -116,9 +110,9 @@ export default function TestimonialsSection() {
                 <Image
                   src={logo.src}
                   alt={logo.alt}
-                  width={140}
-                  height={60}
-                  className="object-contain max-h-20 transition-all duration-300"
+                  width={logo.width}
+                  height={logo.height}
+                  className="object-contain transition-all duration-300"
                   style={{ 
                     filter: logo.src.includes('Client1') || logo.src.includes('apple') || logo.src.includes('next') || logo.src.includes('logo') 
                       ? 'brightness(0) invert(1)' 

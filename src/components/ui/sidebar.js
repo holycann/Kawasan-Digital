@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import { SidebarProvider } from "@/providers/SidebarProvider";
 import { useSidebar } from "@/hooks/useSidebar";
+import Link from "next/link";
 
 export const Sidebar = ({
     children,
@@ -105,20 +106,48 @@ export const SidebarLink = ({
     ...props
 }) => {
     const { open, animate } = useSidebar();
+    const handleClick = (e) => {
+        if (link.onClick) {
+            e.preventDefault();
+            link.onClick();
+        }
+    };
+
     return (
-        <a
-            href={link.href}
-            className={cn("flex items-center justify-start gap-2  group/sidebar py-2", className)}
-            {...props}>
-            {link.icon}
-            <motion.span
-                animate={{
-                    display: animate ? (open ? "inline-block" : "none") : "inline-block",
-                    opacity: animate ? (open ? 1 : 0) : 1,
-                }}
-                className="text-neutral-700 dark:text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0">
-                {link.label}
-            </motion.span>
-        </a>
+        <div className="relative">
+            <Link
+                href={link.href}
+                onClick={handleClick}
+                className={cn("flex items-center justify-start gap-2 group/sidebar py-2", className)}
+                {...props}>
+                {link.icon}
+                <motion.span
+                    animate={{
+                        display: animate ? (open ? "inline-block" : "none") : "inline-block",
+                        opacity: animate ? (open ? 1 : 0) : 1,
+                    }}
+                    className="text-neutral-700 dark:text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0">
+                    {link.label}
+                </motion.span>
+            </Link>
+            {link.sublinks && link.sublinks.length > 0 && (
+                <div className={cn(
+                    "pl-6 space-y-2 mt-2", 
+                    animate ? (open ? "block" : "hidden") : "block"
+                )}>
+                    {link.sublinks.map((sublink, index) => (
+                        <Link
+                            key={index}
+                            href={sublink.href}
+                            onClick={sublink.onClick}
+                            className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-300 hover:text-neutral-800 dark:hover:text-neutral-100 transition-colors"
+                        >
+                            {sublink.icon}
+                            <span>{sublink.label}</span>
+                        </Link>
+                    ))}
+                </div>
+            )}
+        </div>
     );
 };

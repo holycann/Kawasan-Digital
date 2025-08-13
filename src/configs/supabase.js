@@ -37,6 +37,16 @@ export const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPAB
     },
 });
 
+// Create a Supabase client specifically for authentication
+export const supabaseAuth = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, {
+    auth: {
+        persistSession: true,
+    },
+    global: {
+        headers: { 'x-app-name': 'kawasan-digital-auth' },
+    },
+});
+
 // Enhanced helper function for handling common Supabase operations
 export const supabaseHelpers = {
     // Comprehensive error handler with logging and potential error tracking
@@ -137,5 +147,18 @@ export const supabaseHelpers = {
                 ...options
             });
         }
+    },
+
+    // Authentication-specific error handling
+    handleAuthError: (error, context = {}) => {
+        const authErrorLog = {
+            message: error.message,
+            name: error.name,
+            ...context
+        };
+
+        console.error('Supabase Auth Error:', JSON.stringify(authErrorLog, null, 2));
+
+        return null;
     },
 };

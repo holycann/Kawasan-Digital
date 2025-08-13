@@ -1,0 +1,9 @@
+TRUNCATE TABLE company_profile.project_stories,
+company_profile.project_highlights,
+company_profile.project_tech_stack,
+company_profile.project_images,
+company_profile.project_categories,
+company_profile.tech_stack,
+company_profile.projects,
+company_profile.clients,
+supabase_migrations.schema_migrations CASCADE;

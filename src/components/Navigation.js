@@ -15,13 +15,13 @@ export default function Navigation() {
     // Logo component
     const logo = (
         <Image
-            src="/logo.png" // atau .svg, sesuaikan dengan file kamu
+            src="/Logo.png"
             alt="Kawasan Digital Logo"
             width={85}
             height={85}
             className="object-contain"
             style={{ filter: 'brightness(0) invert(1)' }}
-            priority
+            priority={true}
         />
     );
 

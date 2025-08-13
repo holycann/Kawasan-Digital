@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Card3D, CardImage, CardContent } from "../../components/ui/3d-card";
 import { FaArrowRight } from "react-icons/fa6";
 import { cn } from "../../utils/cn";
+import { slugify } from "@/utils/slugify";
 
 export default function PortfolioCard({ item, className = "" }) {
   return (
@@ -14,15 +15,16 @@ export default function PortfolioCard({ item, className = "" }) {
     >
       {/* Cover image */}
       <CardImage
-        src={item.coverImage}
+        src={item.cover_image}
         alt={item.title}
+        key={`image-${item.id}`}
       />
 
       {/* Content */}
       <CardContent className="flex flex-col flex-1">
         <div className="mb-2 flex items-center gap-2">
           <span className="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">
-            {item.category}
+            {item.category.name}
           </span>
           <span className="text-xs text-gray-500 dark:text-gray-400">
             {item.year}
@@ -39,7 +41,8 @@ export default function PortfolioCard({ item, className = "" }) {
         
         <div className="mt-auto">
           <Link
-            href={`/portfolio/${item.id}`}
+            href={`/portfolio/${slugify(item.title)}`}
+            key={`link-${item.id}`}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-medium hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
           >
             View Project

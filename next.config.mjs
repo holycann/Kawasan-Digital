@@ -17,6 +17,7 @@ const nextConfig = {
       },
     ],
     formats: ['image/avif', 'image/webp'],
+    dangerouslyAllowSVG: true
   },
 
   // Experimental features for performance

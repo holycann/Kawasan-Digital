@@ -91,6 +91,7 @@ export const portfolioItems = [{
         "Optimized for performance and SEO",
         "Modern UI/UX with attention to detail"
     ],
+    websiteUrl: "https://asamedia.id/",
     buildStory: {
         whyWeBuilt: "The client needed a modern, high-performance website that could showcase their digital services and attract potential clients. They wanted something that stood out from the competition while maintaining excellent user experience and fast loading times.",
         problemsSolved: [
@@ -144,14 +145,13 @@ export const portfolioItems = [{
                 "40% more page views per session"
             ]
         }
-    },
-    websiteUrl: "https://asamedia.id/"
+    }
 },
 {
     id: "company-profile-yusungtech",
     title: "Company Profile Yusung Tech Indonesia",
     shortDescription: "Responsive company profile website for an automotive and AIoT-based product manufacturer.",
-    description: "Designed and developed a modern company profile website for Yusung Tech Indonesia, a manufacturer specializing in automotive components and AIoT-based solutions. The website showcases the company’s technological innovations, product catalog, and global quality certifications in a responsive and professional layout.",
+    description: "Designed and developed a modern company profile website for Yusung Tech Indonesia, a manufacturer specializing in automotive components and AIoT-based solutions. The website showcases the company's technological innovations, product catalog, and global quality certifications in a responsive and professional layout.",
     coverImage: "/Portfolio1.png",
     images: [
         "/Portfolio1.png",
@@ -221,9 +221,6 @@ export const portfolioItems = [{
         }
     }
 },
-
-
-
 {
     id: "mobile-fintech-app",
     title: "Mobile Fin-Tech App",
@@ -238,6 +235,4 @@ export const portfolioItems = [{
     techStack: ["React Native", "Go", "GraphQL", "AWS"],
     year: 2022,
     category: "App Development",
-},
-
-];
+}];
