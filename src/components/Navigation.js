@@ -15,7 +15,7 @@ export default function Navigation() {
     // logo component
     const logo = (
         <Image
-            src="/logo.png"
+            src="/kawasan-digital-logo.png"
             alt="Kawasan Digital Logo"
             width={85}
             height={85}

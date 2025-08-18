@@ -26,7 +26,7 @@ const SITE_CONFIG = {
         siteName: 'Kawasan Digital',
         images: [
             {
-                url: '/logo.png',
+                url: '/kawasan-digital-logo.png',
                 width: 1200,
                 height: 630,
                 alt: 'Kawasan Digital logo'
@@ -37,7 +37,7 @@ const SITE_CONFIG = {
         card: 'summary_large_image',
         title: 'Kawasan Digital - Digital Innovation Partner',
         description: 'Transforming businesses through cutting-edge digital solutions.',
-        images: ['/logo.png']
+        images: ['/kawasan-digital-logo.png']
     },
     icons: {
         icon: [
@@ -64,7 +64,7 @@ export function generateMetadata(options = {}) {
         description,
         keywords = [],
         path = '',
-        image = '/logo.png',
+        image = '/kawasan-digital-logo.png',
         noIndex = false
     } = options;
 
