@@ -9,8 +9,8 @@ CREATE TABLE company_profile.projects (
     category_id UUID REFERENCES company_profile.project_categories (id),
     client_id UUID REFERENCES company_profile.clients (id),
     website_url TEXT,
-    project_location TEXT,
-    project_status TEXT,
+    status TEXT,
+    highlights TEXT[],
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );

@@ -28,7 +28,7 @@ export default function AuthProvider({ children }) {
 
         checkUser();
 
-        const { unsubscribe } = authService.onAuthStateChange((event, session) => {
+        const { data: { subscription } } = authService.onAuthStateChange((event, session) => {
             if (event === 'SIGNED_IN') {
                 setUser(session?.user || null);
                 setIsAuthenticated(true);
@@ -39,7 +39,7 @@ export default function AuthProvider({ children }) {
         });
 
         return () => {
-            unsubscribe();
+            subscription.unsubscribe();
         };
     }, []);
 
@@ -47,10 +47,14 @@ export default function AuthProvider({ children }) {
         try {
             setIsLoading(true);
             const data = await authService.signIn(email, password);
-            setUser(data?.user || null);
-            setIsAuthenticated(true);
-            toast.success('Login successful');
-            router.push('/dashboard');
+            if (data?.user) {
+                setUser(data.user);
+                setIsAuthenticated(true);
+                toast.success('Login successful');
+                router.push('/dashboard');
+            } else {
+                throw new Error('Login failed');
+            }
         } catch (error) {
             toast.error(error.message || 'Login failed');
             setUser(null);
@@ -67,8 +71,7 @@ export default function AuthProvider({ children }) {
             setUser(null);
             setIsAuthenticated(false);
             toast.success('Logged out successfully');
-            console.log('Logged out successfully');
-            // router.push('/login');
+            router.push('/login');
         } catch (error) {
             toast.error(error.message || 'Logout failed');
         } finally {

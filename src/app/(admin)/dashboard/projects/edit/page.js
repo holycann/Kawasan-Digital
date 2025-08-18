@@ -1,56 +1,104 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { ProjectForm } from '../components/ProjectForm';
-import { ProjectHooks } from '@/providers/projects';
+import { 
+    useProjects, 
+    useProjectCategories, 
+    useProjectClients,
+    useProjectTechStack,
+    useProjectStories,
+    useProjectImages
+} from '@/hooks/useProject';
 
 export default function EditProjectPage() {
+    const router = useRouter();
     const params = useParams();
     const projectId = params.id;
 
     const { 
-        useProjects, 
-        useProjectCategories, 
-        useProjectClients 
-    } = ProjectHooks;
-
-    const { projects, fetchProjects } = useProjects();
+        fetchProjects, 
+        fetchProjectById
+    } = useProjects();
     const { fetchCategories } = useProjectCategories();
     const { fetchClients } = useProjectClients();
+    const { fetchTechStacks } = useProjectTechStack();
+    const { fetchProjectStories } = useProjectStories();
+    const { fetchProjectImagesByProjectId } = useProjectImages();
 
     const [initialData, setInitialData] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        fetchProjects();
-        fetchCategories();
-        fetchClients();
-    }, []);
+        const loadProjectData = async () => {
+            try {
+                setIsLoading(true);
+                
+                // Fetch all necessary data
+                await Promise.all([
+                    fetchProjects(),
+                    fetchCategories(),
+                    fetchClients(),
+                    fetchTechStacks()
+                ]);
 
-    useEffect(() => {
-        const project = projects.find(p => p.id === projectId);
-        if (project) {
-            setInitialData({
-                title: project.title || '',
-                short_description: project.short_description || '',
-                description: project.description || '',
-                year: project.year || new Date().getFullYear(),
-                category: project.category || '',
-                client_id: project.client_id || '',
-                website_url: project.website_url || '',
-                project_location: project.project_location || '',
-                project_status: project.project_status || 'In Progress'
-            });
+                // Fetch specific project details
+                const project = await fetchProjectById(projectId);
+
+                if (!project) {
+                    router.push('/dashboard/projects');
+                    return;
+                }
+
+                // Fetch additional project details
+                await Promise.all([
+                    fetchProjectStories(projectId),
+                    fetchProjectImagesByProjectId(projectId)
+                ]);
+
+                // Prepare initial data for the form
+                setInitialData({
+                    title: project.title || '',
+                    short_description: project.short_description || '',
+                    description: project.description || '',
+                    cover_image: project.cover_image || '',
+                    year: project.year || new Date().getFullYear(),
+                    category_id: project.category_id || '',
+                    client_id: project.client_id || '',
+                    website_url: project.website_url || '',
+                    status: project.status || 'In Progress',
+                    tech_stack: project.tech_stack?.map(ts => ({ tech_id: ts.tech_id })) || [],
+                    stories: project.stories || [],
+                    images: project.images || [],
+                    highlights: project.highlights || []
+                });
+            } catch (error) {
+                console.error('Error loading project data:', error);
+                router.push('/dashboard/projects');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (projectId) {
+            loadProjectData();
         }
-    }, [projects, projectId]);
+    }, [projectId, fetchProjects, fetchProjectById, fetchCategories, fetchClients, fetchTechStacks, fetchProjectStories, fetchProjectImagesByProjectId, router]);
 
-    if (!initialData) {
-        return <div>Loading...</div>;
+    if (isLoading) {
+        return <div>Loading project details...</div>;
     }
 
-    return <ProjectForm 
-        initialData={initialData} 
-        mode="edit" 
-        projectId={projectId} 
-    />;
+    if (!initialData) {
+        return <div>Project not found</div>;
+    }
+
+    return (
+        <ProjectForm 
+            initialData={initialData} 
+            mode="edit" 
+            projectId={projectId} 
+        />
+    );
 }

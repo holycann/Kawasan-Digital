@@ -3,13 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { TechStackForm } from '../../components/TechStackForm';
-import { ProjectHooks } from '@/providers/projects';
+import { useProjectTechStack } from '@/hooks/useProject';
 
 export default function EditTechStackPage() {
     const params = useParams();
     const techStackId = params.id;
 
-    const { useProjectTechStack } = ProjectHooks;
     const { techStacks, fetchTechStacks } = useProjectTechStack();
 
     const [initialData, setInitialData] = useState(null);

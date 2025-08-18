@@ -20,7 +20,7 @@ export const storiesService = {
                     ...options.filters, 
                     project_id: projectId 
                 },
-                orderBy: options.orderBy || 'story_order',
+                orderBy: options.orderBy || 'created_at',
                 ascending: options.ascending !== undefined ? options.ascending : true
             };
 
@@ -42,16 +42,10 @@ export const storiesService = {
             const preparedData = {
                 project_id: projectId,
                 ...storyData,
-                // Ensure story_content and story_impact are valid JSONB
-                story_content: storyData.story_content
-                    ? JSON.parse(JSON.stringify(storyData.story_content))
-                    : null,
-                story_impact: storyData.story_impact
-                    ? JSON.parse(JSON.stringify(storyData.story_impact))
-                    : null,
-                // Set story_order if not provided
-                story_order: storyData.story_order ||
-                    (await storiesService.getNextStoryOrder(projectId))
+                // Ensure content is a valid JSONB
+                content: storyData.content 
+                    ? JSON.parse(JSON.stringify(storyData.content)) 
+                    : null
             };
 
             return baseService.create(PROJECT_STORIES_TABLE, preparedData);
@@ -69,15 +63,12 @@ export const storiesService = {
      */
     updateProjectStory: async (storyId, updateData) => {
         try {
-            // Ensure story_content and story_impact are valid JSONB if provided
+            // Ensure content is a valid JSONB if provided
             const preparedData = {
                 ...updateData,
-                story_content: updateData.story_content
-                    ? JSON.parse(JSON.stringify(updateData.story_content))
-                    : updateData.story_content,
-                story_impact: updateData.story_impact
-                    ? JSON.parse(JSON.stringify(updateData.story_impact))
-                    : updateData.story_impact
+                content: updateData.content
+                    ? JSON.parse(JSON.stringify(updateData.content))
+                    : updateData.content
             };
 
             return baseService.update(PROJECT_STORIES_TABLE, storyId, preparedData);
@@ -97,29 +88,26 @@ export const storiesService = {
     },
 
     /**
-     * Get the next story order for a project
+     * Bulk add stories to a project
      * @param {string} projectId - ID of the project
-     * @returns {Promise<number>} Next story order
+     * @param {Array} storiesData - Array of story details to add
+     * @returns {Promise} Added stories
      */
-    getNextStoryOrder: async (projectId) => {
+    bulkAddProjectStories: async (projectId, storiesData) => {
         try {
-            const result = await baseService.fetchWithOptions(
-                PROJECT_STORIES_TABLE, 
-                {
-                    filters: { project_id: projectId },
-                    orderBy: 'story_order',
-                    ascending: false,
-                    pageSize: 1
-                }
-            );
+            const preparedData = storiesData.map(story => ({
+                project_id: projectId,
+                ...story,
+                // Ensure content is a valid JSONB
+                content: story.content
+                    ? JSON.parse(JSON.stringify(story.content))
+                    : null
+            }));
 
-            // If no stories exist, start at 1, otherwise increment the last order
-            return result.data.length > 0 
-                ? result.data[0].story_order + 1 
-                : 1;
+            return baseService.create(PROJECT_STORIES_TABLE, preparedData);
         } catch (error) {
-            console.error('Error getting next story order:', error);
-            return 1;
+            console.error('Error bulk adding project stories:', error);
+            throw error;
         }
     },
 
@@ -150,39 +138,15 @@ export const storiesService = {
 
             // Perform batch update
             const updatePromises = storyOrder.map((storyId, index) =>
-                baseService.update(PROJECT_STORIES_TABLE, storyId, { story_order: index + 1 })
+                baseService.update(PROJECT_STORIES_TABLE, storyId, { 
+                    // If you want to add an order column
+                    story_order: index + 1 
+                })
             );
 
             return Promise.all(updatePromises);
         } catch (error) {
             console.error('Error reordering project stories:', error);
-            throw error;
-        }
-    },
-
-    /**
-     * Bulk add stories to a project
-     * @param {string} projectId - ID of the project
-     * @param {Array} storiesData - Array of story details to add
-     * @returns {Promise} Added stories
-     */
-    bulkAddProjectStories: async (projectId, storiesData) => {
-        try {
-            const preparedData = storiesData.map((story, index) => ({
-                project_id: projectId,
-                ...story,
-                story_content: story.story_content
-                    ? JSON.parse(JSON.stringify(story.story_content))
-                    : null,
-                story_impact: story.story_impact
-                    ? JSON.parse(JSON.stringify(story.story_impact))
-                    : null,
-                story_order: story.story_order || (index + 1)
-            }));
-
-            return baseService.create(PROJECT_STORIES_TABLE, preparedData);
-        } catch (error) {
-            console.error('Error bulk adding project stories:', error);
             throw error;
         }
     },

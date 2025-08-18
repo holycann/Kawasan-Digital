@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Spotlight } from "@/components/ui/spotlight";
 
 export default function TermsOfServicePage() {

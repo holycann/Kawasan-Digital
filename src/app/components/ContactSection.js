@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useAnimation } from "framer-motion";
+import { motion, useAnimation } from "motion/react";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { FaEnvelope, FaLocationDot, FaPaperPlane, FaWhatsapp, FaInstagram } from "react-icons/fa6";

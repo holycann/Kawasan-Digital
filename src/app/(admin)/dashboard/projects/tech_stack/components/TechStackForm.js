@@ -18,7 +18,6 @@ import {
     SelectTrigger, 
     SelectValue 
 } from "@/components/ui/select";
-import { ProjectHooks } from '@/providers/projects';
 import { toast } from 'sonner';
 import {
     AlertDialog,
@@ -32,6 +31,7 @@ import {
     AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
 import ReactDOM from 'react-dom/client';
+import { useProjectTechStack } from '@/hooks/useProject';
 
 export const TechStackForm = ({ 
     initialData = {
@@ -44,7 +44,6 @@ export const TechStackForm = ({
     techStackId = null 
 }) => {
     const router = useRouter();
-    const { useProjectTechStack } = ProjectHooks;
     const { createTechStack, updateTechStack } = useProjectTechStack();
 
     const [techStackData, setTechStackData] = useState(initialData);

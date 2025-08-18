@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Card3D, CardImage, CardContent } from "../../components/ui/3d-card";
 import { FaArrowRight } from "react-icons/fa6";
 import { cn } from "../../utils/cn";
@@ -21,7 +21,7 @@ export default function PortfolioCard({ item, className = "" }) {
       />
 
       {/* Content */}
-      <CardContent className="flex flex-col flex-1">
+      <CardContent className="flex flex-col flex-1 justify-center items-center">
         <div className="mb-2 flex items-center gap-2">
           <span className="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">
             {item.category.name}
@@ -35,11 +35,11 @@ export default function PortfolioCard({ item, className = "" }) {
           {item.title}
         </h3>
         
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-1">
-          {item.shortDescription}
+        <p className="text-sm text-center text-gray-600 dark:text-gray-400 mb-4 flex-1">
+          {item.short_description}
         </p>
         
-        <div className="mt-auto">
+        <div className="mt-auto ">
           <Link
             href={`/portfolio/${slugify(item.title)}`}
             key={`link-${item.id}`}

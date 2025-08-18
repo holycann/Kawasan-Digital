@@ -14,7 +14,7 @@ export const ProjectImagesProvider = ({ children, projectId }) => {
         setError(null);
         try {
             const response = await imagesService.fetchProjectImages(options);
-            setImages(response);
+            setImages(response.data);
             return response;
         } catch (err) {
             setError(err);
@@ -34,7 +34,7 @@ export const ProjectImagesProvider = ({ children, projectId }) => {
         setError(null);
         try {
             const response = await imagesService.fetchProjectImagesByProjectId(projectId, options);
-            setImages(response);
+            setImages(response.data);
             return response;
         } catch (err) {
             setError(err);
@@ -57,6 +57,27 @@ export const ProjectImagesProvider = ({ children, projectId }) => {
             // Update local state
             setImages(prev => [...prev, newImage[0]]);
             return newImage[0];
+        } catch (err) {
+            setError(err);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }, [projectId]);
+
+    // Bulk upload project images
+    const bulkUploadProjectImages = useCallback(async (imagesData) => {
+        if (!projectId) {
+            throw new Error('Project ID is required to bulk upload images');
+        }
+
+        setLoading(true);
+        setError(null);
+        try {
+            const newImages = await imagesService.bulkUploadProjectImages(projectId, imagesData);
+            // Update local state
+            setImages(prev => [...prev, ...newImages]);
+            return newImages;
         } catch (err) {
             setError(err);
             throw err;
@@ -114,7 +135,7 @@ export const ProjectImagesProvider = ({ children, projectId }) => {
         try {
             await imagesService.reorderProjectImages(projectId, imageOrder);
             // Refetch images to ensure correct order
-            await fetchProjectImages();
+            await fetchProjectImagesByProjectId();
             return { success: true };
         } catch (err) {
             setError(err);
@@ -122,7 +143,22 @@ export const ProjectImagesProvider = ({ children, projectId }) => {
         } finally {
             setLoading(false);
         }
-    }, [projectId, fetchProjectImages]);
+    }, [projectId, fetchProjectImagesByProjectId]);
+
+    // Get a single project image by ID
+    const getProjectImageById = useCallback(async (imageId) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const image = await imagesService.getProjectImageById(imageId);
+            return image;
+        } catch (err) {
+            setError(err);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }, []);
 
     // Provide context value
     const contextValue = {
@@ -134,7 +170,9 @@ export const ProjectImagesProvider = ({ children, projectId }) => {
         uploadProjectImage,
         updateProjectImage,
         deleteProjectImage,
-        reorderProjectImages
+        bulkUploadProjectImages,
+        reorderProjectImages,
+        getProjectImageById
     };
 
     return (

@@ -1,31 +1,21 @@
 -- Seed data for company profile project categories
 INSERT INTO company_profile.project_categories (
     name,
-    description,
-    company_name,
-    industry
+    description
 ) VALUES 
 (
     'Web Development',
-    'Projects focused on creating websites and web applications',
-    'Kawasan Digital',
-    'Web Services'
+    'Projects focused on creating websites and web applications'
 ),
 (
     'App Development',
-    'Mobile and cross-platform application development projects',
-    'Kawasan Digital',
-    'Mobile Technology'
+    'Mobile and cross-platform application development projects'
 ),
 (
     'UI/UX Design',
-    'User interface and user experience design projects',
-    'Kawasan Digital',
-    'Design Services'
+    'User interface and user experience design projects'
 ),
 (
     'Digital Marketing',
-    'Online marketing and digital strategy projects',
-    'Kawasan Digital',
-    'Marketing Technology'
+    'Online marketing and digital strategy projects'
 ); 

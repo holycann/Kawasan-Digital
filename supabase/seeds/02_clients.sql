@@ -17,7 +17,7 @@ VALUES (
         'Indonesia',
         'https://sekatrans.com/',
         'Professional car rental service specializing in reliable transportation solutions.',
-        '/logos/sekatrans_logo.png',
+        'https://ywfdovvqqgeyrwinhmsj.supabase.co/storage/v1/object/public/projects/company_profile/images/clients/SekaTrans.png',
         'Budi Setiawan',
         'contact@sekatrans.com',
         '+62 812-3456-7890'
@@ -28,7 +28,7 @@ VALUES (
         'Indonesia',
         'https://asamedia.id/',
         'Creative digital agency offering comprehensive web development and branding services.',
-        '/logos/asamedia_logo.png',
+        'https://ywfdovvqqgeyrwinhmsj.supabase.co/storage/v1/object/public/projects/company_profile/images/clients/asa-media.png',
         'Andi Pratama',
         'hello@asamedia.id',
         '+62 821-5678-9012'
@@ -39,7 +39,7 @@ VALUES (
         'Indonesia',
         'https://yusungtechindonesia.com/',
         'Manufacturer of automotive components and AIoT-based technological solutions.',
-        '/logos/yusung_logo.png',
+        'https://ywfdovvqqgeyrwinhmsj.supabase.co/storage/v1/object/public/projects/company_profile/images/clients/yusung-tech-indonesia.png',
         'Kim Jae-sung',
         'info@yusungtechindonesia.com',
         '+62 831-7890-1234'
@@ -50,7 +50,7 @@ VALUES (
         'Indonesia',
         NULL,
         'Innovative fintech startup developing mobile applications for micro-investments and digital payments.',
-        '/logos/kawasan_digital_logo.png',
+        'https://ywfdovvqqgeyrwinhmsj.supabase.co/storage/v1/object/public/projects/company_profile/images/clients/kawasan-digital.png',
         'Rini Widiastuti',
         'contact@kawasandigital.com',
         '+62 841-2345-6789'

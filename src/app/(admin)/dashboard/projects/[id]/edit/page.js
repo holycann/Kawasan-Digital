@@ -3,25 +3,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { ProjectForm } from '../../components/ProjectForm';
-import { ProjectHooks } from '@/providers/projects';
 import { IconLoader2 } from '@tabler/icons-react';
+import { useProjects } from '@/hooks/useProject';
 
 export default function EditProjectPage() {
     const params = useParams();
     const router = useRouter();
     const projectId = params.id;
 
-    const { 
-        useProjects, 
-        useProjectCategories, 
-        useProjectClients,
-        useProjectTechStack 
-    } = ProjectHooks;
-
-    const { fetchFullProjectDetails } = useProjects();
-    const { fetchCategories } = useProjectCategories();
-    const { fetchClients } = useProjectClients();
-    const { fetchTechStacks } = useProjectTechStack();
+    const { projects } = useProjects();
 
     const [initialData, setInitialData] = useState({
         title: '',
@@ -31,8 +21,7 @@ export default function EditProjectPage() {
         category: '',
         client_id: '',
         website_url: '',
-        project_location: '',
-        project_status: 'In Progress',
+        status: 'In Progress',
         tech_stack: [],
         stories: [],
         images: [],
@@ -49,7 +38,7 @@ export default function EditProjectPage() {
             if (content.text) return content.text;
             if (content.content) return content.content;
             if (content.description) return content.description;
-            
+
             // If no clear text property, convert to string as a fallback
             try {
                 return JSON.stringify(content, null, 2);
@@ -57,7 +46,7 @@ export default function EditProjectPage() {
                 return '';
             }
         }
-        
+
         // If already a string, return as-is
         return content || '';
     };
@@ -65,13 +54,6 @@ export default function EditProjectPage() {
     useEffect(() => {
         const loadProjectData = async () => {
             try {
-                setLoading(true);
-                const [project, categories, clients, techStacks] = await Promise.all([
-                    fetchFullProjectDetails(projectId),
-                    fetchCategories(),
-                    fetchClients(),
-                    fetchTechStacks()
-                ]);
 
                 if (!project) {
                     router.push('/dashboard/projects');
@@ -87,8 +69,7 @@ export default function EditProjectPage() {
                     category: project.project.category.id || '',
                     client_id: project.project.client.id || '',
                     website_url: project.project.website_url || '',
-                    project_location: project.project.project_location || '',
-                    project_status: project.project.project_status || 'In Progress',
+                    status: project.project.status || 'In Progress',
                     tech_stack: project.techStack?.map(tech => ({
                         tech_stack_id: tech.tech_stack.id,
                         tech_role: tech.tech_stack.tech_role || ''

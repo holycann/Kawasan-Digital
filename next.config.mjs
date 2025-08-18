@@ -5,7 +5,7 @@ import webpack from 'webpack';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  
+
   // Image optimization
   images: {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -23,12 +23,18 @@ const nextConfig = {
   // Experimental features for performance
   experimental: {
     optimizePackageImports: [
-      '@react-three/fiber', 
-      '@react-three/drei', 
-      'framer-motion', 
-      'react-icons', 
+      '@react-three/fiber',
+      '@react-three/drei',
+      'motion/react',
+      'react-icons',
       'react-hook-form'
     ],
+    turbo: {
+      rules: {
+        // Enable Turbo for faster builds and optimizations
+        '.*.js$': ['@swc/core', 'es2015']
+      }
+    }
   },
 
   // Webpack configuration for advanced code splitting

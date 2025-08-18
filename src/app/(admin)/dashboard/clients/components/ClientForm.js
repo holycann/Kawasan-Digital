@@ -12,8 +12,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { ProjectHooks } from '@/providers/projects';
 import { toast } from 'sonner';
+import { useProjectClients } from '@/hooks/useProject';
 
 export const ClientForm = ({ 
     initialData = {
@@ -30,7 +30,6 @@ export const ClientForm = ({
     clientId = null 
 }) => {
     const router = useRouter();
-    const { useProjectClients } = ProjectHooks;
     const { createClient, updateClient } = useProjectClients();
 
     const [clientData, setClientData] = useState(initialData);
