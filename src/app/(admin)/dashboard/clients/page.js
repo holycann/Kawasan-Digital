@@ -23,7 +23,6 @@ import {
     IconTrash,
     IconEye
 } from "@tabler/icons-react";
-import { ProjectHooks } from '@/providers/projects';
 import { toast } from 'sonner';
 import {
     AlertDialog,
@@ -37,9 +36,9 @@ import {
     AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
 import ReactDOM from 'react-dom/client';
+import { useProjectClients } from '@/hooks/useProject';
 
 export default function ClientsManagementPage() {
-    const { useProjectClients } = ProjectHooks;
     const {
         clients,
         loading,

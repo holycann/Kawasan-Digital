@@ -1,16 +1,16 @@
 // Base configuration for the entire site
 const SITE_CONFIG = {
     name: 'Kawasan Digital',
-    title: 'Kawasan Digital - Digital Innovation Partner',
-    description: 'Transforming businesses through cutting-edge digital solutions. We specialize in web development, mobile apps, cloud services, AI integration, and innovative UI/UX design.',
+    defaultTitle: 'Kawasan Digital - Digital Innovation Partner',
+    defaultDescription: 'Transforming businesses through cutting-edge digital solutions. We specialize in web development, mobile apps, cloud services, AI integration, and innovative UI/UX design.',
     keywords: [
-        'web development', 
-        'mobile app development', 
-        'cloud solutions', 
-        'AI integration', 
-        'UI/UX design', 
-        'digital transformation', 
-        'software engineering', 
+        'web development',
+        'mobile app development',
+        'cloud solutions',
+        'AI integration',
+        'UI/UX design',
+        'digital transformation',
+        'software engineering',
         'technology consulting'
     ],
     authors: [
@@ -26,10 +26,10 @@ const SITE_CONFIG = {
         siteName: 'Kawasan Digital',
         images: [
             {
-                url: '/Logo.png',
+                url: '/logo.png',
                 width: 1200,
                 height: 630,
-                alt: 'Kawasan Digital Logo'
+                alt: 'Kawasan Digital logo'
             }
         ]
     },
@@ -37,7 +37,7 @@ const SITE_CONFIG = {
         card: 'summary_large_image',
         title: 'Kawasan Digital - Digital Innovation Partner',
         description: 'Transforming businesses through cutting-edge digital solutions.',
-        images: ['/Logo.png']
+        images: ['/logo.png']
     },
     icons: {
         icon: [
@@ -57,14 +57,64 @@ const SITE_CONFIG = {
     }
 };
 
-// Structured Data (JSON-LD) Generator
-export function generateStructuredData(type, data) {
-    const baseStructure = {
-        '@context': 'https://schema.org',
-        '@type': type
-    };
+// Metadata Generator
+export function generateMetadata(options = {}) {
+    const {
+        title,
+        description,
+        keywords = [],
+        path = '',
+        image = '/logo.png',
+        noIndex = false
+    } = options;
 
-    return JSON.stringify({ ...baseStructure, ...data });
+    // Merge custom keywords with default keywords
+    const mergedKeywords = [...new Set([...SITE_CONFIG.keywords, ...keywords])];
+
+    // Construct title (custom title or fallback to default)
+    const pageTitle = title
+        ? `${title} | ${SITE_CONFIG.name}`
+        : SITE_CONFIG.defaultTitle;
+
+    // Construct description (custom description or fallback to default)
+    const pageDescription = description || SITE_CONFIG.defaultDescription;
+
+    // Construct canonical URL
+    const canonicalUrl = path
+        ? `${SITE_CONFIG.openGraph.url}${path.startsWith('/') ? path : `/${path}`}`
+        : SITE_CONFIG.openGraph.url;
+
+    return {
+        title: pageTitle,
+        description: pageDescription,
+        keywords: mergedKeywords,
+        authors: SITE_CONFIG.authors,
+        creator: SITE_CONFIG.creator,
+        publisher: SITE_CONFIG.publisher,
+        robots: noIndex ? 'noindex, nofollow' : SITE_CONFIG.robots,
+        alternates: {
+            canonical: canonicalUrl
+        },
+        openGraph: {
+            ...SITE_CONFIG.openGraph,
+            title: pageTitle,
+            description: pageDescription,
+            url: canonicalUrl,
+            images: [{
+                url: image.startsWith('http') ? image : `/public${image.startsWith('/') ? image : `/${image}`}`,
+                width: 1200,
+                height: 630,
+                alt: pageTitle
+            }]
+        },
+        twitter: {
+            ...SITE_CONFIG.twitter,
+            title: pageTitle,
+            description: pageDescription,
+            images: [image]
+        },
+        icons: SITE_CONFIG.icons
+    };
 }
 
-export default SITE_CONFIG; 
+export default SITE_CONFIG;

@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { ProjectHooks } from '@/providers/projects';
 import { toast } from 'sonner';
 import {
     AlertDialog,
@@ -26,6 +25,7 @@ import {
     AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
 import ReactDOM from 'react-dom/client';
+import { useProjectCategories } from '@/hooks/useProject';
 
 export const CategoryForm = ({ 
     initialData = {
@@ -38,7 +38,6 @@ export const CategoryForm = ({
     categoryId = null 
 }) => {
     const router = useRouter();
-    const { useProjectCategories } = ProjectHooks;
     const { createCategory, updateCategory } = useProjectCategories();
 
     const [categoryData, setCategoryData] = useState(initialData);

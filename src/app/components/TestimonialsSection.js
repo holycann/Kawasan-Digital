@@ -1,44 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { AnimatedTitle } from "../../components/ui/animated-text";
-import { cn } from "../../utils/cn";
-import { TestimonialsSection as AnimatedTestimonials } from "../../components/ui/animated-testimonials";
+import { motion } from "motion/react";
 import Image from "next/image";
-import { BentoGrid } from "../../components/ui/bento-grid";
 import Link from "next/link";
-
-const testimonials = [
-  {
-    name: "Andi Wijaya",
-    title: "CEO at TechIndo",
-    avatar: "https://placehold.co/200x200?text=AW",
-    text: "Kawasan Digital transformed our business with their innovative web solutions. Their team was professional, responsive, and delivered beyond our expectations. The new website has significantly increased our online presence and customer engagement.",
-    rating: 5
-  },
-  {
-    name: "Siti Rahayu",
-    title: "Marketing Director at GlobalMart",
-    avatar: "https://placehold.co/200x200?text=SR",
-    text: "Working with Kawasan Digital was a game-changer for our company. Their mobile app development expertise helped us reach new customers and streamline our operations. Highly recommended for any business looking to go digital!",
-    rating: 5
-  },
-  {
-    name: "Budi Santoso",
-    title: "Founder of EduTech",
-    avatar: "https://placehold.co/200x200?text=BS",
-    text: "The SaaS platform developed by Kawasan Digital has revolutionized how we manage our educational content. Their team understood our unique requirements and delivered a solution that perfectly fits our needs.",
-    rating: 4
-  },
-  {
-    name: "Maya Indah",
-    title: "CTO at FinanceHub",
-    avatar: "https://placehold.co/200x200?text=MI",
-    text: "Exceptional service and technical expertise! Kawasan Digital helped us implement a secure and scalable financial management system. Their attention to detail and commitment to quality is outstanding.",
-    rating: 5
-  }
-];
 
 export default function TestimonialsSection() {
   // List of example company logos from /public

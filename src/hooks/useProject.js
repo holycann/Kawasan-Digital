@@ -3,7 +3,6 @@ import {
     ProjectsContext,
     ProjectCategoriesContext,
     ProjectImagesContext,
-    ProjectHighlightsContext,
     ProjectStoriesContext,
     ProjectTechStackContext,
     ProjectClientsContext
@@ -45,15 +44,6 @@ export const useProjectImages = () => {
     return context;
 };
 
-// Custom hook for project highlights
-export const useProjectHighlights = () => {
-    const context = useContext(ProjectHighlightsContext);
-    if (!context) {
-        throw new Error('useProjectHighlights must be used within a ProjectHighlightsProvider');
-    }
-    return context;
-};
-
 // Custom hook for project stories
 export const useProjectStories = () => {
     const context = useContext(ProjectStoriesContext);
@@ -71,16 +61,3 @@ export const useProjectTechStack = () => {
     }
     return context;
 };
-
-// Combine all hooks for easier export
-export const ProjectHooks = {
-    useProjects,
-    useProjectCategories,
-    useProjectClients,
-    useProjectImages,
-    useProjectHighlights,
-    useProjectStories,
-    useProjectTechStack
-};
-
-export default ProjectHooks;

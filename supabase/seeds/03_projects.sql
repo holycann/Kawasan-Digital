@@ -21,14 +21,14 @@ INSERT INTO
         category_id,
         client_id,
         website_url,
-        project_location,
-        project_status
+        status,
+        highlights
     )
 VALUES (
     'Company Profile Sekatrans',
     'Professional car rental service website with modern booking system and fleet management.',
     'Designed and developed a comprehensive car rental website for SekaTrans, featuring easy booking system, fleet showcase, and customer testimonials. The website showcases their reliable transportation services with professional design and user-friendly interface.',
-    '/Portfolio2.png',
+    'https://ywfdovvqqgeyrwinhmsj.supabase.co/storage/v1/object/public/projects/company_profile/images/projects/company-profile-sekatrans/cover.png',
     2025,
     (
         SELECT id
@@ -43,14 +43,18 @@ VALUES (
             name = 'SekaTrans'
     ),
     'https://sekatrans.com/',
-    'Indonesia',
-    'Completed'
+    'Completed',
+    ARRAY[
+        'Responsive design for all devices',
+        'Optimized for performance and SEO', 
+        'Modern UI/UX with attention to detail'
+    ]
 ),
 (
     'Company Profile Asamedia',
     'Official website of Asa Media, a creative digital agency offering web development and branding services.',
     'We transformed the client''s outdated site into a performant marketing engine with headless CMS, internationalisation, and SEO enhancements that boosted organic traffic by 150 %.',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTz5SS9RHF_2xs1_ORWe4WwgZvuEPTPGX_K_yKgrrqB3s3GQwJwImDRHj8yMSEpQeQRhoY&usqp=CAU',
+    'https://ywfdovvqqgeyrwinhmsj.supabase.co/storage/v1/object/public/projects/company_profile/images/projects/company-profile-asamedia/cover.png',
     2024,
     (
         SELECT id
@@ -65,14 +69,18 @@ VALUES (
             name = 'Asa Media'
     ),
     'https://asamedia.id/',
-    'Indonesia',
-    'Completed'
+    'Completed',
+    ARRAY[
+        'Responsive design for all devices',
+        'Optimized for performance and SEO', 
+        'Modern UI/UX with attention to detail'
+    ]
 ),
 (
     'Company Profile Yusung Tech Indonesia',
     'Responsive company profile website for an automotive and AIoT-based product manufacturer.',
     'Designed and developed a modern company profile website for Yusung Tech Indonesia, a manufacturer specializing in automotive components and AIoT-based solutions. The website showcases the company''s technological innovations, product catalog, and global quality certifications in a responsive and professional layout.',
-    '/Portfolio1.png',
+    'https://ywfdovvqqgeyrwinhmsj.supabase.co/storage/v1/object/public/projects/company_profile/images/projects/company-profile-yusung-tech-indonesia/cover.png',
     2024,
     (
         SELECT id
@@ -87,8 +95,12 @@ VALUES (
             name = 'Yusung Tech Indonesia'
     ),
     'https://yusungtechindonesia.com/',
-    'Indonesia',
-    'Completed'
+    'Completed',
+    ARRAY[
+        'Responsive design for all devices',
+        'Optimized for performance and SEO', 
+        'Modern UI/UX with attention to detail'
+    ]
 ),
 (
     'Mobile Fin-Tech App',
@@ -109,6 +121,10 @@ VALUES (
             name = 'Kawasan Digital'
     ),
     NULL,
-    'Indonesia',
-    'In Progress'
+    'In Progress',
+    ARRAY[
+        'Cross-platform mobile application',
+        'Secure financial transactions',
+        'Micro-investment features'
+    ]
 );

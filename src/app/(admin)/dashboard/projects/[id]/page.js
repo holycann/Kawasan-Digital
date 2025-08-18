@@ -27,9 +27,9 @@ import {
     IconMapPin,
     IconBriefcase
 } from "@tabler/icons-react";
-import { ProjectHooks } from '@/providers/projects';
 import { toast } from 'sonner';
 import Image from 'next/image';
+import { useProjects } from '@/hooks/useProject';
 
 export default function ProjectDetailsPage() {
     const router = useRouter();
@@ -37,37 +37,8 @@ export default function ProjectDetailsPage() {
     const projectId = params.id;
 
     const {
-        useProjects,
-        useProjectCategories,
-        useProjectClients
-    } = ProjectHooks;
-
-    const {
-        fetchFullProjectDetails,
         deleteProject,
     } = useProjects();
-
-    const { categories } = useProjectCategories();
-    const { clients } = useProjectClients();
-
-    const [projectDetails, setProjectDetails] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const loadProjectDetails = async () => {
-            try {
-                const details = await fetchFullProjectDetails(projectId);
-                setProjectDetails(details);
-                setLoading(false);
-            } catch (error) {
-                toast.error('Failed to load project details');
-                console.error(error);
-                setLoading(false);
-            }
-        };
-
-        loadProjectDetails();
-    }, [projectId]);
 
     const handleDeleteProject = async () => {
         try {
@@ -87,16 +58,6 @@ export default function ProjectDetailsPage() {
             </div>
         );
     }
-
-    if (!projectDetails) {
-        return (
-            <div className="text-red-500 p-4">
-                Project not found
-            </div>
-        );
-    }
-
-    const { project, images, techStack, highlights, stories } = projectDetails;
 
     return (
         <div className="space-y-6">

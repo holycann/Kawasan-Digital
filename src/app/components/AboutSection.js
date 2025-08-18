@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";  
+import { motion, useScroll, useTransform } from "motion/react";  
 import Link from "next/link";
 import { ScrollRevealSection } from "../../components/ui/scroll-reveal";
 import { FaRocket, FaUsers, FaLightbulb, FaTrophy, FaCode, FaMobile, FaServer, FaGlobe } from "react-icons/fa6";

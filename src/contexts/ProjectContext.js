@@ -4,14 +4,13 @@ import React, { createContext } from 'react';
 export const ProjectsContext = createContext({
     projects: [],
     currentProject: null,
-    projectDetails: null,
     loading: false,
     error: null,
     fetchProjects: async () => { },
+    fetchProjectById: async () => { },
     createProject: async () => { },
     updateProject: async () => { },
     deleteProject: async () => { },
-    fetchFullProjectDetails: async () => { },
     setCurrentProject: () => { },
 });
 
@@ -50,19 +49,9 @@ export const ProjectImagesContext = createContext({
     uploadProjectImage: async () => { },
     updateProjectImage: async () => { },
     deleteProjectImage: async () => { },
-    reorderProjectImages: async () => { }
-});
-
-// Project Highlights Context
-export const ProjectHighlightsContext = createContext({
-    highlights: [],
-    loading: false,
-    error: null,
-    fetchProjectHighlights: async () => { },
-    addProjectHighlight: async () => { },
-    updateProjectHighlight: async () => { },
-    deleteProjectHighlight: async () => { },
-    bulkAddProjectHighlights: async () => { }
+    bulkUploadProjectImages: async () => { },
+    reorderProjectImages: async () => { },
+    getProjectImageById: async () => { }
 });
 
 // Project Stories Context
@@ -75,7 +64,8 @@ export const ProjectStoriesContext = createContext({
     updateProjectStory: async () => { },
     deleteProjectStory: async () => { },
     reorderProjectStories: async () => { },
-    bulkAddProjectStories: async () => { }
+    bulkAddProjectStories: async () => { },
+    getStoryById: async () => { }
 });
 
 // Project Tech Stack Context
@@ -98,7 +88,6 @@ export const ProjectContexts = {
     ProjectsContext,
     ProjectCategoriesContext,
     ProjectImagesContext,
-    ProjectHighlightsContext,
     ProjectStoriesContext,
     ProjectTechStackContext,
     ProjectClientsContext

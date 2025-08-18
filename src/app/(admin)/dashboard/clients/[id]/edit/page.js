@@ -3,13 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { ClientForm } from '../../components/ClientForm';
-import { ProjectHooks } from '@/providers/projects';
+import { useProjectClients } from '@/hooks/useProject';
 
 export default function EditClientPage() {
     const params = useParams();
     const clientId = params.id;
 
-    const { useProjectClients } = ProjectHooks;
     const { clients, fetchClients } = useProjectClients();
 
     const [initialData, setInitialData] = useState(null);

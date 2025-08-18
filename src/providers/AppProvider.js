@@ -3,7 +3,6 @@ import {
     ProjectsProvider,
     ProjectCategoriesProvider,
     ProjectImagesProvider,
-    ProjectHighlightsProvider,
     ProjectStoriesProvider,
     ProjectTechStackProvider,
     ProjectClientsProvider
@@ -15,13 +14,11 @@ const AppProvider = ({ children }) => {
             <ProjectCategoriesProvider>
                 <ProjectClientsProvider>
                     <ProjectImagesProvider>
-                        <ProjectHighlightsProvider>
-                            <ProjectStoriesProvider>
-                                <ProjectTechStackProvider>
-                                    {children}
-                                </ProjectTechStackProvider>
-                            </ProjectStoriesProvider>
-                        </ProjectHighlightsProvider>
+                        <ProjectStoriesProvider>
+                            <ProjectTechStackProvider>
+                                {children}
+                            </ProjectTechStackProvider>
+                        </ProjectStoriesProvider>
                     </ProjectImagesProvider>
                 </ProjectClientsProvider>
             </ProjectCategoriesProvider>

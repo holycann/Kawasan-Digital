@@ -3,13 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { CategoryForm } from '../../components/CategoryForm';
-import { ProjectHooks } from '@/providers/projects';
+import { useProjectCategories } from '@/hooks/useProject';
 
 export default function EditCategoryPage() {
     const params = useParams();
     const categoryId = params.id;
 
-    const { useProjectCategories } = ProjectHooks;
     const { categories, fetchCategories } = useProjectCategories();
 
     const [initialData, setInitialData] = useState(null);

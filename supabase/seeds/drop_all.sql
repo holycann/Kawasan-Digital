@@ -1,5 +1,4 @@
 TRUNCATE TABLE company_profile.project_stories,
-company_profile.project_highlights,
 company_profile.project_tech_stack,
 company_profile.project_images,
 company_profile.project_categories,

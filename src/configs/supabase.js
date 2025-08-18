@@ -47,6 +47,13 @@ export const supabaseAuth = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_S
     },
 });
 
+// Create a Supabase client for storage operations
+export const supabaseStorage = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, {
+    global: {
+        headers: { 'x-app-name': 'kawasan-digital-storage' },
+    },
+});
+
 // Enhanced helper function for handling common Supabase operations
 export const supabaseHelpers = {
     // Comprehensive error handler with logging and potential error tracking

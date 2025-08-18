@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Link from "next/link";
 import { Spotlight } from "@/components/ui/spotlight";
 import { FaHome, FaInfoCircle, FaBriefcase, FaFolder, FaEnvelope, FaFileAlt, FaShieldAlt } from "react-icons/fa";

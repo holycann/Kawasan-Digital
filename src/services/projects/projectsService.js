@@ -1,8 +1,4 @@
 import baseService from '../baseService';
-import techStackService from './techStackService';
-import imagesService from './imagesService';
-import highlightsService from './highlightsService';
-import storiesService from './storiesService';
 
 const TABLE_NAME = 'projects';
 
@@ -21,7 +17,10 @@ export const projectsService = {
             select: `
                 *,
                 category:project_categories(id,name),
-                client:clients(id,name)
+                client:clients(id,name),
+                images:project_images(*),
+                stories:project_stories(*),
+                tech_stack:project_tech_stack(*, tech:tech_stack(*))
             `
         });
     },
@@ -63,45 +62,11 @@ export const projectsService = {
         return baseService.getById(TABLE_NAME, projectId, `
             *,
             category:project_categories(id,name),
-            client:clients(id,name)
+            client:clients(id,name),
+            images:project_images(*),
+            stories:project_stories(*),
+            tech_stack:project_tech_stack(*, tech:tech_stack(*))
         `);
-    },
-
-    /**
-     * Fetch comprehensive project details
-     * @param {string} projectId - ID of the project to fetch
-     * @returns {Promise} Comprehensive project details
-     */
-    fetchFullProjectDetails: async (projectId) => {
-        try {
-            // Fetch project details
-            const project = await projectsService.getProjectById(projectId);
-
-            // Fetch related data in parallel
-            const [
-                images,
-                techStack,
-                highlights,
-                stories
-            ] = await Promise.all([
-                imagesService.fetchProjectImagesByProjectId(projectId),
-                techStackService.fetchProjectTechStack(projectId),
-                highlightsService.fetchProjectHighlights(projectId),
-                storiesService.fetchProjectStories(projectId)
-            ]);
-
-            // Combine all results
-            return {
-                project,
-                images: images.data,
-                techStack,
-                highlights: highlights.data,
-                stories: stories.data
-            };
-        } catch (error) {
-            console.error('Error fetching full project details:', error);
-            throw error;
-        }
     }
 };
 

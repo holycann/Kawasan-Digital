@@ -6,7 +6,6 @@ import { projectsService } from '@/services/projects';
 export const ProjectsProvider = ({ children }) => {
     const [projects, setProjects] = useState([]);
     const [currentProject, setCurrentProjectState] = useState(null);
-    const [projectDetails, setProjectDetails] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -18,6 +17,22 @@ export const ProjectsProvider = ({ children }) => {
             const response = await projectsService.fetchProjects(options);
             setProjects(response.data);
             return response;
+        } catch (err) {
+            setError(err);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    // Fetch a single project by ID
+    const fetchProjectById = useCallback(async (projectId) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const project = await projectsService.getProjectById(projectId);
+            setCurrentProjectState(project);
+            return project;
         } catch (err) {
             setError(err);
             throw err;
@@ -89,24 +104,6 @@ export const ProjectsProvider = ({ children }) => {
         }
     }, [currentProject]);
 
-    // Fetch full project details
-    const fetchFullProjectDetails = useCallback(async (projectId) => {
-        setLoading(true);
-        setError(null);
-        try {
-            const projectDetails = await projectsService.fetchFullProjectDetails(projectId);
-
-            // Update project details
-            setProjectDetails(projectDetails);
-            return projectDetails;
-        } catch (err) {
-            setError(err);
-            throw err;
-        } finally {
-            setLoading(false);
-        }
-    }, []);
-
     // Set current project
     const setCurrentProject = useCallback((project) => {
         setCurrentProjectState(project);
@@ -116,14 +113,13 @@ export const ProjectsProvider = ({ children }) => {
     const contextValue = {
         projects,
         currentProject,
-        projectDetails,
         loading,
         error,
         fetchProjects,
+        fetchProjectById,
         createProject,
         updateProject,
         deleteProject,
-        fetchFullProjectDetails,
         setCurrentProject
     };
 

@@ -18,7 +18,7 @@ export const ProjectStoriesProvider = ({ children, projectId }) => {
         setError(null);
         try {
             const response = await storiesService.fetchProjectStories(projectId, options);
-            setStories(response);
+            setStories(response.data);
             return response;
         } catch (err) {
             setError(err);
@@ -28,7 +28,7 @@ export const ProjectStoriesProvider = ({ children, projectId }) => {
         }
     }, [projectId]);
 
-    // Add a project story
+    // Add a story to a project
     const addProjectStory = useCallback(async (storyData) => {
         if (!projectId) {
             throw new Error('Project ID is required to add a story');
@@ -129,6 +129,21 @@ export const ProjectStoriesProvider = ({ children, projectId }) => {
         }
     }, [projectId]);
 
+    // Get a single story by ID
+    const getStoryById = useCallback(async (storyId) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const story = await storiesService.getStoryById(storyId);
+            return story;
+        } catch (err) {
+            setError(err);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
     // Provide context value
     const contextValue = {
         stories,
@@ -139,7 +154,8 @@ export const ProjectStoriesProvider = ({ children, projectId }) => {
         updateProjectStory,
         deleteProjectStory,
         reorderProjectStories,
-        bulkAddProjectStories
+        bulkAddProjectStories,
+        getStoryById
     };
 
     return (

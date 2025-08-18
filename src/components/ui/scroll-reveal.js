@@ -1,8 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useAnimation } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useAnimation } from "motion/react";
+import { useInView } from "motion/react";
 import { cn } from "@/utils/cn";
 
 export const ScrollRevealSection = ({ items, className }) => {

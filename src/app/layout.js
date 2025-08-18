@@ -8,9 +8,6 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { usePathname } from "next/navigation";
 import AppProvider from "../providers/AppProvider";
-import SITE_CONFIG, {
-  generateStructuredData
-} from "@/utils/metadata";
 import { Toast } from "@/components/ui/toast";
 
 const montserrat = Montserrat({
@@ -32,20 +29,8 @@ export default function RootLayout({ children }) {
   const isDashboard = pathname.startsWith("/dashboard");
   const isLogin = pathname.startsWith("/login");
 
-  const structuredData = generateStructuredData('WebSite', {
-    name: SITE_CONFIG.name,
-    url: SITE_CONFIG.openGraph.url,
-    description: SITE_CONFIG.description
-  });
-
   return (
     <html lang="en">
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: structuredData }}
-        />
-      </head>
       <body
         className={`${montserrat.variable} ${poppins.variable} antialiased min-h-screen flex flex-col`}
       >

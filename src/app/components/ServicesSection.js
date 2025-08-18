@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "motion/react";
 import Link from "next/link";
 import { BentoGrid, BentoGridItem } from "../../components/ui/bento-grid";
 import { FaCode, FaGlobe, FaCloudArrowUp, FaArrowRight, FaMobileScreen, FaDatabase, FaRobot } from "react-icons/fa6";
