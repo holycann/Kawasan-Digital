@@ -3,13 +3,13 @@ import { ProjectStoriesContext } from '@/contexts/ProjectContext';
 import { storiesService } from '@/services/projects';
 
 // Provider component
-export const ProjectStoriesProvider = ({ children, projectId }) => {
+export const ProjectStoriesProvider = ({ children }) => {
     const [stories, setStories] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     // Fetch project stories
-    const fetchProjectStories = useCallback(async (options = {}) => {
+    const fetchProjectStories = useCallback(async (projectId, options = {}) => {
         if (!projectId) {
             throw new Error('Project ID is required to fetch stories');
         }
@@ -26,28 +26,28 @@ export const ProjectStoriesProvider = ({ children, projectId }) => {
         } finally {
             setLoading(false);
         }
-    }, [projectId]);
+    }, []);
 
     // Add a story to a project
-    const addProjectStory = useCallback(async (storyData) => {
+    const addProjectStory = useCallback(async (projectId, storiesData) => {
         if (!projectId) {
-            throw new Error('Project ID is required to add a story');
+            throw new Error('Project ID is required to add stories');
         }
 
         setLoading(true);
         setError(null);
         try {
-            const newStory = await storiesService.addProjectStory(projectId, storyData);
+            const newStories = await storiesService.addProjectStory(projectId, storiesData);
             // Update local state
-            setStories(prev => [...prev, newStory[0]]);
-            return newStory[0];
+            setStories(prev => [...prev, ...newStories]);
+            return newStories;
         } catch (err) {
             setError(err);
             throw err;
         } finally {
             setLoading(false);
         }
-    }, [projectId]);
+    }, []);
 
     // Update a project story
     const updateProjectStory = useCallback(async (storyId, updateData) => {
@@ -88,7 +88,7 @@ export const ProjectStoriesProvider = ({ children, projectId }) => {
     }, []);
 
     // Reorder project stories
-    const reorderProjectStories = useCallback(async (storyOrder) => {
+    const reorderProjectStories = useCallback(async (projectId, storyOrder) => {
         if (!projectId) {
             throw new Error('Project ID is required to reorder stories');
         }
@@ -98,7 +98,7 @@ export const ProjectStoriesProvider = ({ children, projectId }) => {
         try {
             await storiesService.reorderProjectStories(projectId, storyOrder);
             // Refetch stories to ensure correct order
-            await fetchProjectStories();
+            await fetchProjectStories(projectId);
             return { success: true };
         } catch (err) {
             setError(err);
@@ -106,28 +106,7 @@ export const ProjectStoriesProvider = ({ children, projectId }) => {
         } finally {
             setLoading(false);
         }
-    }, [projectId, fetchProjectStories]);
-
-    // Bulk add project stories
-    const bulkAddProjectStories = useCallback(async (storiesData) => {
-        if (!projectId) {
-            throw new Error('Project ID is required to bulk add stories');
-        }
-
-        setLoading(true);
-        setError(null);
-        try {
-            const newStories = await storiesService.bulkAddProjectStories(projectId, storiesData);
-            // Update local state
-            setStories(prev => [...prev, ...newStories]);
-            return newStories;
-        } catch (err) {
-            setError(err);
-            throw err;
-        } finally {
-            setLoading(false);
-        }
-    }, [projectId]);
+    }, []);
 
     // Get a single story by ID
     const getStoryById = useCallback(async (storyId) => {
@@ -154,7 +133,6 @@ export const ProjectStoriesProvider = ({ children, projectId }) => {
         updateProjectStory,
         deleteProjectStory,
         reorderProjectStories,
-        bulkAddProjectStories,
         getStoryById
     };
 

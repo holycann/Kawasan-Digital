@@ -29,7 +29,7 @@ export default function DevelopmentProcessSection({ project }) {
                     Development Process
                 </h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className={`grid grid-cols-1 ${developmentProcess.planning?.length > 0 && developmentProcess.design?.length > 0 ? "md:grid-cols-2" : "md:grid-cols-1"} gap-8 text-justify`}>
                     {developmentProcess.planning?.length > 0 && (
                         <div>
                             <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
@@ -40,7 +40,7 @@ export default function DevelopmentProcessSection({ project }) {
                                 </div>
                                 Planning & Research
                             </h3>
-                            <ul className="space-y-2 text-gray-700 dark:text-gray-300">
+                            <ul className={`space-y-2 text-gray-700 dark:text-gray-300 ${developmentProcess.planning?.length > 0 && developmentProcess.design?.length > 0 ? "" : "grid grid-cols-3 gap-2"}`}>
                                 {developmentProcess.planning.map((plan, index) => (
                                     <li key={index} className="flex items-start gap-2">
                                         <div className="mt-1.5 w-1.5 h-1.5 bg-green-500 rounded-full"></div>

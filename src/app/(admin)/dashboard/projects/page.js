@@ -33,10 +33,9 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
 import ReactDOM from 'react-dom/client';
-import { useProjectCategories, useProjects } from '@/hooks/useProject';
+import { useProjects } from '@/hooks/useProject';
 
 export default function ProjectsManagementPage() {
     const {
@@ -46,13 +45,6 @@ export default function ProjectsManagementPage() {
         fetchProjects,
         deleteProject
     } = useProjects();
-
-    const {
-        categories,
-        loading: categoriesLoading
-    } = useProjectCategories();
-
-    const [selectedProject, setSelectedProject] = useState(null);
 
     useEffect(() => {
         fetchProjects();
@@ -83,13 +75,20 @@ export default function ProjectsManagementPage() {
 
             // Render the dialog and wait for user response
             const dialogRoot = document.getElementById('dialog-root');
-            const root = ReactDOM.createRoot(dialogRoot);
+            let root = dialogRoot._reactRoot;
+            if (!root) {
+                root = ReactDOM.createRoot(dialogRoot);
+                dialogRoot._reactRoot = root;
+            }
             root.render(<ConfirmDeleteDialog />);
         });
 
         // Unmount the dialog after user interaction
         const dialogRoot = document.getElementById('dialog-root');
-        ReactDOM.createRoot(dialogRoot).unmount();
+        if (dialogRoot._reactRoot) {
+            dialogRoot._reactRoot.unmount();
+            dialogRoot._reactRoot = null;
+        }
 
         if (!confirmDelete) return;
 
@@ -102,7 +101,7 @@ export default function ProjectsManagementPage() {
         }
     };
 
-    if (projectsLoading || categoriesLoading) {
+    if (projectsLoading) {
         return (
             <div className="flex items-center justify-center min-h-screen bg-white dark:bg-black">
                 <div className="animate-spin w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-4"></div>
@@ -158,21 +157,21 @@ export default function ProjectsManagementPage() {
                             ) : (
                                 projects.map((project) => (
                                     <TableRow key={project.id}>
-                                        <TableCell>{project.client.name}</TableCell>
-                                        <TableCell>{project.title}</TableCell>
-                                        <TableCell>{project.category.name}</TableCell>
-                                        <TableCell>{project.year}</TableCell>
+                                        <TableCell>{project.client.name ?? "N/A"}</TableCell>
+                                        <TableCell>{project.title ?? "N/A"}</TableCell>
+                                        <TableCell>{project.category.name ?? "N/A"}</TableCell>
+                                        <TableCell>{project.year ?? "N/A"}</TableCell>
                                         <TableCell>
                                             <span
                                                 className={`
                                                     px-2 py-1 rounded-full text-xs font-semibold
-                                                    ${project.project_status === 'Completed'
+                                                    ${project.status === 'Completed'
                                                         ? 'bg-green-100 text-green-800'
                                                         : 'bg-yellow-100 text-yellow-800'
                                                     }
                                                 `}
                                             >
-                                                {project.project_status}
+                                                {project.status ?? "N/A"}
                                             </span>
                                         </TableCell>
                                         <TableCell>

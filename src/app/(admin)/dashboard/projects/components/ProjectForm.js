@@ -16,12 +16,13 @@ import {
     AlertDialogHeader,
     AlertDialogTitle
 } from "@/components/ui/alert-dialog";
+import { Loader2 } from "lucide-react";
 
 // Import hooks
-import { 
-    useProjects, 
-    useProjectCategories, 
-    useProjectClients, 
+import {
+    useProjects,
+    useProjectCategories,
+    useProjectClients,
     useProjectTechStack,
     useProjectStories,
     useProjectImages,
@@ -64,11 +65,13 @@ export const ProjectForm = ({
     const { categories, fetchCategories } = useProjectCategories();
     const { clients, fetchClients } = useProjectClients();
     const { techStacks, fetchTechStacks } = useProjectTechStack();
-    const { addProjectStory, bulkAddProjectStories } = useProjectStories();
-    const { uploadProjectImage, bulkUploadProjectImages } = useProjectImages();
+    const { addProjectTechStack } = useProjectTechStack();
+    const { addProjectStory } = useProjectStories();
+    const { uploadProjectImages } = useProjectImages();
 
     const [projectData, setProjectData] = useState(initialData);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isConfirming, setIsConfirming] = useState(false);
 
     useEffect(() => {
         fetchCategories();
@@ -110,52 +113,9 @@ export const ProjectForm = ({
     };
 
     // Stories Management
-    const addStory = () => {
-        setProjectData(prev => ({
-            ...prev,
-            stories: [...prev.stories, {
-                story_section: '',
-                content: {
-                    whyWeBuilt: {
-                        description: '',
-                        clientNeed: '',
-                        strategicGoals: []
-                    },
-                    problemsSolved: {
-                        problems: [],
-                        challengeComplexity: '',
-                        solutionInnovation: []
-                    },
-                    developmentProcess: {
-                        planning: [],
-                        design: [],
-                        processApproach: [],
-                        keyMethodologies: []
-                    },
-                    keyFeatures: {
-                        features: [],
-                        featureInnovation: [],
-                        competitiveAdvantage: []
-                    },
-                    performanceResults: {
-                        performanceScore: null,
-                        loadTime: '',
-                        accessibility: null,
-                        performanceMetrics: [],
-                        technicalAchievements: []
-                    },
-                    clientResults: {
-                        businessImpact: [],
-                        userExperience: []
-                    }
-                }
-            }]
-        }));
-    };
-
     const updateStory = (index, section, field, value) => {
         const newStories = [...projectData.stories];
-        
+
         // Handle different types of updates
         if (Array.isArray(newStories[index].content[section][field])) {
             // For array fields, handle adding/removing/updating array items
@@ -172,14 +132,6 @@ export const ProjectForm = ({
             newStories[index].content[section][field] = value;
         }
 
-        setProjectData(prev => ({
-            ...prev,
-            stories: newStories
-        }));
-    };
-
-    const removeStory = (index) => {
-        const newStories = projectData.stories.filter((_, i) => i !== index);
         setProjectData(prev => ({
             ...prev,
             stories: newStories
@@ -224,6 +176,8 @@ export const ProjectForm = ({
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
+        setIsConfirming(true);
+
         try {
             const confirmSubmit = await new Promise((resolve) => {
                 const ConfirmSubmitDialog = () => (
@@ -251,29 +205,36 @@ export const ProjectForm = ({
 
                 // Render the dialog and wait for user response
                 const dialogRoot = document.getElementById('dialog-root');
-                const root = ReactDOM.createRoot(dialogRoot);
+                let root = dialogRoot._reactRoot;
+                if (!root) {
+                    root = ReactDOM.createRoot(dialogRoot);
+                    dialogRoot._reactRoot = root;
+                }
                 root.render(<ConfirmSubmitDialog />);
             });
 
             // Unmount the dialog after user interaction
             const dialogRoot = document.getElementById('dialog-root');
-            ReactDOM.createRoot(dialogRoot).unmount();
+            if (dialogRoot._reactRoot) {
+                dialogRoot._reactRoot.unmount();
+                dialogRoot._reactRoot = null;
+            }
 
             if (!confirmSubmit) {
                 setIsSubmitting(false);
+                setIsConfirming(false);
                 return;
             }
 
             // Upload cover image if pending
             let coverImageUrl = projectData.cover_image;
             if (projectData.pendingCoverImage) {
-                const uploadPath = 'company_profile/images/projects/' + slugify(projectData.title) + "/cover.png"
-                const uploadedFile = await storageUtils.uploadFile(
+                const uploadPath = 'company_profile/images/projects/' + slugify(projectData.title) + `/${slugify(projectData.title)}-cover.jpg`
+                await storageUtils.uploadFile(
                     projectData.pendingCoverImage,
                     'projects',
                     uploadPath
                 );
-                console.log("UPLOADED FILE:", uploadedFile)
                 coverImageUrl = storageUtils.getPublicUrl('projects', uploadPath);
             }
 
@@ -281,13 +242,12 @@ export const ProjectForm = ({
             let uploadedProjectImages = [...projectData.images];
             if (projectData.pendingProjectImages && projectData.pendingProjectImages.length > 0) {
                 const uploadPromises = projectData.pendingProjectImages.map(async (pendingImage, index) => {
-                    const uploadPath = 'company_profile/images/projects/' + slugify(projectData.title) + pendingImage.file.name
-                    const uploadedFile = await storageUtils.uploadFile(
+                    const uploadPath = 'company_profile/images/projects/' + slugify(projectData.title) + `/${slugify(projectData.title)}-${index}.jpg`
+                    await storageUtils.uploadFile(
                         pendingImage.file,
                         'projects',
                         uploadPath
                     );
-                    console.log("UPLOADED FILE2:", uploadedFile)
                     const publicUrl = storageUtils.getPublicUrl('projects', uploadPath);
 
                     return {
@@ -312,13 +272,8 @@ export const ProjectForm = ({
                 client_id: projectData.client_id,
                 website_url: projectData.website_url,
                 status: projectData.status,
-                highlights: projectData.highlights,
-                tech_stack: projectData.tech_stack.map(tech => tech.tech_id),
+                highlights: projectData.highlights.map(highlight => highlight.toString())
             };
-
-            // Remove temporary upload-related properties
-            delete processedProjectData.pendingCoverImage;
-            delete processedProjectData.pendingProjectImages;
 
             let createdProject;
             if (mode === 'add') {
@@ -332,17 +287,18 @@ export const ProjectForm = ({
             // Bulk add related data if project was successfully created/updated
             if (createdProject) {
                 const projectId = createdProject.id;
+                // Bulk add tech stack if any
+                if (projectData.tech_stack.length > 0) {
+                    await addProjectTechStack(projectId, projectData.tech_stack);
+                }
 
                 // Bulk add stories if any
                 if (projectData.stories.length > 0) {
                     const processedStories = projectData.stories.map(story => ({
                         project_id: projectId,
-                        content: JSON.stringify({
-                            story_section: story.story_section,
-                            content: story.content
-                        })
+                        content: story.content
                     }));
-                    await bulkAddProjectStories(projectId, processedStories);
+                    await addProjectStory(projectId, processedStories[0]);
                 }
 
                 // Bulk add images if any
@@ -353,7 +309,7 @@ export const ProjectForm = ({
                         image_title: img.image_title,
                         image_order: img.image_order
                     }));
-                    await bulkUploadProjectImages(projectId, processedImages);
+                    await uploadProjectImages(projectId, processedImages);
                 }
             }
 
@@ -363,6 +319,7 @@ export const ProjectForm = ({
             console.error(error);
         } finally {
             setIsSubmitting(false);
+            setIsConfirming(false);
         }
     };
 
@@ -396,9 +353,7 @@ export const ProjectForm = ({
 
                         <StoriesSection
                             projectData={projectData}
-                            addStory={addStory}
                             updateStory={updateStory}
-                            removeStory={removeStory}
                             setProjectData={setProjectData}
                         />
 
@@ -421,11 +376,23 @@ export const ProjectForm = ({
                                 type="button"
                                 variant="outline"
                                 onClick={() => router.push('/dashboard/projects')}
+                                disabled={isSubmitting}
                             >
                                 Cancel
                             </Button>
-                            <Button type="submit" disabled={isSubmitting}>
-                                {mode === 'add' ? 'Add Project' : 'Update Project'}
+                            <Button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="min-w-[120px]"
+                            >
+                                {isSubmitting ? (
+                                    <>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        {isConfirming ? 'Confirming...' : 'Submitting...'}
+                                    </>
+                                ) : (
+                                    mode === 'add' ? 'Add Project' : 'Update Project'
+                                )}
                             </Button>
                         </div>
                     </form>

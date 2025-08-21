@@ -33,7 +33,7 @@ export default function BuildStorySection({ project }) {
                     Build Story
                 </h2>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div className={`grid grid-cols-1 ${whyWeBuilt.description && problemsSolved.problems.length > 0 ? "lg:grid-cols-2" : "lg:grid-cols-1"} gap-12`}>
                     {/* Why We Built This */}
                     {whyWeBuilt.description && (
                         <div>
@@ -45,7 +45,7 @@ export default function BuildStorySection({ project }) {
                                 </div>
                                 Why We Built This
                             </h3>
-                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4 text-justify">
                                 {whyWeBuilt.description}
                             </p>
                             {whyWeBuilt.clientNeed && (
@@ -54,7 +54,7 @@ export default function BuildStorySection({ project }) {
                                     <span className="text-gray-700 dark:text-gray-300 block">{whyWeBuilt.clientNeed}</span>
                                 </div>
                             )}
-                            {whyWeBuilt.strategicGoals && (
+                            {whyWeBuilt.strategicGoals && whyWeBuilt.strategicGoals.length > 0 && (
                                 <div>
                                     <span className="font-semibold text-gray-800 dark:text-gray-200 block mb-1">Strategic Goals: </span>
                                     <ul className="list-disc list-inside text-gray-700 dark:text-gray-300">
