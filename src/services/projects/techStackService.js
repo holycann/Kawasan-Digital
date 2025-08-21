@@ -78,23 +78,30 @@ export const techStackService = {
     /**
      * Add tech stack to a project
      * @param {string} projectId - ID of the project
-     * @param {string|string[]} techIds - Tech stack IDs to add
+     * @param {Object[]} techStackData - Tech stack data to add
      * @returns {Promise} Added tech stack entries
      */
-    addProjectTechStack: async (projectId, techIds) => {
+    addProjectTechStack: async (projectId, techStackData) => {
         try {
-            // Ensure techIds is an array
-            const techStackEntries = Array.isArray(techIds)
-                ? techIds.map(techId => ({
-                    project_id: projectId,
-                    tech_id: techId
-                }))
-                : [{
-                    project_id: projectId,
-                    tech_id: techIds
-                }];
+            if (!Array.isArray(techStackData) || techStackData.length === 0) {
+                throw new Error('Invalid tech stack data');
+            }
 
-            return baseService.create(PROJECT_TECH_STACK_TABLE, techStackEntries);
+            const processedTechStack = techStackData.reduce((acc, tech) => {
+                if (tech && tech.tech_id) {
+                    acc.push({
+                        project_id: projectId,
+                        tech_id: tech.tech_id
+                    });
+                }
+                return acc;
+            }, []);
+
+            if (processedTechStack.length === 0) {
+                throw new Error('No valid tech stack entries to add');
+            }
+
+            return baseService.create(PROJECT_TECH_STACK_TABLE, processedTechStack);
         } catch (error) {
             console.error('Error adding project tech stack:', error);
             throw error;

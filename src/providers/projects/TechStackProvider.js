@@ -3,7 +3,7 @@ import { ProjectTechStackContext } from '@/contexts/ProjectContext';
 import { techStackService } from '@/services/projects';
 
 // Provider component
-export const ProjectTechStackProvider = ({ children, projectId }) => {
+export const ProjectTechStackProvider = ({ children }) => {
     const [techStacks, setTechStacks] = useState([]);
     const [projectTechStack, setProjectTechStack] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -26,7 +26,7 @@ export const ProjectTechStackProvider = ({ children, projectId }) => {
     }, []);
 
     // Fetch tech stack for a specific project
-    const fetchProjectTechStack = useCallback(async () => {
+    const fetchProjectTechStack = useCallback(async (projectId) => {
         if (!projectId) {
             throw new Error('Project ID is required to fetch project tech stack');
         }
@@ -43,7 +43,7 @@ export const ProjectTechStackProvider = ({ children, projectId }) => {
         } finally {
             setLoading(false);
         }
-    }, [projectId]);
+    }, []);
 
     // Create a new tech stack entry
     const createTechStack = useCallback(async (techStackData) => {
@@ -101,7 +101,7 @@ export const ProjectTechStackProvider = ({ children, projectId }) => {
     }, []);
 
     // Add tech stack to a project
-    const addProjectTechStack = useCallback(async (techIds) => {
+    const addProjectTechStack = useCallback(async (projectId, techIds) => {
         if (!projectId) {
             throw new Error('Project ID is required to add tech stack');
         }
@@ -111,7 +111,7 @@ export const ProjectTechStackProvider = ({ children, projectId }) => {
         try {
             const newProjectTechStack = await techStackService.addProjectTechStack(projectId, techIds);
             // Refetch project tech stack to ensure updated data
-            await fetchProjectTechStack();
+            await fetchProjectTechStack(projectId);
             return newProjectTechStack;
         } catch (err) {
             setError(err);
@@ -119,10 +119,10 @@ export const ProjectTechStackProvider = ({ children, projectId }) => {
         } finally {
             setLoading(false);
         }
-    }, [projectId, fetchProjectTechStack]);
+    }, [fetchProjectTechStack]);
 
     // Remove tech stack from a project
-    const removeProjectTechStack = useCallback(async (techIds) => {
+    const removeProjectTechStack = useCallback(async (projectId, techIds) => {
         if (!projectId) {
             throw new Error('Project ID is required to remove tech stack');
         }
@@ -132,7 +132,7 @@ export const ProjectTechStackProvider = ({ children, projectId }) => {
         try {
             const result = await techStackService.removeProjectTechStack(projectId, techIds);
             // Refetch project tech stack to ensure updated data
-            await fetchProjectTechStack();
+            await fetchProjectTechStack(projectId);
             return result;
         } catch (err) {
             setError(err);
@@ -140,7 +140,7 @@ export const ProjectTechStackProvider = ({ children, projectId }) => {
         } finally {
             setLoading(false);
         }
-    }, [projectId, fetchProjectTechStack]);
+    }, [fetchProjectTechStack]);
 
     // Provide context value
     const contextValue = {

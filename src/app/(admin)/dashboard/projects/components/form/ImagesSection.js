@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,17 @@ export const ImagesSection = ({
     const [pendingCoverImage, setPendingCoverImage] = useState(null);
     const [pendingProjectImages, setPendingProjectImages] = useState([]);
 
-    const handleFileValidation = (files, isCoverImage = false) => {
+    // Ensure projectData has images array
+    useEffect(() => {
+        if (!projectData.images) {
+            setProjectData(prev => ({
+                ...prev,
+                images: []
+            }));
+        }
+    }, [projectData, setProjectData]);
+
+    const handleFileValidation = useCallback((files, isCoverImage = false) => {
         const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
         const maxSize = 5 * 1024 * 1024; // 5MB
 
@@ -40,55 +50,60 @@ export const ImagesSection = ({
         if (isCoverImage) {
             // For cover image, only take the first valid file
             setPendingCoverImage(validFiles[0] || null);
+            
+            // Update project data with pending cover image
+            if (validFiles[0]) {
+                setProjectData(prev => ({
+                    ...prev,
+                    pendingCoverImage: validFiles[0]
+                }));
+            }
         } else {
             // For project images, add to pending images
+            const newPendingImages = validFiles.map(file => ({
+                file,
+                title: file.name,
+                order: pendingProjectImages.length
+            }));
+
             setPendingProjectImages(prev => [
                 ...prev, 
-                ...validFiles.map(file => ({
-                    file,
-                    title: file.name,
-                    order: prev.length + pendingProjectImages.length
-                }))
+                ...newPendingImages
             ]);
+
+            // Update project data with pending project images
+            setProjectData(prev => ({
+                ...prev,
+                pendingProjectImages: [
+                    ...(prev.pendingProjectImages || []),
+                    ...newPendingImages
+                ]
+            }));
         }
 
         // Reset file inputs
         if (fileInputRef.current) fileInputRef.current.value = '';
         if (coverFileInputRef.current) coverFileInputRef.current.value = '';
-    };
+    }, [pendingProjectImages, setProjectData]);
 
-    const removePendingCoverImage = () => {
+    const removePendingCoverImage = useCallback(() => {
         setPendingCoverImage(null);
-    };
+        setProjectData(prev => ({
+            ...prev,
+            pendingCoverImage: null,
+            cover_image: ''
+        }));
+    }, [setProjectData]);
 
-    const removePendingProjectImage = (index) => {
+    const removePendingProjectImage = useCallback((index) => {
         setPendingProjectImages(prev => prev.filter((_, i) => i !== index));
-    };
-
-    const preparePendingImages = () => {
-        // Prepare images for project submission
-        const preparedData = {
-            pendingCoverImage,
-            pendingProjectImages
-        };
-
-        // Update project data with pending images
-        if (pendingCoverImage) {
-            setProjectData(prev => ({
-                ...prev,
-                pendingCoverImage
-            }));
-        }
-
-        if (pendingProjectImages.length > 0) {
-            setProjectData(prev => ({
-                ...prev,
-                pendingProjectImages
-            }));
-        }
-
-        return preparedData;
-    };
+        
+        setProjectData(prev => ({
+            ...prev,
+            pendingProjectImages: (prev.pendingProjectImages || [])
+                .filter((_, i) => i !== index)
+        }));
+    }, [setProjectData]);
 
     return (
         <>
@@ -150,13 +165,7 @@ export const ImagesSection = ({
                                     type="button"
                                     variant="destructive"
                                     size="sm"
-                                    onClick={() => {
-                                        removePendingCoverImage();
-                                        setProjectData(prev => ({
-                                            ...prev,
-                                            cover_image: ''
-                                        }));
-                                    }}
+                                    onClick={removePendingCoverImage}
                                 >
                                     Remove Cover
                                 </Button>

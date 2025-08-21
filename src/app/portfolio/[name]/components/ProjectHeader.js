@@ -39,7 +39,7 @@ export default function ProjectHeader({ project, onWebsiteVisit }) {
                 </h1>
 
                 {/* Project Description */}
-                <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
+                <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed text-justify">
                     {project.description}
                 </p>
 
@@ -64,7 +64,7 @@ export default function ProjectHeader({ project, onWebsiteVisit }) {
                 )}
 
                 {/* Project Highlights */}
-                {project.highlights && (
+                {project.highlights && project.highlights.length > 0 && (   
                     <div className="mb-8">
                         <h2 className="text-xl font-semibold mb-3">Project Highlights</h2>
                         <ul className="space-y-2">

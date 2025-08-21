@@ -11,14 +11,15 @@ export default function EditProjectPage() {
     const router = useRouter();
     const projectId = params.id;
 
-    const { projects } = useProjects();
+    const { projects, fetchProjects, loading: projectsLoading } = useProjects();
 
     const [initialData, setInitialData] = useState({
         title: '',
         short_description: '',
         description: '',
+        cover_image: '',
         year: new Date().getFullYear(),
-        category: '',
+        category_id: '',
         client_id: '',
         website_url: '',
         status: 'In Progress',
@@ -30,30 +31,20 @@ export default function EditProjectPage() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Helper function to safely extract story content
-    const extractStoryContent = (content) => {
-        // If content is an object, try to extract meaningful text
-        if (typeof content === 'object' && content !== null) {
-            // Check for common text-containing properties
-            if (content.text) return content.text;
-            if (content.content) return content.content;
-            if (content.description) return content.description;
-
-            // If no clear text property, convert to string as a fallback
-            try {
-                return JSON.stringify(content, null, 2);
-            } catch {
-                return '';
-            }
+    useEffect(() => {
+        const getProjects = async () => {
+            await fetchProjects();
         }
 
-        // If already a string, return as-is
-        return content || '';
-    };
+        if (projects.length === 0) {
+            getProjects();
+        }
+    }, [projects, fetchProjects]);
 
     useEffect(() => {
         const loadProjectData = async () => {
             try {
+                const project = projects.find(p => p.id === projectId);
 
                 if (!project) {
                     router.push('/dashboard/projects');
@@ -62,34 +53,28 @@ export default function EditProjectPage() {
 
                 // Normalize the project data to match ProjectForm's expected structure
                 const normalizedData = {
-                    title: project.project.title || '',
-                    short_description: project.project.short_description || '',
-                    description: project.project.description || '',
-                    year: project.project.year || new Date().getFullYear(),
-                    category: project.project.category.id || '',
-                    client_id: project.project.client.id || '',
-                    website_url: project.project.website_url || '',
-                    status: project.project.status || 'In Progress',
+                    title: project.title || '',
+                    short_description: project.short_description || '',
+                    description: project.description || '',
+                    cover_image: project.cover_image || '',
+                    year: project.year || new Date().getFullYear(),
+                    category_id: project.category.id || '',
+                    client_id: project.client.id || '',
+                    website_url: project.website_url || '',
+                    status: project.status || 'In Progress',
                     tech_stack: project.techStack?.map(tech => ({
                         tech_stack_id: tech.tech_stack.id,
                         tech_role: tech.tech_stack.tech_role || ''
                     })) || [],
                     stories: project.stories?.map(story => ({
-                        story_section: story.story_section || '',
-                        story_type: story.story_type || '',
-                        story_content: extractStoryContent(story.story_content),
-                        story_impact: extractStoryContent(story.story_impact)
+                        content: story.content || {}
                     })) || [],
                     images: project.images?.map(image => ({
                         image_url: image.image_url || '',
                         image_title: image.image_title || '',
-                        image_type: image.image_type || ''
+                        image_order: image.image_order || 0
                     })) || [],
-                    highlights: project.highlights?.map(highlight => ({
-                        highlight_text: highlight.highlight_text || '',
-                        highlight_type: highlight.highlight_type || '',
-                        highlight_impact: highlight.highlight_impact || ''
-                    })) || []
+                    highlights: project.highlights?.map(highlight => highlight) || []
                 };
 
                 setInitialData(normalizedData);
@@ -102,14 +87,16 @@ export default function EditProjectPage() {
             }
         };
 
-        loadProjectData();
-    }, [projectId, router]);
+        if (projects.length > 0) {
+            loadProjectData();
+        }
+    }, [projectId, router, projects]);
 
     if (error) {
         return null; // Redirected by router
     }
 
-    if (loading) {
+    if (loading || projectsLoading) {
         return (
             <div className="flex justify-center items-center h-full">
                 <IconLoader2 className="h-8 w-8 animate-spin text-primary" />

@@ -10,7 +10,7 @@ export const storageUtils = {
                 .from(bucket)
                 .upload(path, file, {
                     cacheControl: '3600',
-                    upsert: false,
+                    upsert: true,
                     ...options
                 });
 

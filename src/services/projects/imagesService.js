@@ -54,31 +54,7 @@ export const imagesService = {
      * @param {Object} imageData - Image details to upload
      * @returns {Promise} Uploaded image details
      */
-    uploadProjectImage: async (projectId, imageData) => {
-        try {
-            const preparedData = {
-                project_id: projectId,
-                ...imageData,
-                // Ensure image_order is set if not provided
-                image_order: imageData.image_order !== undefined 
-                    ? imageData.image_order 
-                    : await imagesService.getNextImageOrder(projectId)
-            };
-
-            return baseService.create(PROJECT_IMAGES_TABLE, preparedData);
-        } catch (error) {
-            console.error('Error uploading project image:', error);
-            throw error;
-        }
-    },
-
-    /**
-     * Bulk upload images for a project
-     * @param {string} projectId - ID of the project
-     * @param {Array} imagesData - Array of image details to upload
-     * @returns {Promise} Uploaded image details
-     */
-    bulkUploadProjectImages: async (projectId, imagesData) => {
+    uploadProjectImages: async (projectId, imagesData) => {
         try {
             const preparedData = imagesData.map((imageData, index) => ({
                 project_id: projectId,
@@ -91,7 +67,7 @@ export const imagesService = {
 
             return baseService.create(PROJECT_IMAGES_TABLE, preparedData);
         } catch (error) {
-            console.error('Error bulk uploading project images:', error);
+            console.error('Error uploading project images:', error);
             throw error;
         }
     },

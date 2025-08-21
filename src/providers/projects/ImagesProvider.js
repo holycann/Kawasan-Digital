@@ -3,29 +3,13 @@ import { ProjectImagesContext } from '@/contexts/ProjectContext';
 import { imagesService } from '@/services/projects';
 
 // Provider component
-export const ProjectImagesProvider = ({ children, projectId }) => {
+export const ProjectImagesProvider = ({ children }) => {
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     // Fetch project images
-    const fetchProjectImages = useCallback(async (options = {}) => {
-        setLoading(true);
-        setError(null);
-        try {
-            const response = await imagesService.fetchProjectImages(options);
-            setImages(response.data);
-            return response;
-        } catch (err) {
-            setError(err);
-            throw err;
-        } finally {
-            setLoading(false);
-        }
-    }, []);
-
-    // Fetch project images by project ID
-    const fetchProjectImagesByProjectId = useCallback(async (options = {}) => {
+    const fetchProjectImages = useCallback(async (projectId, options = {}) => {
         if (!projectId) {
             throw new Error('Project ID is required to fetch images');
         }
@@ -42,39 +26,18 @@ export const ProjectImagesProvider = ({ children, projectId }) => {
         } finally {
             setLoading(false);
         }
-    }, [projectId]);
+    }, []);
 
     // Upload a project image
-    const uploadProjectImage = useCallback(async (imageData) => {
+    const uploadProjectImages = useCallback(async (projectId, imagesData) => {
         if (!projectId) {
-            throw new Error('Project ID is required to upload an image');
+            throw new Error('Project ID is required to upload images');
         }
 
         setLoading(true);
         setError(null);
         try {
-            const newImage = await imagesService.uploadProjectImage(projectId, imageData);
-            // Update local state
-            setImages(prev => [...prev, newImage[0]]);
-            return newImage[0];
-        } catch (err) {
-            setError(err);
-            throw err;
-        } finally {
-            setLoading(false);
-        }
-    }, [projectId]);
-
-    // Bulk upload project images
-    const bulkUploadProjectImages = useCallback(async (imagesData) => {
-        if (!projectId) {
-            throw new Error('Project ID is required to bulk upload images');
-        }
-
-        setLoading(true);
-        setError(null);
-        try {
-            const newImages = await imagesService.bulkUploadProjectImages(projectId, imagesData);
+            const newImages = await imagesService.uploadProjectImages(projectId, imagesData);
             // Update local state
             setImages(prev => [...prev, ...newImages]);
             return newImages;
@@ -84,7 +47,7 @@ export const ProjectImagesProvider = ({ children, projectId }) => {
         } finally {
             setLoading(false);
         }
-    }, [projectId]);
+    }, []);
 
     // Update a project image
     const updateProjectImage = useCallback(async (imageId, updateData) => {
@@ -125,7 +88,7 @@ export const ProjectImagesProvider = ({ children, projectId }) => {
     }, []);
 
     // Reorder project images
-    const reorderProjectImages = useCallback(async (imageOrder) => {
+    const reorderProjectImages = useCallback(async (projectId, imageOrder) => {
         if (!projectId) {
             throw new Error('Project ID is required to reorder images');
         }
@@ -135,7 +98,7 @@ export const ProjectImagesProvider = ({ children, projectId }) => {
         try {
             await imagesService.reorderProjectImages(projectId, imageOrder);
             // Refetch images to ensure correct order
-            await fetchProjectImagesByProjectId();
+            await fetchProjectImages(projectId);
             return { success: true };
         } catch (err) {
             setError(err);
@@ -143,7 +106,7 @@ export const ProjectImagesProvider = ({ children, projectId }) => {
         } finally {
             setLoading(false);
         }
-    }, [projectId, fetchProjectImagesByProjectId]);
+    }, []);
 
     // Get a single project image by ID
     const getProjectImageById = useCallback(async (imageId) => {
@@ -166,11 +129,9 @@ export const ProjectImagesProvider = ({ children, projectId }) => {
         loading,
         error,
         fetchProjectImages,
-        fetchProjectImagesByProjectId,
-        uploadProjectImage,
+        uploadProjectImages,
         updateProjectImage,
         deleteProjectImage,
-        bulkUploadProjectImages,
         reorderProjectImages,
         getProjectImageById
     };

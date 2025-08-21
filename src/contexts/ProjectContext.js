@@ -45,11 +45,9 @@ export const ProjectImagesContext = createContext({
     loading: false,
     error: null,
     fetchProjectImages: async () => { },
-    fetchProjectImagesByProjectId: async () => { },
-    uploadProjectImage: async () => { },
+    uploadProjectImages: async () => { },
     updateProjectImage: async () => { },
     deleteProjectImage: async () => { },
-    bulkUploadProjectImages: async () => { },
     reorderProjectImages: async () => { },
     getProjectImageById: async () => { }
 });
@@ -64,7 +62,6 @@ export const ProjectStoriesContext = createContext({
     updateProjectStory: async () => { },
     deleteProjectStory: async () => { },
     reorderProjectStories: async () => { },
-    bulkAddProjectStories: async () => { },
     getStoryById: async () => { }
 });
 
