@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { Card3D, CardImage, CardContent } from "../../components/ui/3d-card";
@@ -7,18 +8,32 @@ import { FaArrowRight } from "react-icons/fa6";
 import { cn } from "../../utils/cn";
 import { slugify } from "@/utils/slugify";
 
-export default function PortfolioCard({ item, className = "" }) {
+export default function PortfolioCard({ item }) {
+  // Debug log
+  console.log('🎴 PortfolioCard rendering with item:', item);
+  
+  // Generate slug from title if slug doesn't exist
+  const slug = item.slug || item.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+  
   return (
-    <Card3D
-      containerClassName={cn("h-full", className)}
-      className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 h-full flex flex-col"
-    >
-      {/* Cover image */}
-      <CardImage
-        src={item.cover_image}
-        alt={item.title}
-        key={`image-${item.id}`}
-      />
+    <div className="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+      <Link href={`/portfolio/${slug}`} className="block">
+        {/* Cover Image */}
+        <div className="relative aspect-video overflow-hidden">
+          <Image
+            src={item.cover_image || '/Portfolio1.png'}
+            alt={item.title}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            onError={(e) => {
+              e.target.style.display = 'none'
+              e.target.nextSibling.style.display = 'flex'
+            }}
+          />
+          <div className="hidden absolute inset-0 items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400">
+            <span className="text-4xl font-bold">{item.title.charAt(0)}</span>
+          </div>
+        </div>
 
       {/* Content */}
       <CardContent className="flex flex-col flex-1 justify-center items-center">
@@ -52,4 +67,4 @@ export default function PortfolioCard({ item, className = "" }) {
       </CardContent>
     </Card3D>
   );
-} 
+}

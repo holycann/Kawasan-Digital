@@ -5,4 +5,5 @@ company_profile.project_categories,
 company_profile.tech_stack,
 company_profile.projects,
 company_profile.clients,
+company_profile.portfolio,
 supabase_migrations.schema_migrations CASCADE;

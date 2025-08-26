@@ -7,6 +7,7 @@ import {
     ProjectTechStackProvider,
     ProjectClientsProvider
 } from './projects';
+import { PortfolioProvider } from './portfolio';
 
 const AppProvider = ({ children }) => {
     return (

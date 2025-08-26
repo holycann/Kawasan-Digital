@@ -32,9 +32,19 @@ class AuthService {
         try {
             const { data: { user }, error } = await this.supabase.auth.getUser();
 
-            if (error) return supabaseHelpers.handleAuthError(error, { method: 'getCurrentUser' });
+            if (error) {
+                // Don't treat missing auth session as an error
+                if (error.name === 'AuthSessionMissingError') {
+                    return null;
+                }
+                return supabaseHelpers.handleAuthError(error, { method: 'getCurrentUser' });
+            }
             return user;
         } catch (error) {
+            // Don't treat missing auth session as an error
+            if (error.name === 'AuthSessionMissingError') {
+                return null;
+            }
             return supabaseHelpers.handleAuthError(error, { method: 'getCurrentUser' });
         }
     }

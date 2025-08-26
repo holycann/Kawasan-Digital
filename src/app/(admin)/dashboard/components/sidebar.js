@@ -10,7 +10,8 @@ import {
     IconHome,
     IconPlus,
     IconCategory,
-    IconCode
+    IconCode,
+    IconPhoto
 } from "@tabler/icons-react";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -45,6 +46,11 @@ export const DashboardSidebar = () => {
                     icon: <IconCode className="text-neutral-700 dark:text-neutral-200" />
                 },
             ]
+        },
+        {
+            href: "/dashboard/portfolio",
+            label: "Portfolio",
+            icon: <IconPhoto className="text-neutral-700 dark:text-neutral-200" />
         }
     ];
 
