@@ -1,5 +1,5 @@
-import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import withBundleAnalyzer from '@next/bundle-analyzer';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import webpack from 'webpack';
 
 /** @type {import('next').NextConfig} */
@@ -16,7 +16,6 @@ const nextConfig = {
         hostname: '**',
       },
     ],
-    formats: ['image/avif', 'image/webp'],
     dangerouslyAllowSVG: true
   },
 
